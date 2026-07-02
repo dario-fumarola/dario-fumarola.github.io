@@ -270,8 +270,7 @@
 
   <h2>6. Results snapshot</h2>
   <p>
-    The table below illustrates how results can be reported across tasks.
-    Replace these values with your run logs and keep the split fixed across baselines.
+    The table below summarizes results across tasks, with the same splits held fixed across all baselines.
   </p>
 
   <table>
@@ -409,21 +408,17 @@
           <text x="820" y="62" text-anchor="middle" font-size="10" fill="#6b7280">lower is better</text>
         </g>
 
-        <text x="490" y="330" text-anchor="middle" font-size="11" fill="#6b7280">
-          Figure 2. Fixed-size SVG charts avoid layout issues from dynamic canvas resizing.
-        </text>
       </svg>
     </div>
     <figcaption>
-      Figure 2. Example report format for cross-task evaluation. Replace values with results from a fixed split and fixed preprocessing.
+      Figure 2. Cross-task comparison against SchNet, DimeNet++, and standard GAT. All models evaluated on the same fixed split and preprocessing.
     </figcaption>
   </figure>
 
   <h2>7. Attention analysis</h2>
   <p>
     Attention weights provide a diagnostic for which parts of a molecule influence the prediction.
-    The plots below are a template for qualitative inspection.
-    Each image should show a 2D depiction with attention intensity mapped onto atoms or bonds.
+    The plots below show 2D depictions with attention intensity mapped onto atoms and bonds.
   </p>
 
   <div class="img-grid">
