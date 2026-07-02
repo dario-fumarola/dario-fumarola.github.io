@@ -4,53 +4,32 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Optimal Vector Replication - Preliminaries</title>
-    <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            color: #1a1a1a;
-            transition: background 0.3s, color 0.3s;
-        }
-        .dark-toggle { position: fixed; top: 15px; right: 15px; background: #e5e7eb; border: none; border-radius: 20px; padding: 8px 12px; cursor: pointer; font-size: 16px; z-index: 1000; }
-        [data-theme="dark"] { background: #0d1117 !important; color: #c9d1d9 !important; }
-        [data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3 { color: #c9d1d9 !important; }
-        [data-theme="dark"] a { color: #58a6ff !important; }
-        [data-theme="dark"] pre, [data-theme="dark"] code { background: #161b22 !important; }
-        [data-theme="dark"] .dark-toggle { background: #21262d; color: #c9d1d9; }
-        h1, h2, h3 {
-            color: #2c3e50;
-            margin-top: 1.5em;
-        }
-        p {
-            margin: 1em 0;
-        }
-        .equation {
-            margin: 1em 0;
-            text-align: center;
-        }
-        .abstract {
-            font-style: italic;
-            margin: 2em 0;
-            padding: 1em;
-            background: #f8f9fa;
-            border-left: 4px solid #2c3e50;
-        }
-    </style>
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="../assets/css/paper.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-<button class="dark-toggle" onclick="toggleDark()">🌙</button>
-<script>
-  function toggleDark() {
-    const body = document.body, btn = document.querySelector('.dark-toggle');
-    if (body.dataset.theme === 'dark') { body.dataset.theme = 'light'; btn.textContent = '🌙'; localStorage.setItem('theme', 'light'); }
-    else { body.dataset.theme = 'dark'; btn.textContent = '☀️'; localStorage.setItem('theme', 'dark'); }
-  }
-  if (localStorage.getItem('theme') === 'dark') { document.body.dataset.theme = 'dark'; document.querySelector('.dark-toggle').textContent = '☀️'; }
-</script>
+  <nav class="paper-nav">
+    <a class="home-link" href="../">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      Dario Fumarola
+    </a>
+    <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </nav>
+  <script src="../assets/js/theme.js"></script>
 
 <h1>Optimal Selection of Neighbor Vectors Considering Recall and Vectors Accessed</h1>
 
@@ -452,7 +431,7 @@ Output: Replication set T
 
 
 <h2>References</h2>
-<div class="references" style="padding-left: 2em; text-indent: -2em;">
+<div class="references">
     <p>Bezdek, J. C. (1981). Pattern Recognition with Fuzzy Objective Function Algorithms. Springer Science & Business Media.</p>
     
     <p>Li, J., Sun, W., Zhu, Y., Xiao, F., Li, H., Lin, Q., Luo, D., & Yang, J. (2020). SPANN: Highly Scalable Billion-Scale Approximate Nearest Neighbor Search. Proceedings of the VLDB Endowment, 13(9), 1359-1371.</p>

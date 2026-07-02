@@ -2,161 +2,82 @@
 <html lang="{{ site.lang | default: "en-US" }}">
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {% seo %}
-    <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
-
-    <style>
-      /* Dark mode styles */
-      .dark-toggle {
-        position: fixed;
-        top: 15px;
-        right: 15px;
-        background: #e5e7eb;
-        border: none;
-        border-radius: 20px;
-        padding: 8px 12px;
-        cursor: pointer;
-        font-size: 16px;
-        z-index: 1000;
-        transition: all 0.3s ease;
-      }
-      .dark-toggle:hover { background: #d1d5db; }
-
-      [data-theme="dark"] {
-        background: #0d1117 !important;
-        color: #c9d1d9 !important;
-      }
-      [data-theme="dark"] .wrapper { background: #0d1117; }
-      [data-theme="dark"] header h1 a { color: #58a6ff !important; }
-      [data-theme="dark"] header p { color: #8b949e !important; }
-      [data-theme="dark"] a { color: #58a6ff !important; }
-      [data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3,
-      [data-theme="dark"] h4, [data-theme="dark"] h5, [data-theme="dark"] h6 { color: #c9d1d9 !important; }
-      [data-theme="dark"] strong, [data-theme="dark"] b { color: #c9d1d9 !important; }
-      [data-theme="dark"] .project-card {
-        background: #161b22 !important;
-        border-color: #30363d !important;
-      }
-      [data-theme="dark"] .project-card:hover { border-color: #58a6ff !important; }
-      [data-theme="dark"] .project-card p { color: #8b949e !important; }
-      [data-theme="dark"] .project-card h5 a { color: #c9d1d9 !important; }
-      [data-theme="dark"] .pill-toggle { background: #21262d !important; }
-      [data-theme="dark"] .pill-btn { color: #8b949e !important; }
-      [data-theme="dark"] .pill-btn.active { background: #238636 !important; color: white !important; }
-      [data-theme="dark"] .dark-toggle { background: #21262d; color: #c9d1d9; }
-      [data-theme="dark"] .dark-toggle:hover { background: #30363d; }
-      [data-theme="dark"] footer p { color: #8b949e !important; }
-
-      /* Slideshow */
-      .slideshow {
-        position: relative;
-        width: 260px;
-        height: 260px;
-        overflow: hidden;
-        border-radius: 8px;
-      }
-      .slideshow .slide {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0;
-        transition: opacity 1s ease-in-out;
-      }
-      .slideshow .slide.active {
-        opacity: 1;
-      }
-    </style>
-    <!--[if lt IE 9]>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <![endif]-->
-    {% include head-custom.html %}
-
-    <!-- MathJax configuration -->
     <script>
-      window.MathJax = {
-        tex: {
-          inlineMath: [['$', '$'], ['\\(', '\\)']],
-          displayMath: [['$$','$$']]
-        }
-      };
+      (function () {
+        var saved = localStorage.getItem('theme');
+        var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.dataset.theme = theme;
+      })();
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" id="MathJax-script" async></script>
-  
+
+    {% seo %}
+    <link rel="icon" type="image/svg+xml" href="{{ "/assets/favicon.svg" | relative_url }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
+    {% include head-custom.html %}
   </head>
   <body>
-    <button class="dark-toggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
-    <div class="wrapper">
-      <header>
-        <h1><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
+    <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
 
+    <div class="wrapper">
+      <header class="site-header">
         {% if site.logo %}
           <div class="slideshow">
-            <img src="{{site.logo | relative_url}}" alt="Photo" class="slide active" />
-            <img src="{{ "/assets/icml-pic.jpeg" | relative_url }}" alt="ICML" class="slide" />
-            <img src="{{ "/assets/neurips.jpeg" | relative_url }}" alt="NeurIPS" class="slide" />
-            <img src="{{ "/assets/nyrl.jpeg" | relative_url }}" alt="NY-RL" class="slide" />
-            <img src="{{ "/assets/photo-5.jpeg" | relative_url }}" alt="Photo" class="slide" />
+            <img src="{{ site.logo | relative_url }}" alt="Dario Fumarola" class="slide active" />
+            <img src="{{ "/assets/icml-pic.jpeg" | relative_url }}" alt="At ICML 2025" class="slide" loading="lazy" />
+            <img src="{{ "/assets/neurips.jpeg" | relative_url }}" alt="At NeurIPS 2025" class="slide" loading="lazy" />
+            <img src="{{ "/assets/nyrl.jpeg" | relative_url }}" alt="At the NY-RL workshop" class="slide" loading="lazy" />
+            <img src="{{ "/assets/photo-5.jpeg" | relative_url }}" alt="Dario Fumarola" class="slide" loading="lazy" />
           </div>
         {% endif %}
 
-        <p>{{ site.description | default: site.github.project_tagline }}</p>
+        <h1 class="site-name"><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
+        <p class="site-role">Prototyping Architect, AWS &middot; ML Researcher</p>
 
-        <p class="header-contact">
-          <a href="{{ "/assets/dario_fumarola_cv.pdf" | relative_url }}">Download CV</a><br>
-          <a href="mailto:dariofumarola90@gmail.com">dariofumarola90@gmail.com</a><br>
-          <a href="https://www.linkedin.com/in/fumarolad">LinkedIn</a>
-        </p>
-        <p class="header-updated"><small><em>Last updated: January 2026</em></small></p>
+        <p class="site-tagline">{{ site.description | default: site.github.project_tagline }}</p>
+
+        <nav class="contact-links" aria-label="Contact">
+          <a href="mailto:dariofumarola90@gmail.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+            dariofumarola90@gmail.com
+          </a>
+          <a href="https://www.linkedin.com/in/fumarolad">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V8h4v2a6 6 0 0 1 2-2z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+          <a href="{{ "/assets/dario_fumarola_cv.pdf" | relative_url }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15l3 3 3-3"/></svg>
+            Download CV
+          </a>
+        </nav>
+
+        <nav class="site-nav" aria-label="Sections">
+          <a href="#about">About</a>
+          <a href="#research-interests">Research Interests</a>
+          <a href="#presented-work">Presented Work</a>
+          <a href="#experience">Experience</a>
+          <a href="#education">Education</a>
+        </nav>
+
+        <p class="header-updated">Last updated: January 2026</p>
       </header>
-      <section>
+
+      <section class="content">
         {{ content }}
       </section>
+
       <footer>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by orderedlist</small></p>
+        <p>&copy; 2026 Dario Fumarola &middot; Hosted on <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>
-    <script>
-      function toggleDark() {
-        const body = document.body;
-        const btn = document.querySelector('.dark-toggle');
-        if (body.dataset.theme === 'dark') {
-          body.dataset.theme = 'light';
-          btn.textContent = '🌙';
-          localStorage.setItem('theme', 'light');
-        } else {
-          body.dataset.theme = 'dark';
-          btn.textContent = '☀️';
-          localStorage.setItem('theme', 'dark');
-        }
-      }
-      // Load saved theme
-      (function() {
-        const saved = localStorage.getItem('theme');
-        if (saved === 'dark') {
-          document.body.dataset.theme = 'dark';
-          document.querySelector('.dark-toggle').textContent = '☀️';
-        }
-      })();
 
-      // Slideshow
-      (function() {
-        const slides = document.querySelectorAll('.slideshow .slide');
-        if (slides.length === 0) return;
-        let current = 0;
-        setInterval(() => {
-          slides[current].classList.remove('active');
-          current = (current + 1) % slides.length;
-          slides[current].classList.add('active');
-        }, 4000);
-      })();
-    </script>
+    <script src="{{ "/assets/js/main.js" | relative_url }}"></script>
   </body>
 </html>
-
