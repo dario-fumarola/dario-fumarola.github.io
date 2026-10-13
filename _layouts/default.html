@@ -10,8 +10,8 @@
         location.replace('https://dario-fumarola.github.io' + location.pathname + location.search + location.hash);
       }
       (function () {
-        var saved = localStorage.getItem('theme');
-        var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        var theme = 'light';
+        try { if (localStorage.getItem('theme') === 'dark') theme = 'dark'; } catch (e) {}
         document.documentElement.dataset.theme = theme;
       })();
     </script>
@@ -72,67 +72,45 @@
     {% include head-custom.html %}
   </head>
   <body>
-    <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-    </button>
-
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    {% include topbar.html %}
     <div class="wrapper">
-      <header class="site-header">
-        {% if site.logo %}
-          <div class="slideshow">
-            <img src="{{ site.logo | relative_url }}" alt="Dario Fumarola" class="slide active" />
-            <img src="{{ "/assets/icml-pic.jpeg" | relative_url }}" alt="Dario Fumarola presenting at ICML 2025" class="slide" loading="lazy" />
-            <img src="{{ "/assets/neurips.jpeg" | relative_url }}" alt="Dario Fumarola at NeurIPS 2025" class="slide" loading="lazy" />
-            <img src="{{ "/assets/nyrl.jpeg" | relative_url }}" alt="Dario Fumarola at the NY-RL workshop" class="slide" loading="lazy" />
-            <img src="{{ "/assets/photo-5.jpeg" | relative_url }}" alt="Dario Fumarola" class="slide" loading="lazy" />
-          </div>
-        {% endif %}
-
-        <h1 class="site-name"><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
-        <p class="site-role">Prototyping Architect, AWS &middot; ML Researcher</p>
-
-        {% if site.motto %}<p class="site-tagline">{{ site.motto }}</p>{% endif %}
-
-        <nav class="contact-links" aria-label="Contact">
-          <a href="mailto:dariofumarola90@gmail.com">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
-            dariofumarola90@gmail.com
-          </a>
-          <a href="https://github.com/dario-fumarola" rel="me">
+      <main id="main-content">
+        <section class="hero" aria-labelledby="hero-name">
+          <div class="hero-copy">
+            <p class="eyebrow">Computer Science &middot; Machine Learning</p>
+            <h1 class="site-name" id="hero-name">{{ site.title }}</h1>
+            <p class="site-role">Prototyping Architect, AWS &middot; ML Researcher</p>
+            {% include hero-intro.html %}
+            <nav class="contact-links" aria-label="Profile links">
+              <a class="outline-link" href="https://github.com/dario-fumarola" rel="me">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
             GitHub
           </a>
-          <a href="https://www.linkedin.com/in/fumarolad" rel="me">
+<a class="outline-link" href="https://www.linkedin.com/in/fumarolad" rel="me">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V8h4v2a6 6 0 0 1 2-2z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
             LinkedIn
           </a>
-          <a href="{{ "/assets/dario_fumarola_cv.pdf" | relative_url }}">
+<a class="outline-link" href="mailto:dariofumarola90@gmail.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+            Email
+          </a>
+<a class="outline-link" href="{{ "/assets/dario_fumarola_cv.pdf" | relative_url }}">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15l3 3 3-3"/></svg>
             Download CV
           </a>
-        </nav>
-
-        <nav class="site-nav" aria-label="Sections">
-          <a href="#about">About</a>
-          <a href="#research-interests">Research Interests</a>
-          <a href="#presented-work">Presented Work</a>
-          <a href="#experience">Experience</a>
-          <a href="#education">Education</a>
-        </nav>
-
-        <p class="header-updated">Last updated: January 2026</p>
-      </header>
-
-      <section class="content">
-        {{ content }}
-      </section>
-
-      <footer>
-        <p>&copy; 2026 Dario Fumarola &middot; Hosted on <a href="https://pages.github.com">GitHub Pages</a></p>
-      </footer>
+            </nav>
+          </div>
+          <img class="hero-portrait" src="{{ site.logo | relative_url }}" alt="Dario Fumarola working at his laptop" width="400" height="540" fetchpriority="high">
+          {% if site.motto %}<p class="site-tagline">{{ site.motto }}</p>{% endif %}
+        </section>
+        <div class="content">
+          {{ content }}
+        </div>
+      </main>
+      {% include footer.html %}
     </div>
-
-    <script src="{{ "/assets/js/main.js" | relative_url }}"></script>
+    <script src="{{ "/assets/js/theme.js" | relative_url }}" defer></script>
+    <script src="{{ "/assets/js/main.js" | relative_url }}" defer></script>
   </body>
 </html>

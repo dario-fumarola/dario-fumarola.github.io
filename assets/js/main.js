@@ -1,43 +1,26 @@
-// Theme toggle (theme is applied pre-paint by the inline script in <head>)
+// Show all work by default; filters progressively enhance the complete list.
 (function () {
-  var toggle = document.querySelector('.theme-toggle');
-  if (!toggle) return;
-  toggle.addEventListener('click', function () {
-    var next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem('theme', next);
-  });
-})();
-
-// Photo slideshow
-(function () {
-  var slides = document.querySelectorAll('.slideshow .slide');
-  if (slides.length < 2) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var current = 0;
-  setInterval(function () {
-    slides[current].classList.remove('active');
-    current = (current + 1) % slides.length;
-    slides[current].classList.add('active');
-  }, 5000);
-})();
-
-// Conference / Research tabs
-(function () {
-  var buttons = document.querySelectorAll('.pill-btn');
-  buttons.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      buttons.forEach(function (b) {
-        b.classList.remove('active');
-        b.setAttribute('aria-selected', 'false');
+  var buttons = document.querySelectorAll('.filter-btn');
+  var cards = document.querySelectorAll('.project-card[data-category]');
+  function filter(category) {
+    var visible = [];
+    cards.forEach(function (card) {
+      card.hidden = category !== 'all' && card.dataset.category !== category;
+      card.classList.remove('second-column', 'last-row');
+      if (!card.hidden) visible.push(card);
+    });
+    visible.forEach(function (card, index) {
+      card.classList.toggle('second-column', index % 2 === 1);
+      card.classList.toggle('last-row', index >= Math.floor((visible.length - 1) / 2) * 2);
+    });
+  }
+  filter('all');
+  buttons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      buttons.forEach(function (other) {
+        other.setAttribute('aria-pressed', String(other === button));
       });
-      document.querySelectorAll('.projects-section').forEach(function (s) {
-        s.classList.remove('active');
-      });
-      btn.classList.add('active');
-      btn.setAttribute('aria-selected', 'true');
-      var target = document.getElementById(btn.dataset.tab);
-      if (target) target.classList.add('active');
+      filter(button.dataset.filter);
     });
   });
 })();
