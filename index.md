@@ -9,8 +9,8 @@ description: >-
 <section class="page-section" aria-labelledby="about">
 <h2 id="about">About Me</h2>
 <div class="about-copy">
-<p>My research focuses on reinforcement learning for LLM and embodied agents, adaptive computation, and runtime control. I'm interested in how agents can change their behavior safely without retraining, and how evaluation can make those changes easier to understand.</p>
-<p>Alongside my engineering work, I conduct research at Amazon Science. I co-lead a Build on Trainium project on safe, social pretraining of LLM agents. I'm open to research collaborations; <a href="mailto:dariofumarola90@gmail.com">get in touch</a> if you'd like to work together.</p>
+<p>My research focuses on reinforcement learning for LLM and embodied agents, adaptive computation, and runtime control. I'm interested in how agents adapt to new conditions and how we can evaluate their reasoning, cooperation, and safety.</p>
+<p>Alongside my engineering work, I conduct research at Amazon Science and co-lead a Build on Trainium project on safe, social pretraining of LLM agents. I'm open to research collaborations; <a href="mailto:dariofumarola90@gmail.com">get in touch</a> if you'd like to work together.</p>
 </div>
 </section>
 
@@ -24,7 +24,7 @@ description: >-
 </div>
 <div class="interest-card">
 <h3>Adaptive Inference</h3>
-<p>Efficient inference in streaming models. I work on methods that allocate computation to difficult inputs and adapt within a fixed compute budget.</p>
+<p>Efficient inference in streaming models. I work on methods that allocate computation to difficult inputs and adapt within a fixed compute budget, without retraining the underlying model.</p>
 </div>
 <div class="interest-card">
 <h3>Reasoning &amp; Training</h3>
@@ -68,6 +68,7 @@ description: >-
 <p>A two-byte broadcast overlay for cooperative reinforcement learning agents. It uses local signals to improve coordination under packet loss, reducing long waits at congested junctions while keeping the underlying PPO learner unchanged.</p>
 <div class="card-links">
 <a href="./projects/broadcast-gain.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+<a href="./assets/broadcast-gain.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
 <a href="./assets/nyrl-poster.pdf">Poster (PDF)</a>
 </div>
 </div>
@@ -81,7 +82,7 @@ description: >-
 
 <div class="xp-item">
 <h3>Amazon Web Services</h3>
-<p class="xp-org">Forward Deployed Engineer &middot; June 2023 to present &middot; New York City</p>
+<p class="xp-org">Forward Deployed Engineer &middot; 2023 to present &middot; New York City</p>
 <p>I lead enterprise AI projects from discovery through deployment. I've worked on more than 20 engagements and led teams of five or more engineers. Recent work includes agents for pharmaceutical model deployment, evaluation frameworks, Bedrock inference optimization, and camera-to-radar data synthesis.</p>
 </div>
 
@@ -97,7 +98,8 @@ description: >-
 
 <div class="xp-item">
 <h3>Washington and Lee University</h3>
-<p class="xp-org">B.S. Computer Science and Mathematics &middot; 2019–2023 &middot; <em>Davis UWC Scholar</em></p>
+<p class="xp-org">Bachelor's degree in Computer Science and Mathematics &middot; 2019–2023</p>
+<p class="scholarship">Davis UWC Scholar</p>
 <p>Relevant coursework: Deep Learning, Real Analysis, Differential Geometry, Probability, Social Networks.</p>
 </div>
 
