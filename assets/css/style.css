@@ -1,7 +1,7 @@
 @import url("design.css?v=editorial-1");
 .wrapper { max-width: calc(var(--page-width) + var(--page-gutter) * 2); margin: 0 auto; padding: 0 var(--page-gutter); }
 .hero {
-  display: grid; grid-template-columns: minmax(0, 1fr) 220px;
+  display: grid; grid-template-columns: minmax(0, 1fr) 290px;
   align-items: center; gap: 48px; padding: 32px 0 28px; border-bottom: 1px solid var(--border);
 }
 .hero .eyebrow { margin-bottom: 18px; }
@@ -26,7 +26,7 @@
 .slide-nyrl { object-position: 95% center; }
 .slide-laptop { object-position: 72% center; }
 .portrait-controls { display: flex; align-items: center; justify-content: center; gap: 9px; padding-top: 7px; }
-.portrait-controls button { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; padding: 5px; background: transparent; color: var(--muted); border: 0; border-radius: 3px; cursor: pointer; }
+.portrait-controls button { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 9px; background: transparent; color: var(--muted); border: 0; border-radius: 3px; cursor: pointer; }
 .portrait-controls button:hover { background: var(--surface-2); color: var(--text); }
 .portrait-controls svg { width: 15px; height: 15px; }
 .photo-count { font-size: 10px; color: var(--muted); min-width: 29px; text-align: center; font-variant-numeric: tabular-nums; }
@@ -71,12 +71,12 @@
 .memberships { list-style: none; display: flex; gap: 20px; padding: 0; margin: 0; color: var(--text-2); font-size: 12px; }
 .header-updated { margin: 24px 0 0; font-size: 11px; color: var(--faint); }
 @media (max-width: 1080px) {
-  .hero { grid-template-columns: minmax(0, 1fr) 220px; gap: 24px; }
+  .hero { grid-template-columns: minmax(0, 1fr) 260px; gap: 32px; }
   .interest-card { padding-left: 22px; padding-right: 22px; }
   .interest-card::before { left: 22px; }
 }
 @media (max-width: 760px) {
-  .hero { grid-template-columns: minmax(0, 1fr) 170px; gap: 24px; padding-top: 30px; }
+  .hero { grid-template-columns: minmax(0, 1fr) 210px; gap: 24px; padding-top: 30px; }
   .site-name { font-size: 48px; }
   .site-role { font-size: 23px; }
   .hero .lede { font-size: 14px; }
@@ -96,7 +96,7 @@
   .hero-copy { grid-row: auto; }
   .site-name { font-size: clamp(39px, 10.5vw, 52px); }
   .hero .eyebrow { font-size: 10px; margin-bottom: 20px; }
-  .portrait-gallery { max-width: 180px; }
+  .portrait-gallery { max-width: 250px; }
   .about-copy, .work-grid, .background-grid { grid-template-columns: minmax(0, 1fr); }
   .about-copy { gap: 18px; }
   .contact-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 360px; }

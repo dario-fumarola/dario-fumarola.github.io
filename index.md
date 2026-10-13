@@ -44,28 +44,28 @@ description: >-
 
 <div class="project-card" data-category="conference">
 <svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 8h22M5 16h22M5 24h22"/><circle cx="11" cy="8" r="3"/><circle cx="22" cy="16" r="3"/><circle cx="14" cy="24" r="3"/></svg>
-<h3><a href="./projects/mood-swings.html">Mood Swings: Neuromodulatory Control for Deep RL Agents</a> <span class="venue-badge icml">ICML 2025</span></h3>
-<p>A runtime control layer for actor-critic agents, using three neuromodulatory scalars to steer reward, exploration, and risk sensitivity without retraining. Maze experiments show how a single policy can move between cautious and reward-seeking behavior.</p>
+<h3><a href="./projects/mood-swings.html">Mood Swings: Calibrated Reward-Cost Control</a> <span class="venue-badge icml">ICML 2025</span></h3>
+<p>Two runtime controls for a frozen PPO actor, with validation-based cost selection and a calibrated risk alarm. Experiments test when caution prevents failure, when to release it, and how changed hazards affect the calibration.</p>
 <div class="card-links">
 <a href="./projects/mood-swings.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-<a href="https://icml.cc/media/icml-2025/Slides/46772_lAk9vrp.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
+<a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
 </div>
 </div>
 
 <div class="project-card" data-category="conference">
 <svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="m16 4 12 7-12 7-12-7zM4 17l12 7 12-7M4 23l12 7 12-7"/></svg>
-<h3><a href="./projects/elastic-state-models.html">Elastic State Models: Geometry-Aware Adaptive Compute</a> <span class="venue-badge neurips">NeurIPS 2025</span></h3>
-<p>An inference-time adaptation layer for a frozen streaming state-space model. It allocates extra computation to difficult states within a fixed budget, using geometry-aware updates to improve navigation and protein loop repair without retraining.</p>
+<h3><a href="./projects/elastic-state-models.html">Who Needs Attention Anyway? Retaining State Corrections</a> <span class="venue-badge neurips">NeurIPS 2025</span></h3>
+<p>What should a recurrent controller remember after a local planner corrects its action? Paired experiments separate the benefit of retaining a corrected state from caching its plan, and test a rollback rule for changed targets or stale sensing.</p>
 <div class="card-links">
 <a href="./projects/elastic-state-models.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-<a href="https://neurips.cc/media/neurips-2025/Slides/128648_6MphO7a.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
+<a href="https://neurips.cc/media/neurips-2025/Slides/128648_AAiShmx.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
 </div>
 </div>
 
 <div class="project-card" data-category="conference">
 <svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="m10 10 12 12M10 22l12-12M16 16v-9M16 16v9"/><circle cx="8" cy="8" r="3"/><circle cx="24" cy="8" r="3"/><circle cx="8" cy="24" r="3"/><circle cx="24" cy="24" r="3"/><circle cx="16" cy="5" r="2"/><circle cx="16" cy="27" r="2"/></svg>
-<h3><a href="./projects/broadcast-gain.html">Broadcast-Gain: Minimal Control Plane for Cooperative MARL</a> <span class="venue-badge nyrl">NY-RL 2025</span></h3>
-<p>A two-byte broadcast overlay for cooperative reinforcement learning agents. It uses local signals to improve coordination under packet loss, reducing long waits at congested junctions while keeping the underlying PPO learner unchanged.</p>
+<h3><a href="./projects/broadcast-gain.html">Broadcast-Gain: Two-Byte Junction Control</a> <span class="venue-badge nyrl">NY-RL 2025</span></h3>
+<p>A junction controller whose fallback can be postponed by incoming reports. An exact counterexample and workload tests show what an unconditional service deadline fixes, and how its duration trades service frequency against switching cost.</p>
 <div class="card-links">
 <a href="./projects/broadcast-gain.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
 <a href="./assets/broadcast-gain.pdf" target="_blank" rel="noopener">Paper (PDF)</a>

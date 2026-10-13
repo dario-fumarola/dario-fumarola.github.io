@@ -1,428 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mood Swings: Neuromodulatory Scalars for Deep RL Agents | Dario Fumarola</title>
-  <meta name="description" content="Mood Swings: three neuromodulatory scalars (dopaminergic gain plus serotonergic entropy and risk coefficients) let a fixed actor-critic agent shift between impulsive and cautious behavior without retraining. ICML 2025 work by Dario Fumarola and Jin Tan Ruan.">
-  <meta name="author" content="Dario Fumarola">
-  <link rel="canonical" href="https://dario-fumarola.github.io/projects/mood-swings.html">
-  <meta property="og:type" content="article">
-  <meta property="og:site_name" content="Dario Fumarola">
-  <meta property="og:title" content="Mood Swings: Neuromodulatory Scalars for Deep RL Agents">
-  <meta property="og:description" content="Mood Swings: three neuromodulatory scalars (dopaminergic gain plus serotonergic entropy and risk coefficients) let a fixed actor-critic agent shift between impulsive and cautious behavior without retraining. ICML 2025 work by Dario Fumarola and Jin Tan Ruan.">
-  <meta property="og:url" content="https://dario-fumarola.github.io/projects/mood-swings.html">
-  <meta property="og:image" content="https://dario-fumarola.github.io/assets/img/logo.png">
-  <meta name="twitter:card" content="summary">
-  <script>
-    if (location.hostname === 'fumadari.github.io') {
-      location.replace('https://dario-fumarola.github.io' + location.pathname + location.search + location.hash);
-    }
-  </script>
-
-  <script>
-    (function () {
-      var theme = 'light';
-      try { if (localStorage.getItem('theme') === 'dark') theme = 'dark'; } catch (e) {}
-      document.documentElement.dataset.theme = theme;
-    })();
-  </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
-  <link rel="stylesheet" href="../assets/css/paper.css?v=editorial-1">
-
-  <script>
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']]
-      }
-    };
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js"></script>
-</head>
-
-<body>
-  <a class="skip-link" href="#main-content">Skip to content</a>
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="brand" href="../">Dario Fumarola</a>
-    <nav class="site-nav" aria-label="Main navigation">
-      <a href="../#about">About</a>
-      <a href="../#research-interests">Research</a>
-      <a href="../#presented-work">Work</a>
-      <a href="../#experience">Experience</a>
-      <a href="../#education">Education</a>
-      <a href="../#contact">Contact</a>
-      <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-    </button>
-    </nav>
+---
+layout: project
+project: mood
+title: "Mood Swings: Calibrated Reward-Cost Control in a Frozen PPO Policy"
+description: "Two controls for a frozen PPO actor, with validation-based cost selection and a calibrated risk alarm. Explore the method and results in Pac-Mind++ and MiniHack-HazardRooms."
+authors: Dario Fumarola and Jin Tan Ruan
+venue: ICML 2025
+paper_url: https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf
+paper: /assets/mood-swings.pdf
+---
+<header class="project-hero">
+  <div>
+    <p class="eyebrow">Reinforcement learning · Runtime control</p>
+    <h1>Mood Swings</h1>
+    <p class="subtitle">Calibrated reward and cost control in a frozen PPO policy</p>
+    <p class="intro">A policy can take a shortcut or avoid a hazard without another training run. This work asks how to choose that behavior, when to switch into caution, and when to return to the task.</p>
+    <p class="byline">Dario Fumarola and Jin Tan Ruan · Amazon Web Services</p>
+    <div class="paper-links"><a class="outline-link" href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf" target="_blank" rel="noopener">Read paper <span aria-hidden="true">↗</span></a><a href="../assets/mood-swings.pdf" download>Download PDF</a><a href="https://icml.cc/media/icml-2025/Slides/46772_lAk9vrp.pdf" target="_blank" rel="noopener">2025 poster ↗</a></div>
+  </div>
+  <div class="explorer" aria-label="Illustration of policy controls">
+    <p class="eyebrow">Two controls, one actor</p>
+    <div class="segmented" role="group" aria-label="Example cost weight"><button type="button" data-mood="seeking" aria-pressed="true">Seeking · w = 0.2</button><button type="button" data-mood="cautious" aria-pressed="false">Cautious · w = 0.7</button></div>
+    <svg class="plot mood-map" viewBox="0 0 440 185" role="img" aria-labelledby="junction-title junction-desc">
+      <title id="junction-title">Two routes to the same target</title><desc id="junction-desc">The eastern route is shorter and passes near a hazard. The western route is a detour. Cost conditioning can change the preferred route.</desc>
+      <defs><pattern id="maze-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" class="plot-grid"/></pattern></defs>
+      <rect x="75" y="15" width="270" height="150" rx="2" class="neutral-fill"/><rect x="75" y="15" width="270" height="150" fill="url(#maze-grid)"/><rect x="165" y="65" width="70" height="55" rx="2" class="wash-fill"/>
+      <path id="mood-west-route" d="M220 145H105V35H220" class="route inactive-route"/><path id="mood-east-route" d="M220 145H275V35H220" class="route active-route"/>
+      <circle cx="220" cy="145" r="11" class="neutral-fill neutral-stroke"/><text x="220" y="149" text-anchor="middle" class="plot-label">S</text><circle cx="220" cy="35" r="11" class="neutral-fill neutral-stroke"/><text x="220" y="39" text-anchor="middle" class="plot-label">P</text>
+      <rect x="307" y="92" width="16" height="16" rx="2" class="risk-fill"/><text x="336" y="104">hazard</text><text x="91" y="181">detour</text><text x="259" y="181">shortcut</text>
+    </svg>
+    <div class="policy-probs" id="mood-probs" aria-label="Action probabilities from example logits">
+      <div class="prob-column"><span>North</span><div class="prob-track"><span class="prob-fill" style="--probability:.054"></span></div><output>5%</output></div><div class="prob-column preferred"><span>East</span><div class="prob-track"><span class="prob-fill" style="--probability:.594"></span></div><output>59%</output></div><div class="prob-column"><span>South</span><div class="prob-track"><span class="prob-fill" style="--probability:.093"></span></div><output>9%</output></div><div class="prob-column"><span>West</span><div class="prob-track"><span class="prob-fill" style="--probability:.161"></span></div><output>16%</output></div><div class="prob-column"><span>Wait</span><div class="prob-track"><span class="prob-fill" style="--probability:.098"></span></div><output>10%</output></div>
+    </div>
+    <label class="range-label" for="mood-temperature"><span>Sampling temperature · τ</span><output id="mood-temperature-value" for="mood-temperature">0.29</output></label><input id="mood-temperature" type="range" min="0" max="1" step="0.01" value="0.285714" aria-describedby="mood-demo-note"><div class="range-ends"><span>More concentrated</span><span>More spread out</span></div>
+    <div class="inline-summary"><p id="mood-demo-summary" aria-live="polite">The example actor favors east. Temperature changes confidence while keeping action rankings.</p></div><p class="figure-note" id="mood-demo-note">Illustrative junction, inspired by Figure 3. These probabilities use example logits and the paper's temperature equation; they are not a model rollout.</p>
   </div>
 </header>
-  <main class="paper-content" id="main-content">
-  <p class="eyebrow">Research &middot; Machine Learning</p>
-  <h1>Mood Swings: Three Neuromodulatory Scalars Drive Impulse-Caution Shifts in Deep Actor-Critic Agents</h1>
-
-  <div class="abstract">
-    <p>
-      <strong>Abstract.</strong>
-      Biology tunes behaviour on the fly through slow, low-bandwidth chemical broadcasts, a trick that most deep-RL agents still lack. We show that a standard convolutional actor-critic, left unmodified at the weight level, can nevertheless flex between impulsive reward harvesting and cautious hazard avoidance once it is endowed with three global scalars: a dopaminergic gain $k_{\text{DA}}$ that multiplies the temporal-difference error, and two serotonergic coefficients-$k^{\text{ent}}_{\text{5HT}}$ for entropy drive and $k^{\text{risk}}_{\text{5HT}}$ for threat discounting. These parameters span a continuous "computational mood" manifold sitting entirely outside the network proper, so switching policies is as cheap as writing to three floats.
-    </p>
-    <div class="meta">
-      <span class="badge">neuromodulation</span>
-      <span class="badge">actor-critic</span>
-      <span class="badge">safety-performance tradeoff</span>
-      <span class="badge">dopamine</span>
-      <span class="badge">serotonin</span>
-    </div>
-    <div class="meta">
-      <a href="https://icml.cc/media/icml-2025/Slides/46772_lAk9vrp.pdf" target="_blank" rel="noopener">Paper (PDF)</a> &middot; Presented at ICML 2025
-    </div>
-  </div>
-
-  <h2>1. Motivation</h2>
-  <p>
-    Deep-RL agents routinely eclipse humans in games and benchmark suites, yet they fracture when the reward map or threat landscape changes. Brains handle such non-stationarity with ease: a handful of neuromodulators diffuse through wide swathes of cortex and subcortex, retuning synaptic plasticity and circuit excitability within seconds.
-  </p>
-  <p>
-    Dopamine and serotonin dominate laboratory studies of behavioural flexibility. Phasic dopamine bursts encode reward-prediction errors (RPEs) that drive reinforcement learning, while tonic levels track opportunity cost and motor vigour. Serotonin projects almost ubiquitously and shapes patience, harm avoidance, and uncertainty sensitivity. Crucially, the two systems often push in opposite directions-dopamine favours appetitive, high-gain choices; serotonin biases toward cautious exploration.
-  </p>
-
-  <div class="callout">
-    <p>
-      <strong>Research question.</strong> Can a fixed actor-critic agent, augmented only with three global scalars that mimic dopaminergic gain and serotonergic entropy- and risk-control, switch on demand between impulsive and cautious policies while remaining stable?
-    </p>
-  </div>
-
-  <h2>2. The Mood Manifold</h2>
-  <p>
-    The triplet $\mathbf{k} = (k_{\text{DA}}, k^{\text{ent}}_{\text{5HT}}, k^{\text{risk}}_{\text{5HT}})$ defines a continuous, three-dimensional control surface:
-  </p>
-
-  <div class="grid">
-    <div class="panel">
-      <p><strong>Dopaminergic Gain ($k_{\text{DA}}$)</strong></p>
-      <p>Multiplies the TD error $\delta_t$, scaling the learning signal for both critic and actor updates. Higher values accelerate learning but increase variance.</p>
-    </div>
-    <div class="panel">
-      <p><strong>Serotonergic Entropy ($k^{\text{ent}}_{\text{5HT}}$)</strong></p>
-      <p>Weights the policy entropy term in the actor objective, promoting wider action distributions and more exploratory behaviour.</p>
-    </div>
-  </div>
-
-  <div class="panel">
-    <p><strong>Serotonergic Risk ($k^{\text{risk}}_{\text{5HT}}$)</strong></p>
-    <p>Discounts rewards based on proximity to hazards via a danger signal $\rho(S_{t+1})$, creating "value valleys" around threats for cautious navigation.</p>
-  </div>
-
-  <p>
-    Standard RL behaviour is approximated at $\mathbf{k} = (1, 0, 0)$. Because $\mathbf{k}$ is external to the network weights, the agent can alter its "computational mood" online by simply writing to these three scalar values.
-  </p>
-
-  <h2>3. Algorithm</h2>
-  <pre><code>Require: transition (S_t, A_t, R_{t+1}, S_{t+1})
-Require: k = (k_DA, k_ent_5HT, k_risk_5HT)
-Require: danger signal rho(.)
-
-1: Serotonergic risk discount
-   R'_{t+1} = R_{t+1} - k_risk_5HT * rho(S_{t+1})
-
-2: Temporal-difference error
-   delta_t = R'_{t+1} + gamma * V(S_{t+1}) - V(S_t)
-
-3: Dopaminergic gain
-   delta'_t = k_DA * delta_t
-
-4: Critic update
-   w = w + alpha_c * delta'_t * grad_w V(S_t)
-
-5: Actor update (with entropy drive)
-   H_t = -sum_a pi(a|S_t) log pi(a|S_t)
-   theta = theta + alpha_a * [delta'_t * grad log pi(A_t|S_t) + k_ent_5HT * grad H_t]</code></pre>
-
-  <h2>4. Experiments</h2>
-
-  <h3>4.1 Environments</h3>
-  <div class="grid">
-    <div class="panel">
-      <p><strong>Pac-Mind</strong></p>
-      <p>A 20x20 toroidal maze with pellets (+1), power-pellets (+10), four ghosts, and collision penalties (-100). The danger signal $\rho(S) = 1/(1+d)$ where $d$ is Manhattan distance to the nearest non-vulnerable ghost.</p>
-    </div>
-    <div class="panel">
-      <p><strong>MiniHack HazardRooms</strong></p>
-      <p>17x17 ASCII layouts with lava tiles (instant death), floor spikes (-10), and a goal amulet (+100). Binary danger signal: $\rho(S) = 1$ on hazard tiles, 0 otherwise.</p>
-    </div>
-  </div>
-
-  <h3>4.2 Mood Sweep</h3>
-  <p>
-    The sweep spans $k_{\text{DA}} \in \{0.5, 1, 2, 4\}$, $k^{\text{ent}}_{\text{5HT}} \in \{0, 0.02, 0.05\}$, and $k^{\text{risk}}_{\text{5HT}} \in \{0, 0.2, 1\}$, yielding 36 distinct computational moods. Each configuration was trained for 50,000 episodes under five random seeds.
-  </p>
-
-  <h2>5. Results</h2>
-
-  <h3>5.1 Safety-Performance Frontier</h3>
-  <figure>
-    <div class="svg-wrap">
-      <svg viewBox="0 0 700 380" width="100%" height="380" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0" y="0" width="700" height="380" fill="#ffffff"/>
-        <text x="350" y="28" text-anchor="middle" font-size="14" fill="#111827">Safety-Performance Frontier (36 Moods)</text>
-
-        <!-- Axes -->
-        <line x1="80" y1="320" x2="650" y2="320" stroke="#9ca3af" stroke-width="1"/>
-        <line x1="80" y1="50" x2="80" y2="320" stroke="#9ca3af" stroke-width="1"/>
-
-        <text x="365" y="355" text-anchor="middle" font-size="12" fill="#6b7280">Mean Return (Pac-Mind)</text>
-        <text x="30" y="185" transform="rotate(-90,30,185)" text-anchor="middle" font-size="12" fill="#6b7280">Collision Probability (%)</text>
-
-        <!-- Axis labels -->
-        <text x="80" y="338" font-size="10" fill="#6b7280">100</text>
-        <text x="650" y="338" font-size="10" fill="#6b7280">160</text>
-        <text x="70" y="324" text-anchor="end" font-size="10" fill="#6b7280">0</text>
-        <text x="70" y="54" text-anchor="end" font-size="10" fill="#6b7280">5</text>
-
-        <!-- Grid -->
-        <line x1="80" y1="185" x2="650" y2="185" stroke="#e5e7eb" stroke-width="1"/>
-        <text x="70" y="189" text-anchor="end" font-size="10" fill="#6b7280">2.5</text>
-
-        <!-- Data points - approximating frontier -->
-        <!-- High serotonin (cautious) - low return, low collision -->
-        <circle cx="130" cy="305" r="6" fill="#10b981" stroke="#047857"/>
-        <circle cx="145" cy="298" r="6" fill="#10b981" stroke="#047857"/>
-        <circle cx="160" cy="290" r="6" fill="#34d399" stroke="#047857"/>
-
-        <!-- Baseline region -->
-        <circle cx="320" cy="260" r="6" fill="#60a5fa" stroke="#1d4ed8"/>
-        <circle cx="340" cy="250" r="6" fill="#60a5fa" stroke="#1d4ed8"/>
-        <circle cx="360" cy="245" r="6" fill="#93c5fd" stroke="#1d4ed8"/>
-
-        <!-- Mixed moods -->
-        <circle cx="420" cy="200" r="6" fill="#a78bfa" stroke="#7c3aed"/>
-        <circle cx="450" cy="170" r="6" fill="#a78bfa" stroke="#7c3aed"/>
-        <circle cx="480" cy="140" r="6" fill="#c4b5fd" stroke="#7c3aed"/>
-
-        <!-- High dopamine (impulsive) - high return, high collision -->
-        <circle cx="550" cy="100" r="6" fill="#f87171" stroke="#dc2626"/>
-        <circle cx="580" cy="80" r="6" fill="#f87171" stroke="#dc2626"/>
-        <circle cx="610" cy="65" r="6" fill="#fca5a5" stroke="#dc2626"/>
-
-        <!-- Frontier curve -->
-        <path d="M130,305 Q300,280 400,200 Q500,120 610,65" fill="none" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="5,5"/>
-
-        <!-- Legend -->
-        <rect x="480" y="250" width="160" height="100" fill="#f8f9fa" stroke="#e5e7eb" rx="6"/>
-        <circle cx="500" cy="272" r="5" fill="#10b981"/>
-        <text x="515" y="276" font-size="11" fill="#111827">High Serotonin</text>
-        <circle cx="500" cy="295" r="5" fill="#60a5fa"/>
-        <text x="515" y="299" font-size="11" fill="#111827">Baseline</text>
-        <circle cx="500" cy="318" r="5" fill="#a78bfa"/>
-        <text x="515" y="322" font-size="11" fill="#111827">Mixed</text>
-        <circle cx="500" cy="341" r="5" fill="#f87171"/>
-        <text x="515" y="345" font-size="11" fill="#111827">High Dopamine</text>
-
-        <!-- Annotations -->
-        <text x="120" y="270" font-size="10" fill="#047857">Cautious</text>
-        <text x="590" y="55" font-size="10" fill="#dc2626">Impulsive</text>
-      </svg>
-    </div>
-    <figcaption>
-      Figure 1. Plotting collision probability against mean return across 36 moods reveals a smooth Pareto frontier. Spearman correlation: 0.91 (p &lt; 10^-6).
-    </figcaption>
-  </figure>
-
-  <h3>5.2 Key Findings</h3>
-  <div class="table-scroll" tabindex="0" role="region" aria-label="Research results table"><table>
-    <thead>
-      <tr>
-        <th>Mood Setting</th>
-        <th>Mean Return</th>
-        <th>Collision %</th>
-        <th>Policy Entropy</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Baseline (1, 0, 0)</td>
-        <td>134 +/- 4</td>
-        <td>2.1%</td>
-        <td>0.52 nats</td>
-      </tr>
-      <tr>
-        <td>High DA (4, 0, 0)</td>
-        <td><strong>155 +/- 5</strong></td>
-        <td>4.2%</td>
-        <td>0.48 nats</td>
-      </tr>
-      <tr>
-        <td>High 5-HT (1, 0.05, 1)</td>
-        <td>124 +/- 3</td>
-        <td><strong>0.7%</strong></td>
-        <td>0.86 nats</td>
-      </tr>
-      <tr>
-        <td>Mixed (4, 0.05, 1)</td>
-        <td>142 +/- 4</td>
-        <td>1.8%</td>
-        <td>0.66 nats</td>
-      </tr>
-    </tbody>
-  </table></div>
-
-  <h3>5.3 Behavioural Signatures</h3>
-  <figure>
-    <div class="svg-wrap">
-      <svg viewBox="0 0 800 260" width="100%" height="260" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0" y="0" width="800" height="260" fill="#ffffff"/>
-
-        <!-- Panel A: Impulsive -->
-        <rect x="40" y="40" width="340" height="180" fill="#f8f9fa" stroke="#e5e7eb" rx="8"/>
-        <text x="210" y="30" text-anchor="middle" font-size="13" fill="#111827">A: Impulsive (High k_DA)</text>
-
-        <!-- Maze grid hint -->
-        <rect x="60" y="60" width="300" height="140" fill="#ffffff" stroke="#d1d5db"/>
-
-        <!-- Ghost -->
-        <polygon points="280,130 290,110 300,130" fill="#ef4444"/>
-        <text x="290" y="145" text-anchor="middle" font-size="9" fill="#ef4444">Ghost</text>
-
-        <!-- Agent path - direct, risky -->
-        <circle cx="100" cy="160" r="6" fill="#3b82f6"/>
-        <path d="M100,160 L180,140 L260,125 L290,115" fill="none" stroke="#3b82f6" stroke-width="2"/>
-        <text x="180" y="175" font-size="10" fill="#3b82f6">Direct path (risky)</text>
-
-        <!-- Panel B: Cautious -->
-        <rect x="420" y="40" width="340" height="180" fill="#f8f9fa" stroke="#e5e7eb" rx="8"/>
-        <text x="590" y="30" text-anchor="middle" font-size="13" fill="#111827">B: Cautious (High k_5HT)</text>
-
-        <rect x="440" y="60" width="300" height="140" fill="#ffffff" stroke="#d1d5db"/>
-
-        <!-- Ghost -->
-        <polygon points="660,130 670,110 680,130" fill="#ef4444"/>
-        <text x="670" y="145" text-anchor="middle" font-size="9" fill="#ef4444">Ghost</text>
-
-        <!-- Agent path - wide arc, safe -->
-        <circle cx="480" cy="160" r="6" fill="#10b981"/>
-        <path d="M480,160 Q520,80 590,75 Q660,70 710,90" fill="none" stroke="#10b981" stroke-width="2"/>
-        <text x="560" y="175" font-size="10" fill="#10b981">Wide arc (safe)</text>
-
-        <text x="400" y="250" text-anchor="middle" font-size="11" fill="#6b7280">Figure 2. Trajectory comparison: impulsive agents clip ghost corners; cautious agents arc wide.</text>
-      </svg>
-    </div>
-    <figcaption>
-      Figure 2. Impulsive agents (high dopamine) take direct, risky paths. Cautious agents (high serotonin) maintain safe distances from hazards, with median distance 5.7 cells vs 3.1 cells baseline.
-    </figcaption>
-  </figure>
-
-  <h2>6. Cross-Task Generalization</h2>
-  <p>
-    The same three scalars transfer effectively to MiniHack HazardRooms without additional tuning:
-  </p>
-
-  <div class="table-scroll" tabindex="0" role="region" aria-label="Research results table"><table>
-    <thead>
-      <tr>
-        <th>Mood (MiniHack)</th>
-        <th>Return</th>
-        <th>Death %</th>
-        <th>Episode Length</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Baseline (1, 0, 0)</td>
-        <td>94 +/- 3</td>
-        <td>4.1%</td>
-        <td>1720</td>
-      </tr>
-      <tr>
-        <td>High DA (4, 0, 0)</td>
-        <td>116 +/- 4</td>
-        <td>12.3%</td>
-        <td>1490</td>
-      </tr>
-      <tr>
-        <td>High 5-HT (1, 0.05, 1)</td>
-        <td>85 +/- 2</td>
-        <td>1.3%</td>
-        <td>2370</td>
-      </tr>
-    </tbody>
-  </table></div>
-
-  <h2>7. Online Mood Switching</h2>
-  <p>
-    Because the mood vector lives outside the network, behaviour can be rerouted on the fly by simply modifying three floats-no weight updates required. In experiments, switching from impulsive to cautious mood mid-episode produces observable behavioural changes within tens of steps.
-  </p>
-
-  <div class="panel">
-    <p>
-      <strong>Practical implications.</strong> A resource-constrained robot or game AI could switch between fast, risk-seeking modes and safe, methodical ones by writing three floats-orders of magnitude cheaper than fine-tuning or meta-gradient updates.
-    </p>
-  </div>
-
-  <h2>8. Conclusion</h2>
-  <p>
-    A single actor-critic network can shift from impulsive exploitation to cautious survival by modulating just three global scalars. The dopaminergic gain rescales the learning signal, while two serotonergic coefficients steer exploration and risk evaluation; together they define a low-dimensional manifold that continuously trades off performance against safety.
-  </p>
-  <p>
-    The result positions neuromodulation as a lightweight, interpretable alternative to heavyweight meta-learning, opening a path toward real-time policy control in safety-critical settings.
-  </p>
-
-  <hr class="hr"/>
-
-  <h2>ICML 2025 Presentation</h2>
-  <p>
-    <a href="https://icml.cc/media/icml-2025/Slides/46772_lAk9vrp.pdf" target="_blank" rel="noopener">View Poster →</a>
-  </p>
-  <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start;">
-    <img src="../assets/icml-pic.jpeg" alt="ICML 2025 Presentation" style="width: 320px; border-radius: 8px;"/>
-    <video controls style="width: 320px; border-radius: 8px;">
-      <source src="../assets/icml-video.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
-
-  <hr class="hr"/>
-
-  <h2>References</h2>
-  <div class="panel">
-    <p>Doya, K. (2002). Metalearning and Neuromodulation. Neural Networks 15, 495-506.</p>
-    <p>Daw, N.D., Kakade, S.M., and Dayan, P. (2002). Opponent Interactions Between Serotonin and Dopamine. Neural Networks 15, 603-616.</p>
-    <p>Schultz, W., Dayan, P., and Montague, P.R. (1997). A Neural Substrate of Prediction and Reward. Science 275, 1593-1599.</p>
-    <p>Miconi, T. et al. (2018). Differentiable Plasticity: Training Plastic Neural Networks with Backpropagation. ICLR.</p>
-  </div>
-
-  <p class="small">
-    This page summarizes "Mood Swings: Three Neuromodulatory Scalars Drive Impulse-Caution Shifts in Deep Actor-Critic Agents" by Dario Fumarola and Jin Tan Ruan.
-  </p>
-  </main>
-  <div class="paper-footer">
-<footer class="site-footer" id="contact">
-  <div>
-    <a class="footer-name" href="../">Dario Fumarola</a>
-    <p class="footer-role">Forward Deployed Engineer, AWS &middot; ML Researcher</p>
-  </div>
-  <div class="footer-links">
-    <a href="mailto:dariofumarola90@gmail.com">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
-            dariofumarola90@gmail.com
-          </a>
-    <a href="https://github.com/dario-fumarola" rel="me">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            GitHub
-          </a>
-    <a href="https://www.linkedin.com/in/fumarolad" rel="me">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V8h4v2a6 6 0 0 1 2-2z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            LinkedIn
-          </a>
-    <p class="footer-credit">&copy; 2026 Dario Fumarola &middot; Hosted on <a href="https://pages.github.com">GitHub Pages</a></p>
-  </div>
-</footer>
-  </div>
-  <script src="../assets/js/theme.js?v=editorial-1" defer></script>
-</body>
-</html>
+<div class="project-facts"><div><span class="fact-value">98.0%</span><span class="fact-label">of the full eight-actor library's mean coverage in Pac-Mind++</span></div><div><span class="fact-value">1/8</span><span class="fact-label">of that library's policy-training interactions; calibration is separate</span></div><div><span class="fact-value">12.6 → 5.0%</span><span class="fact-label">100-action failure from common Pac-Mind++ alarm states</span></div></div>
+<nav class="section-nav" aria-label="On this page"><a href="#method"><span>01</span>Controls</a><a href="#results"><span>02</span>Measured behavior</a><a href="#calibration"><span>03</span>Cost selection</a><a href="#limits"><span>04</span>What to watch</a></nav>
+<noscript><p>The figures show their default settings. Enable JavaScript to change the controls; the full results remain available in the paper.</p></noscript>
+<section class="research-section" id="method">
+  <div class="section-intro"><div><span class="section-number">01 / Method</span><h2>Choose a behavior.<br>Then choose when to use it.</h2></div><p>The actor has two independent inputs. A relative cost weight changes its features through FiLM conditioning. A temperature scales the final logits. After training, validation rollouts select settings and calibrate a separate alarm.</p></div>
+  <div class="explainer-grid"><div><h3>Cost weight</h3><p>The actor is trained on a weighted combination of reward and hazard cost. Changing <i>w</i> can change which action it prefers.</p><div class="formula">A<sup>w</sup> = (1 − w) A<sup>R</sup> − w A<sup>C</sup></div></div><div><h3>Temperature</h3><p>Temperature acts only at the output. At a fixed observation and weight, increasing it spreads probability without changing action rankings.</p><div class="formula">π = softmax(z / T)<br>T(τ) = 0.7 × (1.8 / 0.7)<sup>τ</sup></div></div><div><h3>Risk alarm</h3><p>The cost critic is always queried at the seeking setting. A calibrated estimate of failure within 100 actions triggers a ten-action ramp into caution.</p><div class="formula">Enter: risk &gt; 0.10<br>Release: risk &lt; 0.04 for 5 actions</div></div></div>
+  <p class="source-note">Reversible supervision also enforces a 20-action minimum mode duration. Actor and critic weights remain frozen. <a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf#page=2" target="_blank" rel="noopener">Paper, Section 3 and Appendix D.2 ↗</a></p>
+</section>
+<section class="research-section" id="results">
+  <div class="section-intro"><div><span class="section-number">02 / Results</span><h2>Caution helps.<br>Too much can stop progress.</h2></div><p>These branches start at the same saved alarm states. Raising the cost weight reduces failure more than matching the cautious policy's entropy. Pushing the weight further reduces failures again, but many more episodes time out.</p></div>
+  <div class="controls-row"><label class="control-label" for="mood-task">Task <select id="mood-task"><option value="pac">Pac-Mind++</option><option value="hack">MiniHack-HazardRooms</option></select></label><span class="chart-unit">Measured continuations · 12 trained replicates</span></div>
+  <div class="result-layout"><div><div class="chart-heading"><h3>Failure within 100 actions</h3><span class="chart-unit">Lower is better · 95% intervals</span></div><div class="bar-chart" id="mood-failure-chart" aria-live="polite"><div class="bar-row"><span class="bar-name">Continue seeking</span><div class="bar-track"><span class="bar" style="--bar-width:63%"></span></div><span class="bar-number">12.6%<small>[11.4, 13.9]</small></span></div><div class="bar-row"><span class="bar-name">Entropy-matched seeking</span><div class="bar-track"><span class="bar" style="--bar-width:42%"></span></div><span class="bar-number">8.4%<small>[7.4, 9.5]</small></span></div><div class="bar-row highlight"><span class="bar-name">Cost weight to 0.7</span><div class="bar-track"><span class="bar" style="--bar-width:25%"></span></div><span class="bar-number">5.0%<small>[4.3, 5.8]</small></span></div><div class="bar-row"><span class="bar-name">Cost weight to 0.8</span><div class="bar-track"><span class="bar" style="--bar-width:19.5%"></span></div><span class="bar-number">3.9%<small>[3.2, 4.7]</small></span></div></div><p class="source-note">Bars share a 0–20% scale. <a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf#page=15" target="_blank" rel="noopener">Paper, Table 11 ↗</a></p></div>
+  <div><div class="chart-heading"><h3>Follow-up to the deadline</h3></div><div class="chart-legend"><span><i class="legend-dot"></i>Completion</span><span><i class="legend-dot failure"></i>Failure</span><span><i class="legend-dot timeout"></i>Timeout</span></div><div id="mood-deadline-chart" aria-live="polite"><div class="stack-row"><div class="stack-label">Continue seeking</div><div class="stack-bar"><span style="--share:56.8%"></span><span class="failure" style="--share:27.4%"></span><span class="timeout" style="--share:15.8%"></span></div><div class="stack-values">56.8% completed · 27.4% failed · 15.8% timed out</div></div><div class="stack-row"><div class="stack-label">Cost weight to 0.7</div><div class="stack-bar"><span style="--share:63.4%"></span><span class="failure" style="--share:13.6%"></span><span class="timeout" style="--share:23%"></span></div><div class="stack-values">63.4% completed · 13.6% failed · 23.0% timed out</div></div><div class="stack-row"><div class="stack-label">Cost weight to 0.8</div><div class="stack-bar"><span style="--share:49.2%"></span><span class="failure" style="--share:10.2%"></span><span class="timeout" style="--share:40.6%"></span></div><div class="stack-values">49.2% completed · 10.2% failed · 40.6% timed out</div></div></div><p class="source-note">All branches keep the original task deadline. <a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf#page=15" target="_blank" rel="noopener">Paper, Table 12; intervals in PDF ↗</a></p></div></div>
+  <div class="findings"><div><h3>Timing matters</h3><p>With the actor fixed, calibrated reversible switching reaches 5.0% reset-based failure in Pac-Mind++, versus 7.2% for a hazard-blind schedule with similar caution time. Separately tuned critic thresholds reach 5.1%.</p></div><div><h3>Release matters, too</h3><p>Returning to seeking raises Pac-Mind++ completion from 62.1% to 64.6% compared with latching in caution. Failure moves from 4.7% to 5.0%. Those are complete episodes from reset, a different population from the alarm-state charts.</p></div></div><p class="source-note"><a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf#page=5" target="_blank" rel="noopener">Paper, Tables 1, 3 and 4 ↗</a></p>
+</section>
+<section class="research-section" id="calibration">
+  <div class="section-intro"><div><span class="section-number">03 / Calibration</span><h2>A weight is not a cost budget.</h2></div><p>Validation chooses the highest-reward setting whose upper estimate of mean episode cost passes the request. The chosen setting is then held fixed on unseen layouts. A tighter request can mean much less task completion.</p></div>
+  <div class="explorer"><div class="controls-row"><label class="control-label" for="budget-task">Task <select id="budget-task"><option value="pac">Pac-Mind++</option><option value="hack">MiniHack-HazardRooms</option></select></label><span class="eyebrow" style="margin:0">Held-out results · Table 5</span></div><div class="budget-layout"><div><span class="control-label">Requested mean episode cost</span><div class="segmented budget-options" role="group" aria-label="Requested mean episode cost"><button type="button" data-budget="0" aria-pressed="false">0.10</button><button type="button" data-budget="1" aria-pressed="false">0.15</button><button type="button" data-budget="2" aria-pressed="true">0.20</button><button type="button" data-budget="3" aria-pressed="false">0.35</button><button type="button" data-budget="4" aria-pressed="false">0.50</button></div>
+  <svg class="plot" id="budget-plot" viewBox="0 0 470 235" role="img" aria-label="Requested versus held-out mean episode cost"><g class="plot-grid"><path d="M50 163.18H440M50 99.55H440M50 35.91H440"/></g><path class="plot-axis" d="M50 20V195H440" fill="none"/><path d="M50 195L440 20" fill="none" class="neutral-stroke" stroke-dasharray="4 5"/><text x="56" y="25">mean cost</text><text x="283" y="228">requested cost</text><text x="37" y="199" text-anchor="end">0</text><text x="35" y="40" text-anchor="end">0.5</text><text x="50" y="215" text-anchor="middle">0</text><text x="404.55" y="215" text-anchor="middle">0.5</text><path id="budget-curve" d="M121 169L156 155L192 142L298 97L405 52" fill="none" class="ink" stroke-width="2"/><g id="budget-dots" class="ink-fill"></g><circle id="budget-selected" cx="192" cy="142" r="6" class="ink-fill"/><text x="255" y="32">dotted: exact agreement</text></svg></div>
+  <dl class="readout-grid" id="budget-readout" aria-live="polite"><div><dt>Test mean cost</dt><dd id="budget-cost">0.168<small>95% interval [0.158, 0.178]</small></dd></div><div><dt>Episode reward</dt><dd id="budget-reward">142.4</dd></div><div><dt>Completion</dt><dd id="budget-completion">51.8%</dd></div><div><dt>Layouts above request</dt><dd id="budget-exceedance">18.8%<small>Estimated mean cost per seed–layout cell</small></dd></div></dl></div><p class="figure-note">Five measured operating points; vertical marks show 95% intervals. Lines connect the measured means. The request concerns the layout mixture's mean cost, not a guarantee for each layout or episode.</p></div>
+  <div class="findings"><div><h3>Changed hazards break the mapping</h3><p>Increasing ghost pursuit from 75% to 90% raises cost at a 0.20 request from 0.168 to 0.248 with the original calibration. New validation rollouts bring it to 0.181 with the same actor, while reward falls from 134.2 to 128.3 in the shifted task.</p></div><div><h3>Sharing training goes a long way</h3><p>One actor retains 98.0% and 97.2% of the full eight-actor action mixture's mean reward–cost coverage in the two tasks. It uses one-eighth of the policy-training interactions. CCPO is a competitive single-policy alternative.</p></div></div><p class="source-note"><a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf#page=12" target="_blank" rel="noopener">Paper, Tables 5, 10 and 13 ↗</a></p>
+</section>
+<section class="research-section" id="limits">
+  <div class="section-intro"><div><span class="section-number">04 / Scope</span><h2>Calibration needs checking.</h2></div><p>The experiments cover discrete navigation with explicit hazard costs. The useful result is a way to select and supervise a frozen actor. Its reliability still depends on the task distribution and the states visited after switching.</p></div>
+  <div class="details-list"><details><summary>What does calibration add?</summary><p>It gives the critic score a probability scale. It adds no ranking information: raw-score thresholds tuned separately per seed perform similarly. Audits still find underprediction during caution and after release.</p></details><details><summary>Does more cost weight always reduce total cost?</summary><p>No. Discounted training cost and total episode cost can move in opposite directions. Total-cost reversals occur in 4.2% of adjacent-weight comparisons in Pac-Mind++ and 6.3% in HazardRooms. The selector uses measured episode cost rather than assuming monotonicity.</p></details><details><summary>What is outside the training-budget comparison?</summary><p>Static calibration uses 28,928 episodes per trained replicate; alarm fitting and checking add 1,024 seeking episodes. Those interactions are separate from the policy-training budget. The paper does not compare hardware latency, energy, or end-to-end compute.</p></details></div><p class="source-note"><a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf#page=7" target="_blank" rel="noopener">Paper, Discussion and Appendix D ↗</a></p><p class="archive-note">The paper linked here is the current write-up. The 2025 poster records the earlier presentation.</p>
+</section>
