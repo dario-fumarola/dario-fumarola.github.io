@@ -103,6 +103,7 @@
   .about-copy, .work-grid, .background-grid { grid-template-columns: minmax(0, 1fr); }
   .about-copy { gap: 18px; }
   .contact-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 360px; }
+  .contact-links a[href^="mailto:"] { grid-column: 1 / -1; }
   .page-section { padding: 28px 0; }
   .project-card::after, .project-card.second-column::after { display: none; }
   .background-grid { padding-top: 28px; gap: 30px; }

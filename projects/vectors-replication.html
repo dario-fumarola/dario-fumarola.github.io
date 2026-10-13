@@ -59,7 +59,7 @@
 
 <div class="abstract">
     <h2>Abstract</h2>
-    <p>The k-nearest neighbors (k-NN) search is a fundamental operation in high-dimensional data processing, crucial for information retrieval, machine learning, and recommendation systems. This research introduces a novel selective vector replication method significantly enhancing k-NN search performance. By focusing on boundary vectors—those whose nearest neighbors span multiple clusters—we address the fundamental challenge where traditional clustering disperses nearest neighbors across multiple partitions. Our method formulates vector replication as an optimization problem that balances recall improvement against computational costs, leading to a practical solution that enhances both recall and query efficiency. Experimental results demonstrate substantial improvements over existing approaches, achieving up to 62.2% reduction in vectors accessed while maintaining 0.95 recall on large-scale datasets. These findings confirm that selective replication of boundary vectors captures most potential efficiency gains with modest storage overhead.</p>
+    <p>The k-nearest neighbors (k-NN) search is a fundamental operation in high-dimensional data processing, crucial for information retrieval, machine learning, and recommendation systems. This research introduces a novel selective vector replication method significantly enhancing k-NN search performance. By focusing on boundary vectors, those whose nearest neighbors span multiple clusters, we address the fundamental challenge where traditional clustering disperses nearest neighbors across multiple partitions. Our method formulates vector replication as an optimization problem that balances recall improvement against computational costs, leading to a practical solution that enhances both recall and query efficiency. Experimental results demonstrate substantial improvements over existing approaches, achieving up to 62.2% reduction in vectors accessed while maintaining 0.95 recall on large-scale datasets. These findings confirm that selective replication of boundary vectors captures most potential efficiency gains with modest storage overhead.</p>
 </div>
 
 
@@ -72,7 +72,7 @@
 
 <p>However, a fundamental challenge persists: clustering high-dimensional vectors into well-separated clusters remains problematic. Traditional clustering algorithms typically optimize for representation quality or cluster cohesion, which may not align with the specific requirements of k-NN search. Consequently, the nearest neighbors of a query vector are often dispersed across multiple clusters, leading to reduced recall and increased query costs due to the necessity of accessing various clusters during the search process.</p>
 
-<p>We introduce a selective vector replication method that optimizes clustering outputs for k-NN recall and search performance. Our approach functions as a post-processing step, seamlessly integrating with existing clustering or partitioning techniques. By identifying boundary vectors—those whose k-nearest neighbors reside in different clusters—we selectively replicate a subset of their closest neighbors into the corresponding clusters. This strategy improves k-NN recall while controlling the number of vectors accessed during queries.</p>
+<p>We introduce a selective vector replication method that optimizes clustering outputs for k-NN recall and search performance. Our approach functions as a post-processing step, seamlessly integrating with existing clustering or partitioning techniques. By identifying boundary vectors, those whose k-nearest neighbors reside in different clusters, we selectively replicate a subset of their closest neighbors into the corresponding clusters. This strategy improves k-NN recall while controlling the number of vectors accessed during queries.</p>
 
 <p>Our experimental results demonstrate significant improvements over several baselines, including standard clustering without replication, soft clustering heuristics, and existing replication strategies like those used in SPANN. On a dataset of one million vectors clustered into 100 clusters, our method improved recall from 0.87 to 0.96 while accessing the same amount of data during queries. These findings confirm that selective replication of boundary vectors captures most potential efficiency gains with modest storage overhead.</p>
 
@@ -431,7 +431,7 @@ Output: Replication set T
 
 <h2>8. Conclusion</h2>
 
-<p>We have introduced a selective vector replication method that significantly enhances the recall and query performance of approximate nearest neighbor (k-NN) search in high-dimensional spaces. By focusing on boundary vectors—those whose nearest neighbors reside in different clusters—we address the fundamental challenge where traditional clustering disperses nearest neighbors across multiple clusters, degrading recall and increasing search costs. Our method formulates vector replication as an optimization problem that maximizes a utility function balancing recall improvement against the cost of vector access, leading to a combinatorial optimization solution based on the set cover problem.</p>
+<p>We have introduced a selective vector replication method that significantly enhances the recall and query performance of approximate nearest neighbor (k-NN) search in high-dimensional spaces. By focusing on boundary vectors, those whose nearest neighbors reside in different clusters, we address the fundamental challenge where traditional clustering disperses nearest neighbors across multiple clusters, degrading recall and increasing search costs. Our method formulates vector replication as an optimization problem that maximizes a utility function balancing recall improvement against the cost of vector access, leading to a combinatorial optimization solution based on the set cover problem.</p>
 
 <p>Through theoretical analysis, we confirm the optimality of selecting boundary vectors for replication and provide approximation guarantees for our set cover-based approach. By incorporating diminishing returns into the utility function and leveraging submodularity properties, we achieve efficient approximation solutions with strong performance guarantees. Empirical evaluations on large-scale datasets demonstrate substantial improvements over existing baselines, not only enhancing recall but also reducing the number of vectors accessed during queries. These results confirm that selective replication of boundary vectors captures the majority of potential efficiency gains with modest storage overhead.</p>
 
@@ -439,13 +439,13 @@ Output: Replication set T
     <h3>Future Directions</h3>
 
     <h4>Cost-Aware Cluster Coverage</h4>
-    <p>One limitation of our current approach is the assumption of uniform costs when covering the query set, whereas, in practice, the cost of covering subsets of queries within the same cluster differs from covering those across different clusters. This suggests an extension to our method by considering a cost model where coverage depends on cluster membership. By prioritizing neighbor vectors that cover the most queries within the same cluster—measured by the cluster-wise reverse nearest neighbor (RNN) size—we can further minimize the replication factor while maintaining high recall.</p>
+    <p>One limitation of our current approach is the assumption of uniform costs when covering the query set, whereas, in practice, the cost of covering subsets of queries within the same cluster differs from covering those across different clusters. This suggests an extension to our method by considering a cost model where coverage depends on cluster membership. By prioritizing neighbor vectors that cover the most queries within the same cluster, measured by the cluster-wise reverse nearest neighbor (RNN) size, we can further minimize the replication factor while maintaining high recall.</p>
 
     <h4>Incorporating Diversity</h4>
     <p>Incorporating diversity into the replication process is a possible valuable extension. By selecting a diverse sample of boundary vectors to represent cluster boundaries and choosing a diverse set of neighbors for each boundary vector, we can reduce redundancy and improve query efficiency. Instead of replicating only the top-k neighbors, we can consider a larger set and select a diverse subset to replicate. This strategy brings in vectors from clusters spread across the data space, reducing the likelihood of redundant vector accesses during queries.</p>
 
     <h4>Joint Query Processing Optimization</h4>
-    <p>Jointly designing replication and query processing strategies can further enhance performance. While our method optimizes replication, accessing only the closest clusters during queries may result in redundant vector accesses due to replicated vectors from neighboring clusters. By diversifying the replication process and potentially defining a novel optimization setting—such as a Diverse Bi-Directional Set Cover—we aim to achieve diverse coverage of replicated vectors, avoiding redundancy and improving efficiency.</p>
+    <p>Jointly designing replication and query processing strategies can further enhance performance. While our method optimizes replication, accessing only the closest clusters during queries may result in redundant vector accesses due to replicated vectors from neighboring clusters. By diversifying the replication process and potentially defining a novel optimization setting, such as a Diverse Bi-Directional Set Cover, we aim to achieve diverse coverage of replicated vectors, avoiding redundancy and improving efficiency.</p>
 
     <h4>Theoretical Extensions</h4>
     <p>We also explore the concept of partially covering the query set to maximize recall, akin to strategies used in Determinantal Point Processes. By using the k'-nearest neighbors set as a proxy to diversely cover the query space, we can select a representative subset of vectors for replication without directly sampling from the query set. This method allows us to achieve high recall with minimal vectors accessed per query, particularly when replication costs are negligible. However, determining the optimal value of k' is challenging, as it influences the balance between recall improvement and the number of vectors accessed.</p>
@@ -476,7 +476,7 @@ Output: Replication set T
     
     <p>Korte, B., & Vygen, J. (2008). Combinatorial Optimization: Theory and Algorithms (5th ed.). Springer.</p>
     
-    <p>Nemhauser, G. L., Wolsey, L. A., & Fisher, M. L. (1978). An analysis of approximations for maximizing submodular set functions—I. Mathematical Programming, 14(1), 265-294.</p>
+    <p>Nemhauser, G. L., Wolsey, L. A., & Fisher, M. L. (1978). An analysis of approximations for maximizing submodular set functions, I. Mathematical Programming, 14(1), 265-294.</p>
 </div>
 
     
@@ -485,7 +485,7 @@ Output: Replication set T
 <footer class="site-footer" id="contact">
   <div>
     <a class="footer-name" href="../">Dario Fumarola</a>
-    <p class="footer-role">Prototyping Architect, AWS &middot; ML Researcher</p>
+    <p class="footer-role">Forward Deployed Engineer, AWS &middot; ML Researcher</p>
   </div>
   <div class="footer-links">
     <a href="mailto:dariofumarola90@gmail.com">
