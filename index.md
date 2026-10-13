@@ -40,11 +40,7 @@ I'm actively seeking research collaborations to apply these directions to real-w
 <section class="page-section" aria-labelledby="presented-work">
 <div class="section-heading">
 <h2 id="presented-work">Presented Work</h2>
-<div class="work-filters" role="group" aria-label="Filter presented work">
-  <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">All</button>
-  <button class="filter-btn" type="button" data-filter="conference" aria-pressed="false">Conference</button>
-  <button class="filter-btn" type="button" data-filter="research" aria-pressed="false">Research</button>
-</div>
+
 </div>
 
 <div class="work-grid">
@@ -76,35 +72,7 @@ I'm actively seeking research collaborations to apply these directions to real-w
 </div>
 </div>
 
-
-
-
-<div class="project-card" data-category="research">
-<h3><a href="./projects/vectors-replication.html">Selective Replication for Efficient k-NN Retrieval</a> <span class="venue-badge">Research</span></h3>
-<p>We propose selective vector replication to improve k-nearest neighbor retrieval in clustered high-dimensional indexes. The method identifies boundary vectors likely to be relevant across neighboring clusters and replicates only those vectors into the adjacent partitions they connect. This targeted replication increases recall while reducing the number of vectors scanned per query, yielding better retrieval quality with bounded storage overhead.</p>
-<div class="card-links">
-<a href="./projects/vectors-replication.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
 </div>
-</div>
-
-<div class="project-card" data-category="research">
-<h3><a href="./projects/s3-index.html">Hierarchically Partitioned Cloud-Native Vector Search</a> <span class="venue-badge">Research</span></h3>
-<p>This work adapts graph-based ANN search to object storage by combining hierarchical graph partitioning with parallel S3 reads. Large HNSW graphs are partitioned into size-bounded subgraphs optimized for object fetch and caching behavior, and queries retrieve only the subgraphs required for traversal, in parallel. The result is lower tail latency while maintaining high recall at billion-scale, with predictable storage and compute costs.</p>
-<div class="card-links">
-<a href="./projects/s3-index.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-</div>
-</div>
-
-<div class="project-card" data-category="research">
-<h3><a href="./projects/gat-drug-discovery.html">GeoGAT: Geometry-Aware Graph Attention for Molecular Property Prediction</a> <span class="venue-badge">Research</span></h3>
-<p>GeoGAT integrates bonded connectivity, 3D geometry, and electronic descriptors in a sparse molecular graph attention model. A global context node captures molecule-level effects while invariant pair and angle features modulate attention to distinguish conformers and long-range interactions. Across tasks such as solubility, LogP, and binding-related prediction, GeoGAT improves accuracy and yields interpretable attention patterns that localize influential atoms and functional groups.</p>
-<div class="card-links">
-<a href="./projects/gat-drug-discovery.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-</div>
-</div>
-
-</div>
-
 </section>
 
 <div class="background-grid">

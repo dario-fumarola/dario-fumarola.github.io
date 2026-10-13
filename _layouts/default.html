@@ -100,9 +100,9 @@
             Download CV
           </a>
             </nav>
+            {% if site.motto %}<p class="site-tagline">{{ site.motto }}</p>{% endif %}
           </div>
-          <img class="hero-portrait" src="{{ site.logo | relative_url }}" alt="Dario Fumarola working at his laptop" width="400" height="540" fetchpriority="high">
-          {% if site.motto %}<p class="site-tagline">{{ site.motto }}</p>{% endif %}
+          {% include portrait-slideshow.html %}
         </section>
         <div class="content">
           {{ content }}
@@ -111,6 +111,6 @@
       {% include footer.html %}
     </div>
     <script src="{{ "/assets/js/theme.js?v=editorial-1" | relative_url }}" defer></script>
-    <script src="{{ "/assets/js/main.js?v=editorial-1" | relative_url }}" defer></script>
+    <script src="{{ "/assets/js/main.js?v=editorial-2" | relative_url }}" defer></script>
   </body>
 </html>
