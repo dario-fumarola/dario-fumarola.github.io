@@ -3,14 +3,14 @@ layout: default
 title: Dario Fumarola
 description: >-
   Dario Fumarola is a Forward Deployed Engineer at Amazon Web Services and ML researcher in New York City,
-  working on reinforcement learning, LLM agents, adaptive inference, and large-scale vector search.
+  working on reinforcement learning, LLM agents, adaptive inference, reasoning, and model training.
 ---
 
 <section class="page-section" aria-labelledby="about">
 <h2 id="about">About Me</h2>
 <div class="about-copy">
 <p>My research focuses on reinforcement learning for LLM and embodied agents, adaptive computation, and runtime control. I'm interested in how agents can change their behavior safely without retraining, and how evaluation can make those changes easier to understand.</p>
-<p>At Amazon Science, I work on vector search and agent learning. I also co-lead a Build on Trainium project with Emanuele La Malfa at the University of Oxford on safe, social pretraining of LLM agents. I'm open to research collaborations; <a href="mailto:dariofumarola90@gmail.com">get in touch</a> if you'd like to work together.</p>
+<p>Alongside my engineering work, I conduct research at Amazon Science. I co-lead a Build on Trainium project on safe, social pretraining of LLM agents. I'm open to research collaborations; <a href="mailto:dariofumarola90@gmail.com">get in touch</a> if you'd like to work together.</p>
 </div>
 </section>
 
@@ -20,15 +20,15 @@ description: >-
 <div class="interest-grid">
 <div class="interest-card">
 <h3>RL &amp; Agent Control</h3>
-<p>Training and steering LLM and embodied agents. I study cooperation, behavioral control, and safety under changing conditions.</p>
+<p>Reinforcement learning for LLM and embodied agents. I'm interested in how agents learn to cooperate and how their behavior changes under new conditions.</p>
 </div>
 <div class="interest-card">
-<h3>Adaptive Computation &amp; Inference</h3>
-<p>Letting models spend more computation on difficult inputs. My work focuses on streaming models, bounded inference, and controls that work without retraining.</p>
+<h3>Adaptive Inference</h3>
+<p>Efficient inference in streaming models. I work on methods that allocate computation to difficult inputs and adapt within a fixed compute budget.</p>
 </div>
 <div class="interest-card">
-<h3>Vector Search &amp; Retrieval</h3>
-<p>Efficient similarity search at large scale. I work on graph structure, selective replication, and cloud storage for vector indexes.</p>
+<h3>Reasoning &amp; Training</h3>
+<p>Reasoning and decision-making in LLMs. I study how reinforcement-learning pretraining changes these abilities, with evaluations that follow models across training checkpoints.</p>
 </div>
 </div>
 
@@ -43,6 +43,7 @@ description: >-
 <div class="work-grid">
 
 <div class="project-card" data-category="conference">
+<svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 8h22M5 16h22M5 24h22"/><circle cx="11" cy="8" r="3"/><circle cx="22" cy="16" r="3"/><circle cx="14" cy="24" r="3"/></svg>
 <h3><a href="./projects/mood-swings.html">Mood Swings: Neuromodulatory Control for Deep RL Agents</a> <span class="venue-badge icml">ICML 2025</span></h3>
 <p>A runtime control layer for actor-critic agents, using three neuromodulatory scalars to steer reward, exploration, and risk sensitivity without retraining. Maze experiments show how a single policy can move between cautious and reward-seeking behavior.</p>
 <div class="card-links">
@@ -52,6 +53,7 @@ description: >-
 </div>
 
 <div class="project-card" data-category="conference">
+<svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="m16 4 12 7-12 7-12-7zM4 17l12 7 12-7M4 23l12 7 12-7"/></svg>
 <h3><a href="./projects/elastic-state-models.html">Elastic State Models: Geometry-Aware Adaptive Compute</a> <span class="venue-badge neurips">NeurIPS 2025</span></h3>
 <p>An inference-time adaptation layer for a frozen streaming state-space model. It allocates extra computation to difficult states within a fixed budget, using geometry-aware updates to improve navigation and protein loop repair without retraining.</p>
 <div class="card-links">
@@ -61,6 +63,7 @@ description: >-
 </div>
 
 <div class="project-card" data-category="conference">
+<svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="m10 10 12 12M10 22l12-12M16 16v-9M16 16v9"/><circle cx="8" cy="8" r="3"/><circle cx="24" cy="8" r="3"/><circle cx="8" cy="24" r="3"/><circle cx="24" cy="24" r="3"/><circle cx="16" cy="5" r="2"/><circle cx="16" cy="27" r="2"/></svg>
 <h3><a href="./projects/broadcast-gain.html">Broadcast-Gain: Minimal Control Plane for Cooperative MARL</a> <span class="venue-badge nyrl">NY-RL 2025</span></h3>
 <p>A two-byte broadcast overlay for cooperative reinforcement learning agents. It uses local signals to improve coordination under packet loss, reducing long waits at congested junctions while keeping the underlying PPO learner unchanged.</p>
 <div class="card-links">
@@ -85,7 +88,7 @@ description: >-
 <div class="xp-item">
 <h3>Amazon Science</h3>
 <p class="xp-org">Machine Learning Researcher &middot; 2023 to present</p>
-<p>Research rotation with Amazon Scholars on similarity search for Amazon S3 Vectors. Co-invented a selective vector replication method, with further work on neuromodulated reinforcement learning and adaptive inference. I also co-lead training and evaluation work for the Oxford-led Build on Trainium project on LLM agents.</p>
+<p>Research on neuromodulated reinforcement learning, adaptive inference, and agent behavior. I also co-lead a Build on Trainium project on safe, social pretraining of LLM agents, including training infrastructure and evaluation across checkpoints.</p>
 </div>
 
 </section>

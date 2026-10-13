@@ -1,12 +1,3 @@
-// The homepage now contains only the three conference papers.
-(function () {
-  var cards = document.querySelectorAll('.project-card');
-  cards.forEach(function (card, index) {
-    card.classList.toggle('second-column', index % 2 === 1);
-    card.classList.toggle('last-row', index >= Math.floor((cards.length - 1) / 2) * 2);
-  });
-})();
-
 // Keep the photo frame stable, and rotate only while the visitor can see it.
 (function () {
   var gallery = document.querySelector('.portrait-gallery');

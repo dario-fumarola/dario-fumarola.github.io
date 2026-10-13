@@ -39,26 +39,24 @@
 .about-copy { display: grid; grid-template-columns: 1.25fr 1fr; gap: 56px; }
 .about-copy p { margin: 0; font-size: 14px; }
 .interest-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); counter-reset: interest; }
-.interest-card { position: relative; counter-increment: interest; padding: 26px 28px 6px 46px; }
-.interest-card + .interest-card { border-left: 1px solid var(--border); padding-left: 72px; }
-.interest-card::before { content: "0" counter(interest); position: absolute; top: 0; left: 0; color: var(--muted); font-size: 11px; }
-.interest-card + .interest-card::before { left: 28px; }
-.interest-card h3 { margin: 0 0 12px; max-width: 260px; }
+.interest-card { position: relative; counter-increment: interest; padding: 26px 24px 8px; }
+.interest-card + .interest-card { border-left: 1px solid var(--border); }
+.interest-card::before { content: "0" counter(interest); position: absolute; top: 0; left: 24px; color: var(--muted); font-size: 11px; }
+.interest-card h3 { margin: 0 0 12px; line-height: 1.2; }
 .interest-card p { color: var(--text-2); font-size: 14px; line-height: 1.65; margin: 0; }
-.work-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 72px; }
-.project-card { position: relative; display: flex; flex-direction: column; padding: 25px 0; border-bottom: 1px solid var(--border); }
-.project-card::after { content: ""; position: absolute; left: -36px; top: 25px; bottom: 25px; border-left: 1px solid var(--border); }
-.project-card::after { display: none; }
-.project-card.second-column::after { display: block; }
+.work-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.project-card { position: relative; display: flex; flex-direction: column; padding: 24px 0 24px 52px; border-bottom: 1px solid var(--border); }
+.work-icon { position: absolute; left: 0; top: 47px; width: 27px; height: 27px; fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.work-icon circle { fill: var(--bg); }
 .project-card h3 { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin: 0 0 12px; line-height: 1.15; }
-.project-card h3 a { color: var(--text); max-width: 460px; }
+.project-card h3 a { color: var(--text); }
 .project-card h3 a:hover { color: var(--accent); }
 .venue-badge { order: -1; color: var(--accent); font-family: var(--font-sans); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
-.project-card p { margin: 0 0 20px; font-size: 13px; line-height: 1.7; }
+.project-card p { margin: 0 0 16px; max-width: 100ch; font-size: 14px; line-height: 1.65; }
 .card-links { display: flex; align-items: center; flex-wrap: wrap; gap: 22px; margin-top: auto; font-size: 12px; }
 .card-links a { display: inline-flex; align-items: center; gap: 12px; }
 .card-links svg { width: 17px; height: 17px; stroke: currentColor; }
-.project-card.last-row { border-bottom: 0; }
+.project-card:last-child { border-bottom: 0; }
 .background-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 52px; padding-top: 34px; }
 .background-grid .page-section { border-bottom: 0; padding: 0; }
 .background-grid .education-section { border-left: 1px solid var(--border); padding-left: 52px; }
@@ -72,9 +70,8 @@
 .header-updated { margin: 24px 0 0; font-size: 11px; color: var(--faint); }
 @media (max-width: 1080px) {
   .hero { grid-template-columns: minmax(0, 1fr) 220px; gap: 24px; }
-  .interest-card { padding-left: 30px; padding-right: 20px; }
-  .interest-card + .interest-card { padding-left: 48px; }
-  .interest-card + .interest-card::before { left: 18px; }
+  .interest-card { padding-left: 22px; padding-right: 22px; }
+  .interest-card::before { left: 22px; }
 }
 @media (max-width: 760px) {
   .hero { grid-template-columns: minmax(0, 1fr) 170px; gap: 24px; padding-top: 30px; }
@@ -89,8 +86,6 @@
   .interest-card::before, .interest-card + .interest-card::before { left: 0; top: 4px; }
   .interest-card h3 { max-width: none; }
   .about-copy { gap: 24px; }
-  .work-grid { column-gap: 40px; }
-  .project-card::after { left: -20px; }
   .background-grid { gap: 28px; }
   .background-grid .education-section { padding-left: 28px; }
 }
@@ -105,7 +100,8 @@
   .contact-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 360px; }
   .contact-links a[href^="mailto:"] { grid-column: 1 / -1; }
   .page-section { padding: 28px 0; }
-  .project-card::after, .project-card.second-column::after { display: none; }
+  .project-card { padding-left: 40px; }
+  .work-icon { width: 23px; height: 23px; }
   .background-grid { padding-top: 28px; gap: 30px; }
   .background-grid .education-section { border-left: 0; border-top: 1px solid var(--border); padding: 28px 0 0; }
 }
