@@ -1,16 +1,37 @@
-<figure class="memory-demo" data-phase="next" data-playback="static">
-  <div class="memory-demo-heading"><h2>One action, two memories</h2><span>Retain or discard</span></div>
-  <ol class="memory-sequence" aria-label="Sequence"><li>Propose</li><li>Correct</li><li>Store</li><li>Next input</li></ol>
-  <div class="memory-flow">
-    <div class="memory-common memory-source"><span class="memory-source-label">Corrected state</span><div class="memory-vector is-corrected" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-    <svg class="memory-shared-arrow" viewBox="0 0 18 22" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M9 1v18m-4-4 4 4 4-4"/></svg>
-    <p class="memory-common-action">Same corrected action</p>
-    <div class="memory-fork" aria-hidden="true"><svg viewBox="0 0 100 24" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.2"><path vector-effect="non-scaling-stroke" d="M50 0v8H25v16M50 8h25v16"/></svg><i class="memory-branch-pulse"></i><i class="memory-branch-pulse"></i></div>
-    <div class="memory-branches">
-      <div class="memory-branch memory-retain"><h3>Retain</h3><p>Keep the corrected state</p><div class="memory-vector is-corrected" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><svg class="memory-next-arrow" viewBox="0 0 18 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M9 1v20m-4-4 4 4 4-4"/></svg><div class="memory-next-update">Next recurrent update</div></div>
-      <div class="memory-branch memory-discard"><h3>Discard</h3><p>Keep the original proposal</p><div class="memory-vector" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><svg class="memory-next-arrow" viewBox="0 0 18 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3" aria-hidden="true"><path d="M9 1v20m-4-4 4 4 4-4"/></svg><div class="memory-next-update">Next recurrent update</div></div>
+<figure class="memory-demo" data-phase="carry" data-playback="static">
+  <div class="memory-demo-heading"><h2>A blocked aisle</h2><span class="memory-scenario">Upper passage</span></div>
+  <div class="memory-usecase">
+    <div class="memory-usecase-key">
+      <div><h3><i class="memory-kept-key" aria-hidden="true"></i>Correction kept</h3><p class="memory-kept-status">Carrying the detour forward</p></div>
+      <div><h3><i class="memory-discarded-key" aria-hidden="true"></i>Correction discarded</h3><p class="memory-discarded-status">Repairing the next proposal</p></div>
     </div>
+    <svg class="memory-map" viewBox="0 0 640 200" role="img" aria-labelledby="memory-map-title memory-map-desc">
+      <title id="memory-map-title">Two robots continue after the same detour</title>
+      <desc id="memory-map-desc">A conceptual navigation sketch. Both versions first take the same corrected action around a shelf. The blue circle keeps the correction and continues along the clear aisle. The ochre diamond discards it and pauses to repair proposals pointing back into the shelf. Both can reach the goal. The next loop takes the other passage.</desc>
+      <defs>
+        <pattern id="memory-floor-grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" class="memory-map-grid"/></pattern>
+        <mask id="memory-common-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="640" height="200"><path class="memory-reveal" data-route="common" d="M52 100H216Q232 100 240 88L244 76" fill="none" stroke="white" stroke-width="8" stroke-linecap="round" pathLength="1" stroke-dasharray="1"/></mask>
+        <mask id="memory-kept-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="640" height="200"><path class="memory-reveal" data-route="kept" d="M244 76V52Q244 40 256 40H400Q412 40 412 52V88Q412 100 424 100H588" fill="none" stroke="white" stroke-width="8" stroke-linecap="round" pathLength="1" stroke-dasharray="1"/></mask>
+        <mask id="memory-rebuilt-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="640" height="200"><path class="memory-reveal" data-route="rebuilt" d="M244 76V52Q244 40 256 40H400Q412 40 412 52V88Q412 100 424 100H588" fill="none" stroke="white" stroke-width="8" stroke-linecap="round" pathLength="1" stroke-dasharray="1"/></mask>
+      </defs>
+      <rect class="memory-map-floor" x="20" y="20" width="600" height="160" rx="3"/>
+      <rect x="20" y="20" width="600" height="160" rx="3" fill="url(#memory-floor-grid)"/>
+      <g class="memory-shelves"><rect x="64" y="20" width="120" height="16"/><rect x="436" y="20" width="120" height="16"/><rect x="64" y="164" width="120" height="16"/><rect x="436" y="164" width="120" height="16"/></g>
+      <rect class="memory-blocked-shelf" x="280" y="64" width="96" height="72" rx="2"/>
+      <path class="memory-shelf-lines" d="M296 64v72M360 64v72M280 82h96M280 118h96"/>
+      <text class="memory-map-label" x="328" y="104" text-anchor="middle">Shelf</text>
+      <path class="memory-original-route" d="M52 100H588"/>
+      <path class="memory-executed-route memory-route" data-route="common" d="M52 100H216Q232 100 240 88L244 76" mask="url(#memory-common-mask)"/>
+      <path class="memory-kept-route memory-route" data-route="kept" d="M244 76V52Q244 40 256 40H400Q412 40 412 52V88Q412 100 424 100H588" mask="url(#memory-kept-mask)"/>
+      <path class="memory-rebuilt-route memory-route" data-route="rebuilt" d="M244 76V52Q244 40 256 40H400Q412 40 412 52V88Q412 100 424 100H588" mask="url(#memory-rebuilt-mask)"/>
+      <g class="memory-goal" transform="translate(588 100)"><circle r="11"/><path d="M-4 0h8M0-4v8"/></g>
+      <text class="memory-map-label" x="588" y="76" text-anchor="middle">Goal</text>
+      <g class="memory-plan-repair"><path class="memory-old-proposal" d="M244 76L280 82"/><path class="memory-candidate-proposal" d="M244 76Q244 40 278 40"/><g class="memory-blocked-mark" transform="translate(280 82)"><path d="m-3-3 6 6m0-6-6 6"/></g><circle class="memory-repair-ring" cx="244" cy="76" r="13"/></g>
+      <g class="memory-shared-agent" transform="translate(52 100)"><circle r="7"/></g>
+      <g class="memory-kept-agent" transform="translate(588 100)"><circle r="7"/></g>
+      <g class="memory-discarded-agent" transform="translate(350 40)"><rect x="-5.5" y="-5.5" width="11" height="11" rx="1" transform="rotate(45)"/></g>
+    </svg>
   </div>
-  <figcaption class="memory-demo-caption">The next observation is identical. Each branch starts from a different memory.</figcaption>
+  <figcaption class="memory-demo-caption">One version carries the detour forward. The other rebuilds it before continuing.</figcaption>
   <div class="memory-demo-controls"><a class="figure-source" href="../assets/figures/memory-intervention.svg" target="_blank" rel="noopener">Paper's intervention diagram</a><button class="memory-motion-toggle" type="button" aria-pressed="false" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg><span>Pause motion</span></button></div>
 </figure>
