@@ -71,6 +71,8 @@ input:focus-visible { outline:2px solid var(--ring); outline-offset:5px; }
 .related-work { display:grid; grid-template-columns:1fr 1fr; gap:40px; border-top:1px solid var(--border); padding-top:24px; }
 .related-work a { display:flex; flex-direction:column; gap:10px; color:var(--text); font:400 23px/1.2 var(--font-serif); }
 .related-work .eyebrow { font-size:9px; }
+.related-work-title { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.related-work-arrow { flex:0 0 18px; }
 @media (max-width:1080px) { .project-hero {gap:40px;} .figure-and-copy {gap:32px;} }
 @media (max-width:760px) {
   .project-hero {grid-template-columns:1fr; gap:30px; padding:28px 0 32px;}
