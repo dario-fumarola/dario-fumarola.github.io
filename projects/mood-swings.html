@@ -11,22 +11,31 @@ last_modified_at: 2026-10-13
 ---
 <header class="project-hero">
   <div class="mood-hero-title">
-    <p class="eyebrow">Reinforcement learning</p>
+    <p class="eyebrow mood-hero-meta"><span>Reinforcement learning</span><span class="mood-venue">ICML 2025</span></p>
     <h1>Mood Swings</h1>
     <p class="subtitle">Changing priorities after training</p>
+    <div class="paper-links mood-mobile-paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><a href="{{ page.paper }}" download>Download PDF</a></div>
   </div>
-  {% include mood-junction.html %}
+  {% include mood-scenes.html %}
   <div class="mood-hero-copy">
-    <p class="intro">A PPO policy can favor a shortcut or a cautious detour after training. A cost weight changes its preferences; a calibrated risk alarm controls when caution starts and ends. The actor's weights stay fixed throughout deployment.</p>
+    <p class="intro">A trained policy can favor reward or caution, depending on a control input. A calibrated risk estimate guides when to switch between them. The policy's network weights stay fixed.</p>
     <p class="byline">Dario Fumarola and Jin Tan Ruan · Amazon Web Services</p>
-    <div class="paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper ↗</a><a href="{{ page.paper }}" download>Download PDF</a></div>
+    <div class="paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><a href="{{ page.paper }}" download>Download PDF</a></div>
   </div>
 </header>
-<nav class="section-nav" aria-label="On this page"><a href="#results">Results</a><a href="#method">Method</a><a href="#calibration">Calibration</a><a href="#scope">Scope</a></nav>
+<nav class="section-nav" aria-label="On this page"><a href="#idea">Idea</a><a href="#results">Results</a><a href="#method">Method</a><a href="#scope">Scope</a></nav>
+
+<section class="research-section" id="idea">
+  <h2>Caution and progress</h2>
+  <div class="prose">
+    <p>A useful cautious behavior can prevent a failure and still cost reward or time. Leaving it active indefinitely can turn a detour into waiting. The deployment rule has to decide both when to enter caution and when to release it.</p>
+    <p>The policy supplies a range of behaviors. A supervisor chooses among them using a risk estimate calibrated on validation rollouts. Keeping the policy fixed lets us test the choice of behavior separately from the rule that selects it.</p>
+  </div>
+</section>
 
 <section class="research-section" id="results">
   <h2>What changes at an alarm</h2>
-  <div class="prose"><p>Starting from the same saved alarm states, we compared continuing to seek reward with entering caution. The cautious response reduced failure over the next 100 actions and improved eventual completion. Each continuation kept the original task deadline.</p></div>
+  <div class="prose"><p>From the same saved alarm states, we compared continuing to seek reward with entering caution. The cautious response reduced failure over the next 100 actions and improved eventual completion. Each continuation kept the original task deadline.</p></div>
   <div class="mood-findings" aria-label="Failure within 100 actions from common alarm states">
     <div class="mood-finding"><h3>Pac-Mind++</h3><dl><dt>Continue seeking</dt><dd>12.6%</dd><dt>Enter caution</dt><dd>5.0%</dd></dl></div>
     <div class="mood-finding"><h3>HazardRooms</h3><dl><dt>Continue seeking</dt><dd>18.4%</dd><dt>Enter caution</dt><dd>7.9%</dd></dl></div>
@@ -42,24 +51,31 @@ last_modified_at: 2026-10-13
     </tbody></table>
   </div>
   </details>
-  <h3>Caution and progress</h3>
   <div class="prose">
-    <p>The highest weight reduces short-window failure further, but completion falls. In Pac-Mind++, increasing the response weight from 0.7 to 0.8 lowers completion from 63.4% to 49.2% and raises timeouts from 23.0% to 40.6%. HazardRooms shows the same pattern.</p>
-    <p>Complete episodes from reset test the supervisor as well as the available behavior. In Pac-Mind++, reversible calibrated switching reaches 5.0% failure, compared with 7.2% for a hazard-blind schedule with similar caution time. Releasing caution raises completion from 62.1% to 64.6% compared with a latched response, while failure rises from 4.7% to 5.0%.</p>
+    <p>More caution can also stall progress. Raising the response weight from 0.7 to 0.8 lowers short-window failure further, but Pac-Mind++ completion falls from 63.4% to 49.2%. Timeouts rise from 23.0% to 40.6%.</p>
+    <p>Releasing caution helps recover progress. In full Pac-Mind++ episodes from reset, completion rises from 62.1% to 64.6% compared with keeping caution active after the first alarm. Failure rises from 4.7% to 5.0%.</p>
   </div>
-  <h3>Shared training and coverage</h3>
+  <h3>One policy across settings</h3>
+  <div class="prose"><p>In these tasks, sharing the actor across settings works better than dividing the same training interactions among eight specialists.</p></div>
+  <details class="mood-results-detail"><summary>Training budget and reward-cost coverage</summary>
+  <div class="mood-technical"><p>MC-PPO retains 98.0% and 97.2% of the full eight-actor <em>action mixture's</em> mean reward-cost coverage in the two tasks, using one-eighth of its policy-training interactions. Calibration rollouts are separate from that budget. CCPO remains a competitive single-policy alternative.</p></div>
   <div class="figure-pair">
     <figure class="paper-figure"><a href="../assets/figures/mood-frontier-pac.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-frontier-pac.svg" width="247" height="148" loading="lazy" alt="Pac-Mind++ reward-cost frontiers for MC-PPO, CCPO, and eight-actor libraries at matched and full training budgets."></a><figcaption><a class="figure-source" href="../assets/figures/mood-frontier-pac.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
     <figure class="paper-figure"><a href="../assets/figures/mood-frontier-hack.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-frontier-hack.svg" width="247" height="148" loading="lazy" alt="MiniHack-HazardRooms reward-cost frontiers. MC-PPO and CCPO are close, and the full-budget eight-actor library has a small advantage."></a><figcaption><a class="figure-source" href="../assets/figures/mood-frontier-hack.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
   </div>
   <p class="source-note">Figure 4. Test-set envelopes of the best observed reward within each cost ceiling. Both libraries shown here use logit mixing.</p>
-  <div class="prose"><p>MC-PPO retains 98.0% and 97.2% of the full eight-actor <em>action mixture's</em> mean reward-cost coverage in the two tasks, using one-eighth of its policy-training interactions. Calibration rollouts are separate from that budget. CCPO remains a competitive single-policy alternative.</p></div>
+  </details>
   <p class="source-note"><a href="{{ page.paper_url }}#page=5" target="_blank" rel="noopener">Tables 1, 3, 4, 11–13; Figure 4 ↗</a></p>
 </section>
 
 <section class="research-section" id="method">
-  <h2>Policy controls and supervision</h2>
+  <h2>How the controls work</h2>
   <div class="prose">
+    <p>The policy is trained with two runtime inputs. A cost weight changes its action preferences. Temperature changes how concentrated its sampling is, without reordering the actions at a fixed observation and cost weight.</p>
+    <p>A calibrated estimate of failure under continued seeking tells the supervisor when to enter or leave caution. Validation rollouts also translate a requested mean cost into an operating setting.</p>
+  </div>
+  <details class="mood-results-detail"><summary>Policy objective, temperature and alarm rules</summary>
+  <div class="mood-technical">
     <p>The cost weight \(w\) conditions two actor layers through FiLM. The actor is trained with separate reward and cost critics, combining their advantages before PPO normalization:</p>
     <div class="math-block">\[
       \widehat A_t^{\,w}=(1-w)\widehat A_t^{\,R}-w\widehat A_t^{\,C}.
@@ -75,11 +91,10 @@ last_modified_at: 2026-10-13
   </div>
   <figure class="paper-figure action-figure"><a href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-actions.svg" width="300" height="184" loading="lazy" alt="First-action probabilities in the same junction: seeking favors east, caution favors west, and entropy-matched seeking still favors east."></a><figcaption>Figure 3. The observation is unchanged. Matching the cautious actor's entropy sharpens the seeking distribution but preserves its preference for east.<br><a class="figure-source" href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
   <p class="source-note"><a href="{{ page.paper_url }}#page=2" target="_blank" rel="noopener">Sections 3 and 4; Figure 3 ↗</a></p>
-</section>
+  </details>
 
-<section class="research-section" id="calibration">
-  <h2>Selecting a setting for a requested cost</h2>
-  <div class="prose">
+  <details class="mood-results-detail" id="calibration"><summary>Calibrating a cost request</summary>
+  <div class="mood-technical">
     <p>A cost weight is not a budget in task units. Validation selects the highest-reward setting whose upper estimate of mean episode cost passes the request \(b\):</p>
     <div class="math-block">\[
       \widehat u(b)\in\underset{u:\,U_C(u)\leq b}{\arg\max}\ \widehat R_{\mathrm{val}}(u).
@@ -88,13 +103,18 @@ last_modified_at: 2026-10-13
     <p>Increasing ghost pursuit from 75% to 90% raises Pac-Mind++ cost at the same request to 0.248 under the original calibration. Recalibrating with shifted validation rollouts brings it to 0.181 without changing the actor, while reward in the shifted task falls from 134.2 to 128.3.</p>
   </div>
   <p class="source-note"><a href="{{ page.paper_url }}#page=12" target="_blank" rel="noopener">Tables 5 and 10 ↗</a></p>
+  </details>
 </section>
 
 <section class="research-section" id="scope">
-  <h2>Scope and limitations</h2>
+  <h2>Scope</h2>
   <div class="prose">
+    <p>The tests cover discrete, partially observed navigation with explicit hazard costs. Cost and risk estimates depend on the task and the states the supervisor visits. Changed hazards require new calibration checks.</p>
+  </div>
+  <details class="mood-results-detail"><summary>Evaluation limits and calibration costs</summary>
+  <div class="mood-technical">
     <p>The evaluation covers discrete, partially observed navigation with explicit hazard costs. Increasing the cost weight can raise total episode cost even when discounted cost falls, so deployment selection uses measured outcomes. The risk audit also finds underprediction in states visited during caution and after release.</p>
     <p>Calibration provides a common probability scale; separately tuned raw critic thresholds perform similarly. Static calibration requires 28,928 episodes per trained replicate, and alarm fitting and checking add 1,024 seeking episodes. Those costs are outside the policy-training comparison.</p>
   </div>
-
+  </details>
 </section>
