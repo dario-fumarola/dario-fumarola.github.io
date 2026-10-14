@@ -37,7 +37,6 @@
   let elapsed = 0;
   let startTime = 0;
   let frame = null;
-  let visible = false;
   let manuallyPaused = false;
   let hasLooped = false;
   let variantIndex = 0;
@@ -141,7 +140,10 @@
     frame=requestAnimationFrame(tick);
   }
   function play() {
-    if (frame!==null || !visible || document.hidden || manuallyPaused || reduceMotion.matches) return;
+    if (frame!==null || document.hidden || manuallyPaused || reduceMotion.matches) return;
+    const bounds=figure.getBoundingClientRect();
+    const shownHeight=Math.max(0,Math.min(bounds.bottom,innerHeight)-Math.max(bounds.top,0));
+    if (!bounds.height || shownHeight/bounds.height<.35) return;
     figure.dataset.playback='playing';
     startTime=performance.now()-elapsed;
     frame=requestAnimationFrame(tick);
@@ -154,12 +156,11 @@
   }
   toggle.addEventListener('click',() => {
     manuallyPaused=!manuallyPaused;
-    if (manuallyPaused) {pause();scene.style.opacity='1';figure.dataset.playback='paused';} else play();
+    if (manuallyPaused) {pause();scene.style.opacity='1';figure.dataset.playback='paused';} else {pause();play();}
     updateToggle();
   });
   const observer=new IntersectionObserver(entries => {
-    visible=entries[0].isIntersecting && entries[0].intersectionRatio>=.35;
-    if (visible) play(); else pause();
+    if (entries[0].isIntersecting && entries[0].intersectionRatio>=.35) play(); else pause();
   },{threshold:.35});
   observer.observe(figure);
   document.addEventListener('visibilitychange',() => {if(document.hidden) pause();else play();});
