@@ -3,7 +3,7 @@
 title: Dario Fumarola
 tagline: AI Researcher & Forward Deployed Engineer at AWS
 description: >-
-  Dario Fumarola is a Forward Deployed Engineer at Amazon Web Services and ML researcher in New York City,
+  Dario Fumarola is a Forward Deployed Engineer at Amazon Web Services and AI researcher in New York City,
   working on reinforcement learning, LLM agents, adaptive inference, reasoning, and model training.
 url: "https://dariofumarola.com"
 baseurl: ""
@@ -11,7 +11,7 @@ lang: en
 logo: /assets/img/dario-fumarola-logo.svg
 
 # Shown in the sidebar under the name (not used for SEO).
-motto: The true mystery of the world is the visible, not the invisible. (Oscar Wilde)
+motto: The true mystery of the world is the visible, not the invisible. · Oscar Wilde
 
 # Google Search Console ownership (emitted by jekyll-seo-tag as a meta tag)
 webmaster_verifications:

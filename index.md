@@ -2,7 +2,7 @@
 layout: default
 title: Dario Fumarola
 description: >-
-  Dario Fumarola is a Forward Deployed Engineer at Amazon Web Services and ML researcher in New York City,
+  Dario Fumarola is a Forward Deployed Engineer at Amazon Web Services and AI researcher in New York City,
   working on reinforcement learning, LLM agents, adaptive inference, reasoning, and model training.
 ---
 
@@ -48,7 +48,7 @@ description: >-
 <p>Two runtime controls for a frozen PPO actor, with validation-based cost selection and a calibrated risk alarm. Experiments test when caution prevents failure, when to release it, and how changed hazards affect the calibration.</p>
 <div class="card-links">
 <a href="./projects/mood-swings.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-<a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
+<a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf" target="_blank" rel="noopener">Paper</a>
 </div>
 </div>
 
@@ -58,7 +58,7 @@ description: >-
 <p>What should a recurrent controller remember after a local planner corrects its action? Paired experiments separate the benefit of retaining a corrected state from caching its plan, and test a rollback rule for changed targets or stale sensing.</p>
 <div class="card-links">
 <a href="./projects/elastic-state-models.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-<a href="https://neurips.cc/media/neurips-2025/Slides/128648_AAiShmx.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
+<a href="https://neurips.cc/media/neurips-2025/Slides/128648_AAiShmx.pdf" target="_blank" rel="noopener">Paper</a>
 </div>
 </div>
 
@@ -68,7 +68,7 @@ description: >-
 <p>A junction controller whose fallback can be postponed by incoming reports. An exact counterexample and workload tests show what an unconditional service deadline fixes, and how its duration trades service frequency against switching cost.</p>
 <div class="card-links">
 <a href="./projects/broadcast-gain.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-<a href="./assets/broadcast-gain.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
+<a href="./assets/broadcast-gain.pdf" target="_blank" rel="noopener">Paper</a>
 </div>
 </div>
 
@@ -87,7 +87,7 @@ description: >-
 
 <div class="xp-item">
 <h3>Amazon Science</h3>
-<p class="xp-org">Machine Learning Researcher &middot; 2023 to present</p>
+<p class="xp-org">AI Researcher &middot; 2023 to present</p>
 <p>Research on neuromodulated reinforcement learning, adaptive inference, and agent behavior. I also co-lead a Build on Trainium project on safe, social pretraining of LLM agents, including training infrastructure and evaluation across checkpoints.</p>
 </div>
 
