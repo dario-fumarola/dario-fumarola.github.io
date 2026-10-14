@@ -2,62 +2,92 @@
 layout: project
 project: mood
 title: "Mood Swings: Calibrated Reward-Cost Control in a Frozen PPO Policy"
-description: "Two controls for a frozen PPO actor, with validation-based cost selection and a calibrated risk alarm. Explore the method and results in Pac-Mind++ and MiniHack-HazardRooms."
+description: "Runtime control of a frozen PPO actor through cost conditioning, temperature, and calibrated risk supervision, evaluated in Pac-Mind++ and MiniHack-HazardRooms."
 authors: Dario Fumarola and Jin Tan Ruan
 venue: ICML 2025
 paper_url: https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf
 paper: /assets/mood-swings.pdf
+last_modified_at: 2026-10-13
 ---
 <header class="project-hero">
   <div>
-    <p class="eyebrow">Reinforcement learning · Runtime control</p>
+    <p class="eyebrow">Reinforcement learning</p>
     <h1>Mood Swings</h1>
     <p class="subtitle">Calibrated reward and cost control in a frozen PPO policy</p>
-    <p class="intro">A policy can take a shortcut or avoid a hazard without another training run. This work asks how to choose that behavior, when to switch into caution, and when to return to the task.</p>
+    <p class="intro">We study a frozen PPO actor with two runtime inputs: a relative cost weight and a sampling temperature. Validation rollouts map requested mean costs to settings, while a calibrated risk estimate controls entry into and release from caution.</p>
     <p class="byline">Dario Fumarola and Jin Tan Ruan · Amazon Web Services</p>
-    <div class="paper-links"><a class="outline-link" href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf" target="_blank" rel="noopener">Read paper <span aria-hidden="true">↗</span></a><a href="../assets/mood-swings.pdf" download>Download PDF</a><a href="https://icml.cc/media/icml-2025/Slides/46772_lAk9vrp.pdf" target="_blank" rel="noopener">2025 poster ↗</a></div>
+    <div class="paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper ↗</a><a href="{{ page.paper }}" download>Download PDF</a><a href="https://icml.cc/media/icml-2025/Slides/46772_lAk9vrp.pdf" target="_blank" rel="noopener">2025 poster ↗</a></div>
   </div>
-  <div class="explorer" aria-label="Illustration of policy controls">
-    <p class="eyebrow">Two controls, one actor</p>
-    <div class="segmented" role="group" aria-label="Example cost weight"><button type="button" data-mood="seeking" aria-pressed="true">Seeking · w = 0.2</button><button type="button" data-mood="cautious" aria-pressed="false">Cautious · w = 0.7</button></div>
-    <svg class="plot mood-map" viewBox="0 0 440 185" role="img" aria-labelledby="junction-title junction-desc">
-      <title id="junction-title">Two routes to the same target</title><desc id="junction-desc">The eastern route is shorter and passes near a hazard. The western route is a detour. Cost conditioning can change the preferred route.</desc>
-      <defs><pattern id="maze-grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" class="plot-grid"/></pattern></defs>
-      <rect x="75" y="15" width="270" height="150" rx="2" class="neutral-fill"/><rect x="75" y="15" width="270" height="150" fill="url(#maze-grid)"/><rect x="165" y="65" width="70" height="55" rx="2" class="wash-fill"/>
-      <path id="mood-west-route" d="M220 145H105V35H220" class="route inactive-route"/><path id="mood-east-route" d="M220 145H275V35H220" class="route active-route"/>
-      <circle cx="220" cy="145" r="11" class="neutral-fill neutral-stroke"/><text x="220" y="149" text-anchor="middle" class="plot-label">S</text><circle cx="220" cy="35" r="11" class="neutral-fill neutral-stroke"/><text x="220" y="39" text-anchor="middle" class="plot-label">P</text>
-      <rect x="307" y="92" width="16" height="16" rx="2" class="risk-fill"/><text x="336" y="104">hazard</text><text x="91" y="181">detour</text><text x="259" y="181">shortcut</text>
-    </svg>
-    <div class="policy-probs" id="mood-probs" aria-label="Action probabilities from example logits">
-      <div class="prob-column"><span>North</span><div class="prob-track"><span class="prob-fill" style="--probability:.054"></span></div><output>5%</output></div><div class="prob-column preferred"><span>East</span><div class="prob-track"><span class="prob-fill" style="--probability:.594"></span></div><output>59%</output></div><div class="prob-column"><span>South</span><div class="prob-track"><span class="prob-fill" style="--probability:.093"></span></div><output>9%</output></div><div class="prob-column"><span>West</span><div class="prob-track"><span class="prob-fill" style="--probability:.161"></span></div><output>16%</output></div><div class="prob-column"><span>Wait</span><div class="prob-track"><span class="prob-fill" style="--probability:.098"></span></div><output>10%</output></div>
-    </div>
-    <label class="range-label" for="mood-temperature"><span>Sampling temperature · τ</span><output id="mood-temperature-value" for="mood-temperature">0.29</output></label><input id="mood-temperature" type="range" min="0" max="1" step="0.01" value="0.285714" aria-describedby="mood-demo-note"><div class="range-ends"><span>More concentrated</span><span>More spread out</span></div>
-    <div class="inline-summary"><p id="mood-demo-summary" aria-live="polite">The example actor favors east. Temperature changes confidence while keeping action rankings.</p></div><p class="figure-note" id="mood-demo-note">Illustrative junction, inspired by Figure 3. These probabilities use example logits and the paper's temperature equation; they are not a model rollout.</p>
-  </div>
+  <figure class="paper-figure hero-figure">
+    <img src="../assets/figures/mood-junction.svg" width="149" height="130" alt="A Pac-Mind++ junction with a short eastern route past an active ghost and a longer western detour. S is the decision state and P is the target pellet.">
+    <figcaption>A decision state from the paper. Increasing the cost weight changes the preferred route from the eastern shortcut to the western detour.</figcaption>
+  </figure>
 </header>
-<div class="project-facts"><div><span class="fact-value">98.0%</span><span class="fact-label">of the full eight-actor library's mean coverage in Pac-Mind++</span></div><div><span class="fact-value">1/8</span><span class="fact-label">of that library's policy-training interactions; calibration is separate</span></div><div><span class="fact-value">12.6 → 5.0%</span><span class="fact-label">100-action failure from common Pac-Mind++ alarm states</span></div></div>
-<nav class="section-nav" aria-label="On this page"><a href="#method"><span>01</span>Controls</a><a href="#results"><span>02</span>Measured behavior</a><a href="#calibration"><span>03</span>Cost selection</a><a href="#limits"><span>04</span>What to watch</a></nav>
-<noscript><p>The figures show their default settings. Enable JavaScript to change the controls; the full results remain available in the paper.</p></noscript>
+<nav class="section-nav" aria-label="On this page"><a href="#method">Method</a><a href="#results">Results</a><a href="#calibration">Calibration</a><a href="#scope">Scope</a></nav>
+
 <section class="research-section" id="method">
-  <div class="section-intro"><div><span class="section-number">01 / Method</span><h2>Choose a behavior.<br>Then choose when to use it.</h2></div><p>The actor has two independent inputs. A relative cost weight changes its features through FiLM conditioning. A temperature scales the final logits. After training, validation rollouts select settings and calibrate a separate alarm.</p></div>
-  <div class="explainer-grid"><div><h3>Cost weight</h3><p>The actor is trained on a weighted combination of reward and hazard cost. Changing <i>w</i> can change which action it prefers.</p><div class="formula">A<sup>w</sup> = (1 − w) A<sup>R</sup> − w A<sup>C</sup></div></div><div><h3>Temperature</h3><p>Temperature acts only at the output. At a fixed observation and weight, increasing it spreads probability without changing action rankings.</p><div class="formula">π = softmax(z / T)<br>T(τ) = 0.7 × (1.8 / 0.7)<sup>τ</sup></div></div><div><h3>Risk alarm</h3><p>The cost critic is always queried at the seeking setting. A calibrated estimate of failure within 100 actions triggers a ten-action ramp into caution.</p><div class="formula">Enter: risk &gt; 0.10<br>Release: risk &lt; 0.04 for 5 actions</div></div></div>
-  <p class="source-note">Reversible supervision also enforces a 20-action minimum mode duration. Actor and critic weights remain frozen. <a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf#page=2" target="_blank" rel="noopener">Paper, Section 3 and Appendix D.2 ↗</a></p>
+  <h2>Policy controls and supervision</h2>
+  <div class="prose">
+    <p>The cost weight \(w\) conditions two actor layers through FiLM. The actor is trained with separate reward and cost critics, combining their advantages before PPO normalization:</p>
+    <div class="math-block">\[
+      \widehat A_t^{\,w}=(1-w)\widehat A_t^{\,R}-w\widehat A_t^{\,C}.
+    \]</div>
+    <p>Temperature acts only on the final logits. At a fixed observation and weight, increasing temperature preserves the action ranking and cannot decrease entropy.</p>
+    <div class="math-block">\[
+      \begin{aligned}
+      T(\tau)&=0.7\left(\frac{1.8}{0.7}\right)^\tau,\\
+      \pi_\theta(a\mid x,w,\tau)&=\operatorname{softmax}\!\left(\frac{z_\theta(x,w)}{T(\tau)}\right)_a.
+      \end{aligned}
+    \]</div>
+    <p>The supervisor evaluates the cost critic at a fixed seeking setting throughout the episode. Isotonic calibration maps that score to the probability of failure within 100 actions under continued seeking. The default alarm ramps \(w\) from 0.2 to 0.7 over ten actions. Reversible supervision releases caution after five eligible decisions below 0.04, with a 20-action minimum duration in each mode.</p>
+  </div>
+  <figure class="paper-figure action-figure"><img src="../assets/figures/mood-actions.svg" width="300" height="184" loading="lazy" alt="First-action probabilities in the same junction: seeking favors east, caution favors west, and entropy-matched seeking still favors east."><figcaption>Figure 3. The observation is unchanged. Matching the cautious actor's entropy sharpens the seeking distribution but preserves its preference for east.</figcaption></figure>
+  <p class="source-note"><a href="{{ page.paper_url }}#page=2" target="_blank" rel="noopener">Sections 3 and 4; Figure 3 ↗</a></p>
 </section>
+
 <section class="research-section" id="results">
-  <div class="section-intro"><div><span class="section-number">02 / Results</span><h2>Caution helps.<br>Too much can stop progress.</h2></div><p>These branches start at the same saved alarm states. Raising the cost weight reduces failure more than matching the cautious policy's entropy. Pushing the weight further reduces failures again, but many more episodes time out.</p></div>
-  <div class="controls-row"><label class="control-label" for="mood-task">Task <select id="mood-task"><option value="pac">Pac-Mind++</option><option value="hack">MiniHack-HazardRooms</option></select></label><span class="chart-unit">Measured continuations · 12 trained replicates</span></div>
-  <div class="result-layout"><div><div class="chart-heading"><h3>Failure within 100 actions</h3><span class="chart-unit">Lower is better · 95% intervals</span></div><div class="bar-chart" id="mood-failure-chart" aria-live="polite"><div class="bar-row"><span class="bar-name">Continue seeking</span><div class="bar-track"><span class="bar" style="--bar-width:63%"></span></div><span class="bar-number">12.6%<small>[11.4, 13.9]</small></span></div><div class="bar-row"><span class="bar-name">Entropy-matched seeking</span><div class="bar-track"><span class="bar" style="--bar-width:42%"></span></div><span class="bar-number">8.4%<small>[7.4, 9.5]</small></span></div><div class="bar-row highlight"><span class="bar-name">Cost weight to 0.7</span><div class="bar-track"><span class="bar" style="--bar-width:25%"></span></div><span class="bar-number">5.0%<small>[4.3, 5.8]</small></span></div><div class="bar-row"><span class="bar-name">Cost weight to 0.8</span><div class="bar-track"><span class="bar" style="--bar-width:19.5%"></span></div><span class="bar-number">3.9%<small>[3.2, 4.7]</small></span></div></div><p class="source-note">Bars share a 0–20% scale. <a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf#page=15" target="_blank" rel="noopener">Paper, Table 11 ↗</a></p></div>
-  <div><div class="chart-heading"><h3>Follow-up to the deadline</h3></div><div class="chart-legend"><span><i class="legend-dot"></i>Completion</span><span><i class="legend-dot failure"></i>Failure</span><span><i class="legend-dot timeout"></i>Timeout</span></div><div id="mood-deadline-chart" aria-live="polite"><div class="stack-row"><div class="stack-label">Continue seeking</div><div class="stack-bar"><span style="--share:56.8%"></span><span class="failure" style="--share:27.4%"></span><span class="timeout" style="--share:15.8%"></span></div><div class="stack-values">56.8% completed · 27.4% failed · 15.8% timed out</div></div><div class="stack-row"><div class="stack-label">Cost weight to 0.7</div><div class="stack-bar"><span style="--share:63.4%"></span><span class="failure" style="--share:13.6%"></span><span class="timeout" style="--share:23%"></span></div><div class="stack-values">63.4% completed · 13.6% failed · 23.0% timed out</div></div><div class="stack-row"><div class="stack-label">Cost weight to 0.8</div><div class="stack-bar"><span style="--share:49.2%"></span><span class="failure" style="--share:10.2%"></span><span class="timeout" style="--share:40.6%"></span></div><div class="stack-values">49.2% completed · 10.2% failed · 40.6% timed out</div></div></div><p class="source-note">All branches keep the original task deadline. <a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf#page=15" target="_blank" rel="noopener">Paper, Table 12; intervals in PDF ↗</a></p></div></div>
-  <div class="findings"><div><h3>Timing matters</h3><p>With the actor fixed, calibrated reversible switching reaches 5.0% reset-based failure in Pac-Mind++, versus 7.2% for a hazard-blind schedule with similar caution time. Separately tuned critic thresholds reach 5.1%.</p></div><div><h3>Release matters, too</h3><p>Returning to seeking raises Pac-Mind++ completion from 62.1% to 64.6% compared with latching in caution. Failure moves from 4.7% to 5.0%. Those are complete episodes from reset, a different population from the alarm-state charts.</p></div></div><p class="source-note"><a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf#page=5" target="_blank" rel="noopener">Paper, Tables 1, 3 and 4 ↗</a></p>
+  <h2>Behavior from common alarm states</h2>
+  <div class="prose"><p>Branches start from the same saved alarm states and retain the original task deadline. Raising the cost weight reduces 100-action failure more than entropy matching alone. The cautious branch also improves eventual completion.</p></div>
+  <div class="table-scroll" tabindex="0" aria-label="Failure results, horizontally scrollable">
+    <table><caption>100-action failure (%) with 95% intervals. Table 11.</caption><thead><tr><th scope="col">Intervention</th><th scope="col">Pac-Mind++</th><th scope="col">HazardRooms</th></tr></thead><tbody>
+      <tr><th scope="row">Continue seeking</th><td>12.6 [11.4, 13.9]</td><td>18.4 [16.7, 20.1]</td></tr>
+      <tr><th scope="row">Entropy-matched seeking</th><td>8.4 [7.4, 9.5]</td><td>13.1 [11.7, 14.6]</td></tr>
+      <tr class="result-emphasis"><th scope="row">Cost weight to 0.7</th><td>5.0 [4.3, 5.8]</td><td>7.9 [6.7, 9.2]</td></tr>
+      <tr><th scope="row">Cost weight to 0.8</th><td>3.9 [3.2, 4.7]</td><td>6.2 [5.1, 7.5]</td></tr>
+    </tbody></table>
+  </div>
+  <div class="prose">
+    <p>The highest weight reduces short-window failure further, but completion falls. In Pac-Mind++, increasing the response weight from 0.7 to 0.8 lowers completion from 63.4% to 49.2% and raises timeouts from 23.0% to 40.6%. HazardRooms shows the same pattern.</p>
+    <p>Complete episodes from reset test the supervisor as well as the available behavior. In Pac-Mind++, reversible calibrated switching reaches 5.0% failure, compared with 7.2% for a hazard-blind schedule with similar caution time. Releasing caution raises completion from 62.1% to 64.6% compared with a latched response, while failure rises from 4.7% to 5.0%.</p>
+  </div>
+  <h3>Shared training and coverage</h3>
+  <div class="figure-pair">
+    <figure class="paper-figure"><img src="../assets/figures/mood-frontier-pac.svg" width="247" height="148" loading="lazy" alt="Pac-Mind++ reward-cost frontiers for MC-PPO, CCPO, and eight-actor libraries at matched and full training budgets."></figure>
+    <figure class="paper-figure"><img src="../assets/figures/mood-frontier-hack.svg" width="247" height="148" loading="lazy" alt="MiniHack-HazardRooms reward-cost frontiers. MC-PPO and CCPO are close, and the full-budget eight-actor library has a small advantage."></figure>
+  </div>
+  <p class="source-note">Figure 4. Test-set envelopes of the best observed reward within each cost ceiling. Both libraries shown here use logit mixing.</p>
+  <div class="prose"><p>MC-PPO retains 98.0% and 97.2% of the full eight-actor <em>action mixture's</em> mean reward-cost coverage in the two tasks, using one-eighth of its policy-training interactions. Calibration rollouts are separate from that budget. CCPO remains a competitive single-policy alternative.</p></div>
+  <p class="source-note"><a href="{{ page.paper_url }}#page=5" target="_blank" rel="noopener">Tables 1, 3, 4, 11–13; Figure 4 ↗</a></p>
 </section>
+
 <section class="research-section" id="calibration">
-  <div class="section-intro"><div><span class="section-number">03 / Calibration</span><h2>A weight is not a cost budget.</h2></div><p>Validation chooses the highest-reward setting whose upper estimate of mean episode cost passes the request. The chosen setting is then held fixed on unseen layouts. A tighter request can mean much less task completion.</p></div>
-  <div class="explorer"><div class="controls-row"><label class="control-label" for="budget-task">Task <select id="budget-task"><option value="pac">Pac-Mind++</option><option value="hack">MiniHack-HazardRooms</option></select></label><span class="eyebrow" style="margin:0">Held-out results · Table 5</span></div><div class="budget-layout"><div><span class="control-label">Requested mean episode cost</span><div class="segmented budget-options" role="group" aria-label="Requested mean episode cost"><button type="button" data-budget="0" aria-pressed="false">0.10</button><button type="button" data-budget="1" aria-pressed="false">0.15</button><button type="button" data-budget="2" aria-pressed="true">0.20</button><button type="button" data-budget="3" aria-pressed="false">0.35</button><button type="button" data-budget="4" aria-pressed="false">0.50</button></div>
-  <svg class="plot" id="budget-plot" viewBox="0 0 470 235" role="img" aria-label="Requested versus held-out mean episode cost"><g class="plot-grid"><path d="M50 163.18H440M50 99.55H440M50 35.91H440"/></g><path class="plot-axis" d="M50 20V195H440" fill="none"/><path d="M50 195L440 20" fill="none" class="neutral-stroke" stroke-dasharray="4 5"/><text x="56" y="25">mean cost</text><text x="283" y="228">requested cost</text><text x="37" y="199" text-anchor="end">0</text><text x="35" y="40" text-anchor="end">0.5</text><text x="50" y="215" text-anchor="middle">0</text><text x="404.55" y="215" text-anchor="middle">0.5</text><path id="budget-curve" d="M121 169L156 155L192 142L298 97L405 52" fill="none" class="ink" stroke-width="2"/><g id="budget-dots" class="ink-fill"></g><circle id="budget-selected" cx="192" cy="142" r="6" class="ink-fill"/><text x="255" y="32">dotted: exact agreement</text></svg></div>
-  <dl class="readout-grid" id="budget-readout" aria-live="polite"><div><dt>Test mean cost</dt><dd id="budget-cost">0.168<small>95% interval [0.158, 0.178]</small></dd></div><div><dt>Episode reward</dt><dd id="budget-reward">142.4</dd></div><div><dt>Completion</dt><dd id="budget-completion">51.8%</dd></div><div><dt>Layouts above request</dt><dd id="budget-exceedance">18.8%<small>Estimated mean cost per seed–layout cell</small></dd></div></dl></div><p class="figure-note">Five measured operating points; vertical marks show 95% intervals. Lines connect the measured means. The request concerns the layout mixture's mean cost, not a guarantee for each layout or episode.</p></div>
-  <div class="findings"><div><h3>Changed hazards break the mapping</h3><p>Increasing ghost pursuit from 75% to 90% raises cost at a 0.20 request from 0.168 to 0.248 with the original calibration. New validation rollouts bring it to 0.181 with the same actor, while reward falls from 134.2 to 128.3 in the shifted task.</p></div><div><h3>Sharing training goes a long way</h3><p>One actor retains 98.0% and 97.2% of the full eight-actor action mixture's mean reward–cost coverage in the two tasks. It uses one-eighth of the policy-training interactions. CCPO is a competitive single-policy alternative.</p></div></div><p class="source-note"><a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf#page=12" target="_blank" rel="noopener">Paper, Tables 5, 10 and 13 ↗</a></p>
+  <h2>Selecting a setting for a requested cost</h2>
+  <div class="prose">
+    <p>A cost weight is not a budget in task units. Validation selects the highest-reward setting whose upper estimate of mean episode cost passes the request \(b\):</p>
+    <div class="math-block">\[
+      \widehat u(b)\in\underset{u:\,U_C(u)\leq b}{\arg\max}\ \widehat R_{\mathrm{val}}(u).
+    \]</div>
+    <p>The selected setting is held fixed on unseen layouts. At \(b=0.20\), mean cost is 0.168 [0.158, 0.178] in Pac-Mind++ and 0.167 [0.157, 0.177] in HazardRooms. The aggregate means pass the request, but estimated layout-level means exceed it in 18.8% and 19.8% of seed-layout cells.</p>
+    <p>Increasing ghost pursuit from 75% to 90% raises Pac-Mind++ cost at the same request to 0.248 under the original calibration. Recalibrating with shifted validation rollouts brings it to 0.181 without changing the actor, while reward in the shifted task falls from 134.2 to 128.3.</p>
+  </div>
+  <p class="source-note"><a href="{{ page.paper_url }}#page=12" target="_blank" rel="noopener">Tables 5 and 10 ↗</a></p>
 </section>
-<section class="research-section" id="limits">
-  <div class="section-intro"><div><span class="section-number">04 / Scope</span><h2>Calibration needs checking.</h2></div><p>The experiments cover discrete navigation with explicit hazard costs. The useful result is a way to select and supervise a frozen actor. Its reliability still depends on the task distribution and the states visited after switching.</p></div>
-  <div class="details-list"><details><summary>What does calibration add?</summary><p>It gives the critic score a probability scale. It adds no ranking information: raw-score thresholds tuned separately per seed perform similarly. Audits still find underprediction during caution and after release.</p></details><details><summary>Does more cost weight always reduce total cost?</summary><p>No. Discounted training cost and total episode cost can move in opposite directions. Total-cost reversals occur in 4.2% of adjacent-weight comparisons in Pac-Mind++ and 6.3% in HazardRooms. The selector uses measured episode cost rather than assuming monotonicity.</p></details><details><summary>What is outside the training-budget comparison?</summary><p>Static calibration uses 28,928 episodes per trained replicate; alarm fitting and checking add 1,024 seeking episodes. Those interactions are separate from the policy-training budget. The paper does not compare hardware latency, energy, or end-to-end compute.</p></details></div><p class="source-note"><a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf#page=7" target="_blank" rel="noopener">Paper, Discussion and Appendix D ↗</a></p><p class="archive-note">The paper linked here is the current write-up. The 2025 poster records the earlier presentation.</p>
+
+<section class="research-section" id="scope">
+  <h2>Scope and limitations</h2>
+  <div class="prose">
+    <p>The evaluation covers discrete, partially observed navigation with explicit hazard costs. Increasing the cost weight can raise total episode cost even when discounted cost falls, so deployment selection uses measured outcomes. The risk audit also finds underprediction in states visited during caution and after release.</p>
+    <p>Calibration provides a common probability scale; separately tuned raw critic thresholds perform similarly. Static calibration requires 28,928 episodes per trained replicate, and alarm fitting and checking add 1,024 seeking episodes. Those costs are outside the policy-training comparison.</p>
+  </div>
+  <p class="archive-note">The linked paper is the current write-up. The 2025 poster records the earlier presentation.</p>
 </section>

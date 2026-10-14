@@ -12,7 +12,29 @@
     })();
   </script>
   {% seo %}
-  <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg' | relative_url }}">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "@id": "{{ page.url | absolute_url }}#paper",
+    "headline": {{ page.title | jsonify }},
+    "description": {{ page.description | jsonify }},
+    "url": "{{ page.url | absolute_url }}",
+    "mainEntityOfPage": "{{ page.url | absolute_url }}",
+    "dateModified": "2026-10-13",
+    "author": [{% assign names = page.authors | split: ' and ' %}{% for name in names %}{"@type":"Person","name":{{ name | jsonify }}{% if name == 'Dario Fumarola' %},"url":"{{ site.url }}/"{% endif %}}{% unless forloop.last %},{% endunless %}{% endfor %}],
+    "encoding": {"@type":"MediaObject","encodingFormat":"application/pdf","contentUrl":"{% if page.paper_url %}{{ page.paper_url }}{% else %}{{ page.paper | absolute_url }}{% endif %}"}
+  }
+  </script>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+      chtml: { matchFontHeight: false },
+      options: { renderActions: { addMenu: [] } }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+  <link rel="icon" type="image/svg+xml" href="{{ '/assets/favicon.svg?v=monogram-1' | relative_url }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -36,6 +58,6 @@
     {% include footer.html %}
   </main>
   <script src="{{ '/assets/js/theme.js?v=editorial-1' | relative_url }}" defer></script>
-  <script src="{{ '/assets/js/projects.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>
+  {% if page.project == 'broadcast' %}<script src="{{ '/assets/js/projects.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>{% endif %}
 </body>
 </html>

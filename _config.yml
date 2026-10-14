@@ -8,7 +8,7 @@ description: >-
 url: "https://dario-fumarola.github.io"
 baseurl: ""
 lang: en
-logo: /assets/img/logo.png
+logo: /assets/img/dario-fumarola-logo.png
 
 # Shown in the sidebar under the name (not used for SEO).
 motto: The true mystery of the world is the visible, not the invisible. (Oscar Wilde)
@@ -19,15 +19,16 @@ webmaster_verifications:
 
 author:
   name: Dario Fumarola
-  email: dariofumarola90@gmail.com
+  email: hello@dariofumarola.com
 
 defaults:
   - scope:
       path: ""
     values:
-      image: /assets/img/logo.png
+      image: /assets/photos/portrait.jpeg
 
 show_downloads: true
+booking_url: "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3PNvFOv0xRf1-V-bKO_ehUtRiCQglS4WPseHFpyrXI8Clh4KNQHOAflKFRSL1NezU7S_utICXw?gv=true"
 theme: jekyll-theme-minimal
 
 plugins:

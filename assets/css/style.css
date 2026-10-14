@@ -1,4 +1,4 @@
-@import url("design.css?v=editorial-1");
+@import url("design.css?v=editorial-2");
 .wrapper { max-width: calc(var(--page-width) + var(--page-gutter) * 2); margin: 0 auto; padding: 0 var(--page-gutter); }
 .hero {
   display: grid; grid-template-columns: minmax(0, 1fr) 290px;
@@ -100,7 +100,7 @@
   .about-copy, .work-grid, .background-grid { grid-template-columns: minmax(0, 1fr); }
   .about-copy { gap: 18px; }
   .contact-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 360px; }
-  .contact-links a[href^="mailto:"] { grid-column: 1 / -1; }
+  .contact-links a[href^="mailto:"], .contact-links .booking-link { grid-column: 1 / -1; }
   .page-section { padding: 28px 0; }
   .project-card { padding-left: 40px; }
   .work-icon { width: 23px; height: 23px; }

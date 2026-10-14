@@ -10,7 +10,7 @@ description: >-
 <h2 id="about">About Me</h2>
 <div class="about-copy">
 <p>My research focuses on reinforcement learning for LLM and embodied agents, adaptive computation, and runtime control. I'm interested in how agents adapt to new conditions and how we can evaluate their reasoning, cooperation, and safety.</p>
-<p>Alongside my engineering work, I conduct research at Amazon Science and co-lead a Build on Trainium project on safe, social pretraining of LLM agents. I'm open to research collaborations; <a href="mailto:dariofumarola90@gmail.com">get in touch</a> if you'd like to work together.</p>
+<p>Alongside my engineering work, I conduct research at Amazon Science and co-lead a Build on Trainium project on safe, social pretraining of LLM agents. I'm open to research collaborations; <a href="mailto:hello@dariofumarola.com">get in touch</a> if you'd like to work together.</p>
 </div>
 </section>
 
