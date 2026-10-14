@@ -89,7 +89,7 @@
             <p class="site-role">Forward Deployed Engineer, AWS<br>AI Researcher</p>
             {% include hero-intro.html %}
             {% include profile-links.html %}
-            {% if site.motto %}<p class="site-tagline">{{ site.motto }}</p>{% endif %}
+            {% if site.motto %}<p class="site-tagline">{{ site.motto }}{% if site.motto_author %} <span class="quote-attribution">&middot; {{ site.motto_author }}</span>{% endif %}</p>{% endif %}
           </div>
           {% include portrait-slideshow.html %}
         </section>

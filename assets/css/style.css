@@ -1,4 +1,4 @@
-@import url("design.css?v=editorial-3");
+@import url("design.css?v=polish-1");
 .wrapper { max-width: calc(var(--page-width) + var(--page-gutter) * 2); margin: 0 auto; padding: 0 var(--page-gutter); }
 .hero {
   display: grid; grid-template-columns: minmax(0, 1fr) 290px;
@@ -31,6 +31,7 @@
 .portrait-controls svg { width: 15px; height: 15px; }
 .photo-count { font-size: 10px; color: var(--muted); min-width: 29px; text-align: center; font-variant-numeric: tabular-nums; }
 .site-tagline { margin: 14px 0 0; font: italic 400 15px/1.45 var(--font-serif); color: var(--muted); }
+.quote-attribution { white-space: nowrap; }
 .content { min-width: 0; }
 .page-section { padding: 28px 0 30px; border-bottom: 1px solid var(--border); }
 .section-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
@@ -54,7 +55,7 @@
 .venue-badge { order: -1; color: var(--accent); font-family: var(--font-sans); font-size: 10px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
 .project-card p { margin: 0 0 16px; max-width: 100ch; font-size: 14px; line-height: 1.65; }
 .card-links { display: flex; align-items: center; flex-wrap: wrap; gap: 22px; margin-top: auto; font-size: 12px; }
-.card-links a { display: inline-flex; align-items: center; gap: 12px; }
+.card-links a { display: inline-flex; align-items: center; gap: 12px; min-height: 36px; }
 .card-links svg { width: 17px; height: 17px; stroke: currentColor; }
 .project-card:last-child { border-bottom: 0; }
 .background-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 52px; padding-top: 34px; }
@@ -93,11 +94,14 @@
   .hero-copy { grid-row: auto; }
   .site-name { font-size: clamp(39px, 10.5vw, 52px); }
   .hero .eyebrow { font-size: 10px; margin-bottom: 20px; }
-  .portrait-gallery { max-width: 250px; }
+  .site-role { font-size: clamp(20px, 5.9vw, 23px); }
+  .portrait-gallery { max-width: 290px; margin-inline: auto; }
+  .portrait-controls button { width: 44px; height: 44px; }
   .about-copy, .work-grid, .background-grid { grid-template-columns: minmax(0, 1fr); }
   .about-copy { gap: 18px; }
   .contact-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 360px; }
   .contact-links a[href^="mailto:"], .contact-links .booking-link { grid-column: 1 / -1; }
+  .contact-links .outline-link { min-height: 44px; }
   .page-section { padding: 28px 0; }
   .project-card { padding-left: 40px; }
   .work-icon { width: 23px; height: 23px; }

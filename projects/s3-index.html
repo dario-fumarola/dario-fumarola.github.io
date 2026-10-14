@@ -1,3 +1,6 @@
+---
+layout: null
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +33,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
-  <link rel="stylesheet" href="../assets/css/paper.css?v=editorial-1">
+  <link rel="stylesheet" href="{{ '/assets/css/paper.css?v=' | append: site.github.build_revision | relative_url }}">
     <!-- MathJax configuration -->
     <script>
       window.MathJax = {
@@ -46,23 +49,7 @@
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="brand" href="../">Dario Fumarola</a>
-    <nav class="site-nav" aria-label="Main navigation">
-      <a href="../#about">About</a>
-      <a href="../#research-interests">Research</a>
-      <a href="../#presented-work">Work</a>
-      <a href="../#experience">Experience</a>
-      <a href="../#education">Education</a>
-      <a href="../#contact">Contact</a>
-      <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-    </button>
-    </nav>
-  </div>
-</header>
+{% include topbar.html %}
   <main class="paper-content" id="main-content">
   <p class="eyebrow">Research &middot; Machine Learning</p>
 <h1>Cloud-Native Vector Search: Hierarchical Graph Partitioning for S3-Optimized Nearest Neighbor Search</h1>
@@ -344,27 +331,7 @@ style E fill:#bbf,stroke:#333
 
   </main>
   <div class="paper-footer">
-<footer class="site-footer" id="contact">
-  <div>
-    <a class="footer-name" href="../">Dario Fumarola</a>
-    <p class="footer-role">Forward Deployed Engineer, AWS<br>AI Researcher</p>
-  </div>
-  <div class="footer-links">
-    <a href="mailto:hello@dariofumarola.com">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
-            hello@dariofumarola.com
-          </a>
-    <a href="https://github.com/dario-fumarola" rel="me">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-            GitHub
-          </a>
-    <a href="https://www.linkedin.com/in/fumarolad" rel="me">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V8h4v2a6 6 0 0 1 2-2z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            LinkedIn
-          </a>
-    <p class="footer-credit">&copy; 2026 Dario Fumarola</p>
-  </div>
-</footer>
+{% include footer.html %}
   </div>
   <script src="../assets/js/theme.js?v=editorial-1" defer></script>
 </body>

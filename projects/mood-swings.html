@@ -19,8 +19,8 @@ last_modified_at: 2026-10-13
     <div class="paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper ↗</a><a href="{{ page.paper }}" download>Download PDF</a></div>
   </div>
   <figure class="paper-figure hero-figure">
-    <img src="../assets/figures/mood-junction.svg" width="149" height="130" alt="A Pac-Mind++ junction with a short eastern route past an active ghost and a longer western detour. S is the decision state and P is the target pellet.">
-    <figcaption>A decision state from the paper. Increasing the cost weight changes the preferred route from the eastern shortcut to the western detour.</figcaption>
+    <a href="../assets/figures/mood-junction.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-junction.svg" width="149" height="130" alt="A Pac-Mind++ junction with a short eastern route past an active ghost and a longer western detour. S is the decision state and P is the target pellet."></a>
+    <figcaption>A decision state from the paper. Increasing the cost weight changes the preferred route from the eastern shortcut to the western detour.<br><a class="figure-source" href="../assets/figures/mood-junction.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption>
   </figure>
 </header>
 <nav class="section-nav" aria-label="On this page"><a href="#method">Method</a><a href="#results">Results</a><a href="#calibration">Calibration</a><a href="#scope">Scope</a></nav>
@@ -41,7 +41,7 @@ last_modified_at: 2026-10-13
     \]</div>
     <p>The supervisor evaluates the cost critic at a fixed seeking setting throughout the episode. Isotonic calibration maps that score to the probability of failure within 100 actions under continued seeking. The default alarm ramps \(w\) from 0.2 to 0.7 over ten actions. Reversible supervision releases caution after five eligible decisions below 0.04, with a 20-action minimum duration in each mode.</p>
   </div>
-  <figure class="paper-figure action-figure"><img src="../assets/figures/mood-actions.svg" width="300" height="184" loading="lazy" alt="First-action probabilities in the same junction: seeking favors east, caution favors west, and entropy-matched seeking still favors east."><figcaption>Figure 3. The observation is unchanged. Matching the cautious actor's entropy sharpens the seeking distribution but preserves its preference for east.</figcaption></figure>
+  <figure class="paper-figure action-figure"><a href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-actions.svg" width="300" height="184" loading="lazy" alt="First-action probabilities in the same junction: seeking favors east, caution favors west, and entropy-matched seeking still favors east."></a><figcaption>Figure 3. The observation is unchanged. Matching the cautious actor's entropy sharpens the seeking distribution but preserves its preference for east.<br><a class="figure-source" href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
   <p class="source-note"><a href="{{ page.paper_url }}#page=2" target="_blank" rel="noopener">Sections 3 and 4; Figure 3 ↗</a></p>
 </section>
 
@@ -62,8 +62,8 @@ last_modified_at: 2026-10-13
   </div>
   <h3>Shared training and coverage</h3>
   <div class="figure-pair">
-    <figure class="paper-figure"><img src="../assets/figures/mood-frontier-pac.svg" width="247" height="148" loading="lazy" alt="Pac-Mind++ reward-cost frontiers for MC-PPO, CCPO, and eight-actor libraries at matched and full training budgets."></figure>
-    <figure class="paper-figure"><img src="../assets/figures/mood-frontier-hack.svg" width="247" height="148" loading="lazy" alt="MiniHack-HazardRooms reward-cost frontiers. MC-PPO and CCPO are close, and the full-budget eight-actor library has a small advantage."></figure>
+    <figure class="paper-figure"><a href="../assets/figures/mood-frontier-pac.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-frontier-pac.svg" width="247" height="148" loading="lazy" alt="Pac-Mind++ reward-cost frontiers for MC-PPO, CCPO, and eight-actor libraries at matched and full training budgets."></a><figcaption><a class="figure-source" href="../assets/figures/mood-frontier-pac.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
+    <figure class="paper-figure"><a href="../assets/figures/mood-frontier-hack.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-frontier-hack.svg" width="247" height="148" loading="lazy" alt="MiniHack-HazardRooms reward-cost frontiers. MC-PPO and CCPO are close, and the full-budget eight-actor library has a small advantage."></a><figcaption><a class="figure-source" href="../assets/figures/mood-frontier-hack.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
   </div>
   <p class="source-note">Figure 4. Test-set envelopes of the best observed reward within each cost ceiling. Both libraries shown here use logit mixing.</p>
   <div class="prose"><p>MC-PPO retains 98.0% and 97.2% of the full eight-actor <em>action mixture's</em> mean reward-cost coverage in the two tasks, using one-eighth of its policy-training interactions. Calibration rollouts are separate from that budget. CCPO remains a competitive single-policy alternative.</p></div>

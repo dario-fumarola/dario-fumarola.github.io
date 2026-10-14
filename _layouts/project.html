@@ -48,7 +48,7 @@
     {{ content }}
     <div class="paper-end">
       <div><p class="eyebrow">Full paper</p><h2>{{ page.title }}</h2><p>{{ page.authors }} · Amazon Web Services</p></div>
-      <div class="paper-links"><a class="outline-link" href="{% if page.paper_url %}{{ page.paper_url }}{% else %}{{ page.paper | relative_url }}{% endif %}" target="_blank" rel="noopener">Read the paper <span aria-hidden="true">↗</span></a>{% if page.paper %}<a href="{{ page.paper | relative_url }}" download>Download PDF</a>{% endif %}</div>
+      <div class="paper-links"><a class="outline-link" href="{% if page.paper_url %}{{ page.paper_url }}{% else %}{{ page.paper | relative_url }}{% endif %}" target="_blank" rel="noopener">Read paper <span aria-hidden="true">↗</span></a>{% if page.paper %}<a href="{{ page.paper | relative_url }}" download>Download PDF</a>{% endif %}</div>
     </div>
     <nav class="related-work" aria-label="Other project pages">
       {% unless page.project == 'mood' %}<a href="{{ '/projects/mood-swings.html' | relative_url }}"><span class="eyebrow">ICML 2025</span><span>Mood Swings <span aria-hidden="true">↗</span></span></a>{% endunless %}
