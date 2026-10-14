@@ -10,7 +10,7 @@
 .project-mood .project-hero .subtitle { margin-bottom:0; }
 .project-mood .research-section h2 { font-size:28px; margin-bottom:18px; }
 .project-mood .research-section h3 { font-size:22px; }
-.project-mood .byline { margin:14px 0; }
+.project-mood .byline { margin:18px 0 0; }
 .mood-scenes { grid-area:visual; display:grid; grid-template-columns:1fr 1fr; gap:0 48px; min-width:0; }
 .mood-scene { margin:0; min-width:0; border-top:1px solid var(--border); padding-top:18px; }
 .mood-scene-heading { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:6px 16px; margin-bottom:16px; }
