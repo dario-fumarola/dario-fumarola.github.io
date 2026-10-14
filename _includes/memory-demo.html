@@ -1,0 +1,16 @@
+<figure class="memory-demo" data-phase="next" data-playback="static">
+  <div class="memory-demo-heading"><h2>One action, two memories</h2><span>Retain or discard</span></div>
+  <ol class="memory-sequence" aria-label="Sequence"><li>Propose</li><li>Correct</li><li>Store</li><li>Next input</li></ol>
+  <div class="memory-flow">
+    <div class="memory-common memory-source"><span class="memory-source-label">Corrected state</span><div class="memory-vector is-corrected" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <svg class="memory-shared-arrow" viewBox="0 0 18 22" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M9 1v18m-4-4 4 4 4-4"/></svg>
+    <p class="memory-common-action">Same corrected action</p>
+    <div class="memory-fork" aria-hidden="true"><svg viewBox="0 0 100 24" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.2"><path vector-effect="non-scaling-stroke" d="M50 0v8H25v16M50 8h25v16"/></svg><i class="memory-branch-pulse"></i><i class="memory-branch-pulse"></i></div>
+    <div class="memory-branches">
+      <div class="memory-branch memory-retain"><h3>Retain</h3><p>Keep the corrected state</p><div class="memory-vector is-corrected" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><svg class="memory-next-arrow" viewBox="0 0 18 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M9 1v20m-4-4 4 4 4-4"/></svg><div class="memory-next-update">Next recurrent update</div></div>
+      <div class="memory-branch memory-discard"><h3>Discard</h3><p>Keep the original proposal</p><div class="memory-vector" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div><svg class="memory-next-arrow" viewBox="0 0 18 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="3 3" aria-hidden="true"><path d="M9 1v20m-4-4 4 4 4-4"/></svg><div class="memory-next-update">Next recurrent update</div></div>
+    </div>
+  </div>
+  <figcaption class="memory-demo-caption">The next observation is identical. Each branch starts from a different memory.</figcaption>
+  <div class="memory-demo-controls"><a class="figure-source" href="../assets/figures/memory-intervention.svg" target="_blank" rel="noopener">Paper's intervention diagram</a><button class="memory-motion-toggle" type="button" aria-pressed="false" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg><span>Pause motion</span></button></div>
+</figure>

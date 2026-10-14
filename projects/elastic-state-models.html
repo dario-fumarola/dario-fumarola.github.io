@@ -2,83 +2,172 @@
 layout: project
 project: memory
 title: "Who Needs Attention Anyway? Retaining State Corrections in Recurrent Control"
-description: "Paired interventions test whether retaining a recurrent-state correction improves future decisions beyond caching a plan, with navigation, chain control, and context rollback experiments."
+description: "A frozen recurrent controller can keep a local state correction for its next decision. Paired interventions measure the benefit beyond reusing the same corrected plan, and when to roll a correction back."
 authors: Dario Fumarola
 venue: NeurIPS 2025
 paper_url: https://neurips.cc/media/neurips-2025/Slides/128648_AAiShmx.pdf
 paper: /assets/who-needs-attention-anyway.pdf
-last_modified_at: 2026-10-13
+last_modified_at: 2026-10-14
 ---
 <header class="project-hero">
-  <div><p class="eyebrow">Recurrent control</p><h1>Who Needs<br>Attention Anyway?</h1><p class="subtitle">Retaining state corrections in recurrent control</p><p class="intro">A local optimizer can improve a recurrent controller's action while leaving its memory unchanged. We test whether retaining the corrected state improves subsequent decisions, beyond the benefit of caching the same corrected plan.</p><p class="byline">Dario Fumarola · Amazon Web Services</p><div class="paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper ↗</a><a href="{{ page.paper }}" download>Download PDF</a></div></div>
-  <figure class="paper-figure hero-figure"><a href="../assets/figures/memory-intervention.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/memory-intervention.svg" width="172" height="137" alt="A single common correction is followed by an identical executed action, then two branches retain or discard the corrected recurrent state."></a><figcaption>Figure 1. The same-action intervention changes only the memory passed to the next recurrence.<br><a class="figure-source" href="../assets/figures/memory-intervention.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
-</header>
-<nav class="section-nav" aria-label="On this page"><a href="#method">Method</a><a href="#retention">Retention and plan reuse</a><a href="#results">Results</a><a href="#context">Context rollback</a></nav>
-
-<section class="research-section" id="method">
-  <h2>Bounded state correction</h2>
-  <div class="prose">
-    <p>A frozen controller proposes a persistent state \(z_t^0\), then decodes a short control sequence \(U_t^0\). Action refinement searches directly over the control sequence. State correction searches over the state that produces it, using the same task residuals, dynamics and physical limits.</p>
-    <div class="math-block">\[
-      \begin{aligned}
-      z_t^0&=f_\theta(z_{t-1},x_t),\qquad U_t^0=g_\phi(z_t^0;c_t),\\
-      L_t(z)&=F_t\bigl(g_\phi(z;c_t)\bigr).
-      \end{aligned}
-    \]</div>
-    <p>The local update uses a fresh damped Gauss–Newton matrix. Candidates must reduce the evaluated objective and stay within cumulative state and action-change bounds. The reference configuration permits three candidate trials per input.</p>
-    <div class="math-block">\[
-      \begin{aligned}
-      b&=J^\top R_t(z),\qquad P=J^\top J+\lambda I,\\
-      v&=-P^{-1}b,\qquad \|z-z_t^0\|_2\leq\rho_z.
-      \end{aligned}
-    \]</div>
-    <p>Both retain and discard branches execute the corrected first action. Retain stores the corrected state; discard stores the original proposal. Both receive the executed action as an input at the next step.</p>
+  <div class="memory-hero-title">
+    <p class="eyebrow memory-hero-meta"><span>Recurrent control</span><span>NeurIPS 2025</span></p>
+    <h1>Who Needs<br>Attention Anyway?</h1>
+    <p class="subtitle">Keeping corrections in memory</p>
+    <p class="byline">Dario Fumarola · Amazon Web Services</p>
+    <div class="paper-links memory-mobile-paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><a href="{{ page.paper }}" download>Download PDF</a></div>
   </div>
-  <p class="source-note"><a href="{{ page.paper_url }}#page=2" target="_blank" rel="noopener">Section 2 and Algorithm 1 ↗</a></p>
+  <div class="memory-hero-copy">
+    <p class="intro">A controller can improve its next action and still leave its memory unchanged. This work tests what happens when the correction is kept, so the next decision starts from an updated state.</p>
+    <div class="paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><a href="{{ page.paper }}" download>Download PDF</a></div>
+  </div>
+  {% include memory-demo.html %}
+</header>
+<nav class="section-nav" aria-label="On this page"><a href="#idea">Idea</a><a href="#retention">Evidence</a><a href="#method">Method</a><a href="#context">Rollback</a><a href="#outlook">Outlook</a></nav>
+
+<section class="research-section" id="idea">
+  <h2>What the next decision inherits</h2>
+  <div class="prose">
+    <p>A local planner can repair a poor action. If the controller keeps the state that produced it, the next observation may lead to much the same proposal. Keeping the corrected state lets that local work enter the next recurrent update.</p>
+    <p>Memory here means the hidden state carried between observations. The network weights stay fixed. We isolate the effect by running one common correction, executing the same action, then changing only which state is stored. Both branches also receive the action they actually executed.</p>
+  </div>
 </section>
 
 <section class="research-section" id="retention">
-  <h2>State retention and plan reuse</h2>
-  <div class="figure-and-copy">
-    <div class="prose"><p>With subsequent correction disabled and identical observations replayed to both branches, retention lowers next-proposal loss by 3.2% in navigation and 4.4% in chain control. The effect declines over the next few inputs and is close to zero by eight.</p><p>A separate experiment independently varies state retention and plan caching after the same common solve. All four branches then resume the same action-space solver.</p></div>
-    <figure class="paper-figure"><a href="../assets/figures/memory-decay.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/memory-decay.svg" width="242" height="151" loading="lazy" alt="The reduction in proposal loss from retention declines between one and eight inputs in navigation and chain control, with paired 95% intervals."></a><figcaption>Figure 2. Common-input replay isolates the effect on future recurrent proposals.<br><a class="figure-source" href="../assets/figures/memory-decay.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
+  <h2>What remains after a correction</h2>
+  <div class="figure-and-copy memory-evidence">
+    <div class="prose">
+      <p>With further correction disabled, retaining the state lowers the next proposal's task loss by 3.2% in navigation and 4.4% in chain control. Both branches receive the same recorded observations, so the comparison isolates what their memories carry forward.</p>
+      <p>The effect lasts a few inputs. It declines over four and is close to zero by eight. A retained correction helps with the nearby problem; later decisions still need fresh observations and planning.</p>
+      <p>Once correction resumes, retaining the state also reduces repeated optimization. Residual-Jacobian evaluations over the next eight inputs fall by 23.1% in navigation and 23.9% in chain control.</p>
+    </div>
+    <figure class="paper-figure"><a href="../assets/figures/memory-decay.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/memory-decay.svg" width="242" height="151" loading="lazy" alt="The reduction in proposal loss from retention declines between one and eight inputs in navigation and chain control, with paired 95% intervals."></a><figcaption>Figure 2. Identical observations, no further correction. Error bars are paired 95% intervals.<br><a class="figure-source" href="../assets/figures/memory-decay.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
   </div>
-  <div class="table-scroll" tabindex="0" aria-label="Plan-cache experiment results, horizontally scrollable"><table><caption>Eight-input realized cost reduction (%) relative to the uncorrected state with no cache. Table 1; ± is the rounded 95% interval half-width.</caption><thead><tr><th scope="col">What is retained</th><th scope="col">Navigation</th><th scope="col">Chain control</th></tr></thead><tbody>
-    <tr><th scope="row">Neither correction nor plan</th><td>0 (reference)</td><td>0 (reference)</td></tr>
-    <tr><th scope="row">Plan only</th><td>1.1 ± 0.7</td><td>1.7 ± 1.1</td></tr>
-    <tr><th scope="row">State only</th><td>0.8 ± 0.7</td><td>1.4 ± 1.0</td></tr>
-    <tr class="result-emphasis"><th scope="row">State and plan</th><td>1.8 ± 0.8</td><td>2.8 ± 1.2</td></tr>
-  </tbody></table></div>
-  <div class="prose"><p>Conditioning on both branches having the same cached plan, state retention adds a 0.7% [0.2, 1.2] navigation cost reduction and 1.1% [0.3, 1.9] in chain control. These conditional ratios are computed against the plan-only branch, rather than by subtracting table entries.</p></div>
-  <p class="source-note"><a href="{{ page.paper_url }}#page=5" target="_blank" rel="noopener">Sections 5.1 and 5.2 ↗</a></p>
+  <h3>Beyond a cached plan</h3>
+  <div class="prose"><p>Reusing a corrected action sequence already saves work. To test whether memory adds anything, we gave both branches the same corrected plan in their cache and resumed the same action-space solver. Keeping the state lowered the next eight inputs' realized cost by a further:</p></div>
+  <dl class="memory-cache-findings"><div><dt>Navigation</dt><dd>0.7%</dd></div><div><dt>Chain control</dt><dd>1.1%</dd></div></dl>
+  <p class="memory-measure">Relative cost reduction against the plan-only branch. Paired 95% intervals: [0.2, 1.2] and [0.3, 1.9]. The state intervention happens once; the plan cache is refreshed after each solve.</p>
+  <details class="memory-details"><summary>All four retention choices</summary>
+    <div class="table-scroll" tabindex="0" aria-label="Plan-cache experiment results, horizontally scrollable"><table><caption>Eight-input realized cost reduction (%) relative to the original state with no cache. Table 1; ± is the rounded 95% interval half-width.</caption><thead><tr><th scope="col">What is retained</th><th scope="col">Navigation</th><th scope="col">Chain control</th></tr></thead><tbody>
+      <tr><th scope="row">Neither correction nor plan</th><td>0 (reference)</td><td>0 (reference)</td></tr>
+      <tr><th scope="row">Plan only</th><td>1.1 ± 0.7</td><td>1.7 ± 1.1</td></tr>
+      <tr><th scope="row">State only</th><td>0.8 ± 0.7</td><td>1.4 ± 1.0</td></tr>
+      <tr class="result-emphasis"><th scope="row">State and plan</th><td>1.8 ± 0.8</td><td>2.8 ± 1.2</td></tr>
+    </tbody></table></div>
+    <div class="prose"><p>The conditional state benefit is computed directly against the plan-only branch. It is not the difference between two table entries, which use the no-cache branch as their denominator.</p></div>
+  </details>
+  <p class="source-note"><a href="{{ page.paper_url }}#page=4" target="_blank" rel="noopener">Sections 5.1 and 5.2; Figure 2; Table 1 ↗</a></p>
+
+  <h3 id="results">Full episodes and time budgets</h3>
+  <div class="figure-and-copy memory-evidence">
+    <div class="prose">
+      <p>Across full episodes, retaining rather than discarding state corrections raises navigation success from 82.7% to 85.4%. Chain control rises from 74.2% to 78.6%. Retain and discard use the same solver and settings.</p>
+      <p>Direct action refinement improves the present objective more than state search. Fitting its solution back into memory recovers most of the retention benefit.</p>
+      <p>Warm-started MPC reaches similar navigation success with substantially fewer contacts: 6.0 versus 14.2 per thousand steps. It also gains more from additional solve time. Retention is most useful here when each solve must stay small.</p>
+    </div>
+    <figure class="paper-figure"><a href="../assets/figures/memory-latency.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/memory-latency.svg" width="240" height="156" loading="lazy" alt="Navigation success across mean controller time budgets. Retained state correction has an advantage at small budgets; warm-started MPC benefits more as time increases."></a><figcaption>Figure 3. Each point is a separately validation-selected configuration.<br><a class="figure-source" href="../assets/figures/memory-latency.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
+  </div>
+  <details class="memory-details"><summary>Controller comparisons and timing</summary>
+    <div class="table-scroll" tabindex="0" aria-label="Navigation controller comparison, horizontally scrollable"><table><caption>Navigation within the 4 ms mean / 8 ms p99 validation envelope. Table 2. Five independently trained models; ± is the rounded 95% interval half-width.</caption><thead><tr><th scope="col">Controller</th><th scope="col">Success (%)</th><th scope="col">Contacts / 1,000 steps</th><th scope="col">Mean time (ms)</th></tr></thead><tbody>
+      <tr><th scope="row">Frozen recurrent policy</th><td>68.4 ± 1.9</td><td>37.1 ± 2.3</td><td>2.10</td></tr>
+      <tr><th scope="row">CBF filter</th><td>79.2 ± 1.6</td><td>6.4 ± 0.8</td><td>2.58</td></tr>
+      <tr><th scope="row">Predictive filter</th><td>82.1 ± 1.5</td><td>4.1 ± 0.6</td><td>3.92</td></tr>
+      <tr><th scope="row">Action refinement</th><td>83.9 ± 1.4</td><td>15.9 ± 1.1</td><td>3.82</td></tr>
+      <tr><th scope="row">Action + state fitting</th><td>85.2 ± 1.3</td><td>14.4 ± 1.1</td><td>3.91</td></tr>
+      <tr><th scope="row">State correction, discard</th><td>82.7 ± 1.5</td><td>18.2 ± 1.2</td><td>3.81</td></tr>
+      <tr class="result-emphasis"><th scope="row">State correction, retain</th><td>85.4 ± 1.3</td><td>14.2 ± 1.0</td><td>3.79</td></tr>
+      <tr><th scope="row">Warm-started MPC</th><td>85.8 ± 1.3</td><td>6.0 ± 0.7</td><td>3.93</td></tr>
+    </tbody></table></div>
+    <div class="prose"><p>The paired retain-minus-discard success gains are 2.7 percentage points [1.7, 3.7] in navigation and 4.4 [3.1, 5.7] in chain control.</p><p>Neural inference and derivatives run on an NVIDIA A100; MPC and predictive filtering use one CPU solver thread on the same workstation. Timing includes transfers, failed candidates, cache checks and synchronization. The envelope concerns measured latency on that system.</p></div>
+  </details>
+  <p class="source-note"><a href="{{ page.paper_url }}#page=5" target="_blank" rel="noopener">Sections 5.3 and 5.4; Figure 3; Tables 2 and 3 ↗</a></p>
 </section>
 
-<section class="research-section" id="results">
-  <h2>Full-episode control results</h2>
-  <div class="prose"><p>Retaining rather than discarding corrections raises navigation success from 82.7% to 85.4%, a paired gain of 2.7 percentage points [1.7, 3.7]. Action refinement is a stronger baseline than discarded state correction. Fitting its solution back into memory recovers most of the retention benefit.</p></div>
-  <div class="table-scroll" tabindex="0" aria-label="Navigation controller comparison, horizontally scrollable"><table><caption>Navigation within the 4 ms mean / 8 ms p99 validation envelope. Table 2. Five independently trained models; ± is the rounded 95% interval half-width.</caption><thead><tr><th scope="col">Controller</th><th scope="col">Success (%)</th><th scope="col">Contacts / 1,000 steps</th><th scope="col">Mean time (ms)</th></tr></thead><tbody>
-    <tr><th scope="row">Frozen recurrent policy</th><td>68.4 ± 1.9</td><td>37.1 ± 2.3</td><td>2.10</td></tr>
-    <tr><th scope="row">CBF filter</th><td>79.2 ± 1.6</td><td>6.4 ± 0.8</td><td>2.58</td></tr>
-    <tr><th scope="row">Predictive filter</th><td>82.1 ± 1.5</td><td>4.1 ± 0.6</td><td>3.92</td></tr>
-    <tr><th scope="row">Action refinement</th><td>83.9 ± 1.4</td><td>15.9 ± 1.1</td><td>3.82</td></tr>
-    <tr><th scope="row">Action + state fitting</th><td>85.2 ± 1.3</td><td>14.4 ± 1.1</td><td>3.91</td></tr>
-    <tr><th scope="row">State correction, discard</th><td>82.7 ± 1.5</td><td>18.2 ± 1.2</td><td>3.81</td></tr>
-    <tr class="result-emphasis"><th scope="row">State correction, retain</th><td>85.4 ± 1.3</td><td>14.2 ± 1.0</td><td>3.79</td></tr>
-    <tr><th scope="row">Warm-started MPC</th><td>85.8 ± 1.3</td><td>6.0 ± 0.7</td><td>3.93</td></tr>
-  </tbody></table></div>
-  <div class="prose"><p>MPC achieves similar navigation success with substantially fewer contacts. The chain task shows the same retention effect: success increases from 74.2% to 78.6%, while MPC reaches 79.4% with the lowest contact rate. At larger latency budgets, direct planning benefits more from additional solve time.</p></div>
-  <p class="source-note"><a href="{{ page.paper_url }}#page=6" target="_blank" rel="noopener">Tables 2 and 3; Figure 3 ↗</a></p>
+<section class="research-section" id="method">
+  <h2>A small solve inside a fixed controller</h2>
+  <div class="prose"><p>The controller proposes a state, then decodes a short action sequence. A local optimizer searches for a nearby state whose decoded plan improves the task objective. Its candidate trials use the same dynamics, residuals and physical limits as direct action refinement.</p></div>
+  <div class="memory-core">
+    <p>\(R_t(z)\) measures task errors after decoding a candidate state. Its Jacobian \(J\) supplies a damped Gauss-Newton direction:</p>
+    <div class="math-block">\[
+      \begin{aligned}
+      P&=J^\top J+\lambda I,\\
+      v&=-P^{-1}J^\top R_t(z),\\
+      z'&=z+\alpha v.
+      \end{aligned}
+    \]</div>
+    <p>Damping \(\lambda\) stabilizes the direction. The step size \(\alpha\) controls how far the candidate moves. An evaluated loss decrease and cumulative state and action bounds decide whether it is accepted.</p>
+  </div>
+  <div class="memory-rule">
+    <ol>
+      <li>Decode the current state and evaluate its objective.</li>
+      <li>Try a correction within the state-displacement limit.</li>
+      <li>Keep it if the decoded plan passes the action bound and decrease test. Otherwise halve the step and retry.</li>
+    </ol>
+    <p>The reference configuration allows three candidate trials per input. Rejected candidates consume a trial and reuse the current direction. After acceptance, a remaining trial may compute a fresh direction.</p>
+  </div>
+  <details class="memory-details"><summary>The recurrence, bounds and decrease test</summary>
+    <div class="prose">
+      <p>The recurrence proposes \(z_t^0\), and the decoder maps it to a control sequence. The state-search objective includes both task residuals and a proximity term around the initial plan:</p>
+      <div class="math-block">\[
+        \begin{aligned}
+        z_t^0&=f_\theta(z_{t-1},x_t),\\
+        U_t^0&=g_\phi(z_t^0;c_t),\\
+        L_t(z)&=F_t\bigl(g_\phi(z;c_t)\bigr).
+        \end{aligned}
+      \]</div>
+      <p>Every candidate is checked against the same cumulative bounds around the original proposal:</p>
+      <div class="math-block">\[
+        \begin{aligned}
+        \|z-z_t^0\|_2&\leq\rho_z,\\
+        \frac{\|S(U-U_t^0)\|_2}{\sqrt m}&\leq\rho_U.
+        \end{aligned}
+      \]</div>
+      <p>With \(b=J^\top R_t(z)\), the Armijo acceptance test is:</p>
+      <div class="math-block">\[
+        L_t(z)-L_t(z')\geq-\eta\alpha b^\top v>\epsilon_t.
+      \]</div>
+      <p>Non-finite candidates stop the call. Accepted updates decrease the supplied local objective and remain inside the state ball. Those properties concern the current model and observations.</p>
+    </div>
+  </details>
+  <details class="memory-details"><summary>Solving through the output space</summary>
+    <div class="prose">
+      <p>The controller has a 256-dimensional state, but its decoded action sequence has 24 dimensions in navigation and 96 in chain control. The exact current-metric solve uses this smaller output space.</p>
+      <p>Let \(D\) be the decoder Jacobian, \(Q\) the residual Jacobian in action coordinates, and \(A=(Q^\top Q)^{1/2}D\). Then \(P=\lambda I+A^\top A\). The inverse-vector product can be computed as:</p>
+      <div class="math-block">\[
+        \begin{aligned}
+        (\lambda I+AA^\top)q&=Ab,\\
+        P^{-1}b&=\lambda^{-1}(b-A^\top q).
+        \end{aligned}
+      \]</div>
+      <p>The inner system is solved by Cholesky factorization. Derivative and factorization work are included in the reported timing.</p>
+    </div>
+  </details>
+  <p class="source-note"><a href="{{ page.paper_url }}#page=2" target="_blank" rel="noopener">Section 2; Algorithm 1; Appendix A ↗</a></p>
 </section>
 
 <section class="research-section" id="context">
-  <h2>Context changes and rollback</h2>
+  <h2>When to let a correction go</h2>
   <div class="prose">
-    <p>Replacing the target or delaying the relevant sensor records removes the average benefit of a retained correction. The rollback variant saves the proposal for one additional input and checks the target identifier and record age before the next recurrence:</p>
+    <p>A correction can outlive the conditions that made it useful. Changing the target or delaying sensor records removes the average benefit of retention in these tasks.</p>
+    <p>Context rollback keeps the original proposal for one extra input. Before the next recurrent update, it checks the target identifier and record age. If the target changed or the relevant record is more than one input old, it undoes the latest correction:</p>
     <div class="math-block">\[
       \widehat z_t=z_t^0+a_{t+1}(\widetilde z_t-z_t^0),\qquad a_{t+1}\in\{0,1\}.
     \]</div>
-    <p>The switch is zero when the active target changes or the relevant record is more than one input old. In full episodes with intermittent sensing delays, rollback raises navigation success from 82.1% to 83.4% and chain success from 71.8% to 73.0% compared with unconditional retention.</p>
-    <p>The experiments use one recurrent architecture in two simulators with differentiable geometry. A local loss decrease is a statement about the supplied objective. Under stale sensing, that objective can improve while physical control deteriorates. Rollback removes only the latest correction, leaving older changes already propagated through memory.</p>
+    <p>The switch is zero when the correction is rolled back. The action already executed stays the same. Older corrections already propagated through memory remain in the state.</p>
   </div>
-  <p class="source-note"><a href="{{ page.paper_url }}#page=7" target="_blank" rel="noopener">Table 4 and Discussion ↗</a></p>
+  <details class="memory-details"><summary>Rollback results and evaluation limits</summary>
+    <div class="prose">
+      <p>During intermittent sensing delays, rollback raises navigation success from 82.1% to 83.4% and chain success from 71.8% to 73.0% over unconditional retention. Mean time increases by 0.02 ms or less, and both timing limits remain satisfied.</p>
+      <p>The experiments use one gated recurrent architecture in two simulators with differentiable geometry. Under stale sensing, the supplied objective can improve while physical control deteriorates. Memory timescales and the value of rollback may change with the architecture or with training that includes state corrections.</p>
+    </div>
+  </details>
+  <p class="source-note"><a href="{{ page.paper_url }}#page=7" target="_blank" rel="noopener">Section 5.5; Table 4; Discussion ↗</a></p>
+</section>
+
+<section class="research-section" id="outlook">
+  <h2>Looking ahead</h2>
+  <div class="prose">
+    <p>A useful solve can leave more behind than its immediate action. Reusing that work inside recurrent memory gives the next decision a different starting point, before another optimization call.</p>
+    <p>This raises a broader question for agents: what should persist between decisions, and for how long? In these tasks, the benefit fades and a change of context can make it harmful. Testing how to retain and revise those local corrections is the next step.</p>
+  </div>
 </section>
