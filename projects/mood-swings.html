@@ -10,20 +10,52 @@ paper: /assets/mood-swings.pdf
 last_modified_at: 2026-10-13
 ---
 <header class="project-hero">
-  <div>
+  <div class="mood-hero-title">
     <p class="eyebrow">Reinforcement learning</p>
     <h1>Mood Swings</h1>
-    <p class="subtitle">Calibrated reward and cost control in a frozen PPO policy</p>
-    <p class="intro">We study a frozen PPO actor with two runtime inputs: a relative cost weight and a sampling temperature. Validation rollouts map requested mean costs to settings, while a calibrated risk estimate controls entry into and release from caution.</p>
+    <p class="subtitle">Changing priorities after training</p>
+  </div>
+  {% include mood-junction.html %}
+  <div class="mood-hero-copy">
+    <p class="intro">A PPO policy can favor a shortcut or a cautious detour after training. A cost weight changes its preferences; a calibrated risk alarm controls when caution starts and ends. The actor's weights stay fixed throughout deployment.</p>
     <p class="byline">Dario Fumarola and Jin Tan Ruan · Amazon Web Services</p>
     <div class="paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper ↗</a><a href="{{ page.paper }}" download>Download PDF</a></div>
   </div>
-  <figure class="paper-figure hero-figure">
-    <a href="../assets/figures/mood-junction.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-junction.svg" width="149" height="130" alt="A Pac-Mind++ junction with a short eastern route past an active ghost and a longer western detour. S is the decision state and P is the target pellet."></a>
-    <figcaption>A decision state from the paper. Increasing the cost weight changes the preferred route from the eastern shortcut to the western detour.<br><a class="figure-source" href="../assets/figures/mood-junction.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption>
-  </figure>
 </header>
-<nav class="section-nav" aria-label="On this page"><a href="#method">Method</a><a href="#results">Results</a><a href="#calibration">Calibration</a><a href="#scope">Scope</a></nav>
+<nav class="section-nav" aria-label="On this page"><a href="#results">Results</a><a href="#method">Method</a><a href="#calibration">Calibration</a><a href="#scope">Scope</a></nav>
+
+<section class="research-section" id="results">
+  <h2>What changes at an alarm</h2>
+  <div class="prose"><p>Starting from the same saved alarm states, we compared continuing to seek reward with entering caution. The cautious response reduced failure over the next 100 actions and improved eventual completion. Each continuation kept the original task deadline.</p></div>
+  <div class="mood-findings" aria-label="Failure within 100 actions from common alarm states">
+    <div class="mood-finding"><h3>Pac-Mind++</h3><dl><dt>Continue seeking</dt><dd>12.6%</dd><dt>Enter caution</dt><dd>5.0%</dd></dl></div>
+    <div class="mood-finding"><h3>HazardRooms</h3><dl><dt>Continue seeking</dt><dd>18.4%</dd><dt>Enter caution</dt><dd>7.9%</dd></dl></div>
+  </div>
+  <p class="mood-measure">Failure within 100 actions. Paired continuations from common alarm states, with the same frozen actor. Caution ramps the cost weight from 0.2 to 0.7 over ten actions.</p>
+  <details class="mood-results-detail"><summary>All settings and 95% intervals</summary>
+  <div class="table-scroll" tabindex="0" aria-label="Failure results, horizontally scrollable">
+    <table><caption>100-action failure (%) with 95% intervals. Table 11.</caption><thead><tr><th scope="col">Intervention</th><th scope="col">Pac-Mind++</th><th scope="col">HazardRooms</th></tr></thead><tbody>
+      <tr><th scope="row">Continue seeking</th><td>12.6 [11.4, 13.9]</td><td>18.4 [16.7, 20.1]</td></tr>
+      <tr><th scope="row">Entropy-matched seeking</th><td>8.4 [7.4, 9.5]</td><td>13.1 [11.7, 14.6]</td></tr>
+      <tr class="result-emphasis"><th scope="row">Cost weight to 0.7</th><td>5.0 [4.3, 5.8]</td><td>7.9 [6.7, 9.2]</td></tr>
+      <tr><th scope="row">Cost weight to 0.8</th><td>3.9 [3.2, 4.7]</td><td>6.2 [5.1, 7.5]</td></tr>
+    </tbody></table>
+  </div>
+  </details>
+  <h3>Caution and progress</h3>
+  <div class="prose">
+    <p>The highest weight reduces short-window failure further, but completion falls. In Pac-Mind++, increasing the response weight from 0.7 to 0.8 lowers completion from 63.4% to 49.2% and raises timeouts from 23.0% to 40.6%. HazardRooms shows the same pattern.</p>
+    <p>Complete episodes from reset test the supervisor as well as the available behavior. In Pac-Mind++, reversible calibrated switching reaches 5.0% failure, compared with 7.2% for a hazard-blind schedule with similar caution time. Releasing caution raises completion from 62.1% to 64.6% compared with a latched response, while failure rises from 4.7% to 5.0%.</p>
+  </div>
+  <h3>Shared training and coverage</h3>
+  <div class="figure-pair">
+    <figure class="paper-figure"><a href="../assets/figures/mood-frontier-pac.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-frontier-pac.svg" width="247" height="148" loading="lazy" alt="Pac-Mind++ reward-cost frontiers for MC-PPO, CCPO, and eight-actor libraries at matched and full training budgets."></a><figcaption><a class="figure-source" href="../assets/figures/mood-frontier-pac.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
+    <figure class="paper-figure"><a href="../assets/figures/mood-frontier-hack.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-frontier-hack.svg" width="247" height="148" loading="lazy" alt="MiniHack-HazardRooms reward-cost frontiers. MC-PPO and CCPO are close, and the full-budget eight-actor library has a small advantage."></a><figcaption><a class="figure-source" href="../assets/figures/mood-frontier-hack.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
+  </div>
+  <p class="source-note">Figure 4. Test-set envelopes of the best observed reward within each cost ceiling. Both libraries shown here use logit mixing.</p>
+  <div class="prose"><p>MC-PPO retains 98.0% and 97.2% of the full eight-actor <em>action mixture's</em> mean reward-cost coverage in the two tasks, using one-eighth of its policy-training interactions. Calibration rollouts are separate from that budget. CCPO remains a competitive single-policy alternative.</p></div>
+  <p class="source-note"><a href="{{ page.paper_url }}#page=5" target="_blank" rel="noopener">Tables 1, 3, 4, 11–13; Figure 4 ↗</a></p>
+</section>
 
 <section class="research-section" id="method">
   <h2>Policy controls and supervision</h2>
@@ -43,31 +75,6 @@ last_modified_at: 2026-10-13
   </div>
   <figure class="paper-figure action-figure"><a href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-actions.svg" width="300" height="184" loading="lazy" alt="First-action probabilities in the same junction: seeking favors east, caution favors west, and entropy-matched seeking still favors east."></a><figcaption>Figure 3. The observation is unchanged. Matching the cautious actor's entropy sharpens the seeking distribution but preserves its preference for east.<br><a class="figure-source" href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
   <p class="source-note"><a href="{{ page.paper_url }}#page=2" target="_blank" rel="noopener">Sections 3 and 4; Figure 3 ↗</a></p>
-</section>
-
-<section class="research-section" id="results">
-  <h2>Behavior from common alarm states</h2>
-  <div class="prose"><p>Branches start from the same saved alarm states and retain the original task deadline. Raising the cost weight reduces 100-action failure more than entropy matching alone. The cautious branch also improves eventual completion.</p></div>
-  <div class="table-scroll" tabindex="0" aria-label="Failure results, horizontally scrollable">
-    <table><caption>100-action failure (%) with 95% intervals. Table 11.</caption><thead><tr><th scope="col">Intervention</th><th scope="col">Pac-Mind++</th><th scope="col">HazardRooms</th></tr></thead><tbody>
-      <tr><th scope="row">Continue seeking</th><td>12.6 [11.4, 13.9]</td><td>18.4 [16.7, 20.1]</td></tr>
-      <tr><th scope="row">Entropy-matched seeking</th><td>8.4 [7.4, 9.5]</td><td>13.1 [11.7, 14.6]</td></tr>
-      <tr class="result-emphasis"><th scope="row">Cost weight to 0.7</th><td>5.0 [4.3, 5.8]</td><td>7.9 [6.7, 9.2]</td></tr>
-      <tr><th scope="row">Cost weight to 0.8</th><td>3.9 [3.2, 4.7]</td><td>6.2 [5.1, 7.5]</td></tr>
-    </tbody></table>
-  </div>
-  <div class="prose">
-    <p>The highest weight reduces short-window failure further, but completion falls. In Pac-Mind++, increasing the response weight from 0.7 to 0.8 lowers completion from 63.4% to 49.2% and raises timeouts from 23.0% to 40.6%. HazardRooms shows the same pattern.</p>
-    <p>Complete episodes from reset test the supervisor as well as the available behavior. In Pac-Mind++, reversible calibrated switching reaches 5.0% failure, compared with 7.2% for a hazard-blind schedule with similar caution time. Releasing caution raises completion from 62.1% to 64.6% compared with a latched response, while failure rises from 4.7% to 5.0%.</p>
-  </div>
-  <h3>Shared training and coverage</h3>
-  <div class="figure-pair">
-    <figure class="paper-figure"><a href="../assets/figures/mood-frontier-pac.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-frontier-pac.svg" width="247" height="148" loading="lazy" alt="Pac-Mind++ reward-cost frontiers for MC-PPO, CCPO, and eight-actor libraries at matched and full training budgets."></a><figcaption><a class="figure-source" href="../assets/figures/mood-frontier-pac.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
-    <figure class="paper-figure"><a href="../assets/figures/mood-frontier-hack.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-frontier-hack.svg" width="247" height="148" loading="lazy" alt="MiniHack-HazardRooms reward-cost frontiers. MC-PPO and CCPO are close, and the full-budget eight-actor library has a small advantage."></a><figcaption><a class="figure-source" href="../assets/figures/mood-frontier-hack.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
-  </div>
-  <p class="source-note">Figure 4. Test-set envelopes of the best observed reward within each cost ceiling. Both libraries shown here use logit mixing.</p>
-  <div class="prose"><p>MC-PPO retains 98.0% and 97.2% of the full eight-actor <em>action mixture's</em> mean reward-cost coverage in the two tasks, using one-eighth of its policy-training interactions. Calibration rollouts are separate from that budget. CCPO remains a competitive single-policy alternative.</p></div>
-  <p class="source-note"><a href="{{ page.paper_url }}#page=5" target="_blank" rel="noopener">Tables 1, 3, 4, 11–13; Figure 4 ↗</a></p>
 </section>
 
 <section class="research-section" id="calibration">

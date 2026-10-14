@@ -39,6 +39,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/project.css?v=' | append: site.github.build_revision | relative_url }}">
+  {% if page.project == 'mood' %}<link rel="stylesheet" href="{{ '/assets/css/mood.css?v=preview-1' | relative_url }}">{% endif %}
 </head>
 <body class="research-page project-{{ page.project }}" data-project="{{ page.project }}">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -58,6 +59,7 @@
     {% include footer.html %}
   </main>
   <script src="{{ '/assets/js/theme.js?v=editorial-1' | relative_url }}" defer></script>
+  {% if page.project == 'mood' %}<script src="{{ '/assets/js/mood.js?v=preview-1' | relative_url }}" defer></script>{% endif %}
   {% if page.project == 'broadcast' %}<script src="{{ '/assets/js/projects.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>{% endif %}
 </body>
 </html>
