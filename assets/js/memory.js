@@ -4,108 +4,88 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const toggle = figure.querySelector('.memory-motion-toggle');
   const scene = figure.querySelector('.memory-usecase');
-  const caption = figure.querySelector('.memory-demo-caption');
-  const keptStatus = figure.querySelector('.memory-kept-status');
-  const discardedStatus = figure.querySelector('.memory-discarded-status');
-  const stage = figure.querySelector('.memory-refinement-stage');
-  const models = [...figure.querySelectorAll('.memory-protein')].map(svg => ({
-    sites: [...svg.querySelectorAll('.protein-site')].map(site => ({
-      site,
-      loop: site.querySelector('.protein-loop'),
-      atom: site.querySelector('.protein-moving-atom'),
-      fixed: site.querySelector('.protein-fixed-atom'),
-      clash: site.querySelector('.protein-clash'),
-      check: site.querySelector('.protein-check'),
-      focus: site.querySelector('.protein-focus')
-    }))
+  const explanation = figure.querySelector('.memory-step-explanation');
+  const steps = [...figure.querySelectorAll('[data-step]')];
+  const panels = [...figure.querySelectorAll('.memory-route-panel')].map(panel => ({
+    panel,
+    reference:panel.querySelector('.memory-safe-reference'),
+    proposal:panel.querySelector('.memory-current-proposal'),
+    executed:panel.querySelector('.memory-executed-move'),
+    reveal:panel.querySelector('.memory-move-reveal'),
+    robot:panel.querySelector('.memory-robot'),
+    blocked:panel.querySelector('.memory-blocked-mark'),
+    state:panel.querySelector('.memory-state'),
+    stateName:panel.querySelector('.memory-state-name'),
+    status:panel.querySelector('.memory-route-status'),
+    obstacleLabel:panel.querySelector('.memory-world-label')
   }));
-
-  // A schematic fold, not molecular simulation or a protein benchmark.
-  // Only the two flexible loops change. Both models receive the same first fix.
-  const sites = [
-    {start:[-48,-43,7], end:[8,-37,14], clash:[-27,-36,18], clear:[-20,-83,6], fixed:[-33,-37,17]},
-    {start:[9,54,6], end:[80,38,6], clash:[27,47,16], clear:[56,88,2], fixed:[22,48,14]}
-  ];
-  const cycleDuration = 11600;
-  const clamp = value => Math.max(0, Math.min(1,value));
-  const ease = value => value*value*(3-2*value);
-  const progress = (time,start,end) => ease(clamp((time-start)/(end-start)));
-  const mix = (first,second,amount) => first.map((value,index) => value+(second[index]-value)*amount);
-  const project = point => [160+1.28*(.968*point[0]+.25*point[2]),126+1.15*(point[1]+.12*point[2])];
-  const pair = point => point.map(value => value.toFixed(2)).join(' ');
-  let elapsed = 0;
-  let startTime = 0;
-  let frame = null;
-  let manuallyPaused = false;
-  let hasLooped = false;
-  let firstSite = 0;
-  let lastPhase = '';
-  let lastDraw = -Infinity;
-
-  function renderSite(model,index,amount,active,time) {
-    const nodes = model.sites[index];
-    if (nodes.amount===amount && !active && !nodes.active) return;
-    nodes.amount=amount;
-    nodes.active=active;
-    const geometry = sites[index];
-    const midpoint = mix(geometry.clash,geometry.clear,amount);
-    const start = project(geometry.start);
-    const end = project(geometry.end);
-    const center = project(midpoint);
-    const fixed = project(geometry.fixed);
-    const control = center.map((value,axis) => 2*value-(start[axis]+end[axis])/2);
-    nodes.loop.setAttribute('d',`M${pair(start)}Q${pair(control)} ${pair(end)}`);
-    nodes.loop.style.opacity = String(.55+.45*amount);
-    nodes.site.classList.toggle('is-clear',amount>.88);
-    nodes.site.classList.toggle('has-clash',amount<.22);
-    nodes.atom.setAttribute('transform',`translate(${pair(center)})`);
-    nodes.fixed.setAttribute('transform',`translate(${pair(fixed)})`);
-    const separation = Math.hypot(center[0]-fixed[0],center[1]-fixed[1]);
-    const severity = clamp((29-separation)/17);
-    const clashCenter = mix(center,fixed,.5);
-    nodes.clash.setAttribute('transform',`translate(${pair(clashCenter)})`);
-    nodes.clash.style.opacity = severity.toFixed(3);
-    nodes.check.setAttribute('transform',`translate(${pair(center)})`);
-    nodes.check.style.opacity = String(clamp((amount-.82)/.18));
-    nodes.focus.setAttribute('cx',center[0]);
-    nodes.focus.setAttribute('cy',center[1]);
-    nodes.focus.setAttribute('r',15+3*Math.sin(time/180));
-    nodes.focus.style.opacity = active ? '.6' : '0';
+  const cycleDuration = 14400;
+  const original = [[28,100],[76,100],[96,100],[156,100],[202,100],[224,100],[276,100]];
+  const clear = [[28,100],[76,100],[96,36],[156,36],[202,36],[224,100],[276,100]];
+  const clamp = x => Math.max(0,Math.min(1,x));
+  const ease = x => x*x*(3-2*x);
+  const progress = (t,a,b) => ease(clamp((t-a)/(b-a)));
+  const mix = (a,b,p) => a.map((v,i)=>v+(b[i]-v)*p);
+  const pair = p => p.map(v=>v.toFixed(2)).join(' ');
+  function curve(points) {
+    return 'M'+pair(points[0])+points.slice(0,-1).map((p,i) => {
+      const prev=points[Math.max(0,i-1)], next=points[i+1], after=points[Math.min(points.length-1,i+2)];
+      const c1=p.map((v,j)=>v+(next[j]-prev[j])/6);
+      const c2=next.map((v,j)=>v-(after[j]-p[j])/6);
+      return 'C'+pair(c1)+' '+pair(c2)+' '+pair(next);
+    }).join('');
   }
-
-  function render(time) {
-    const phase = time<1300 ? 'start' : time<3300 ? 'common' : time<4800 ? 'next' : time<6800 ? 'repair' : 'outcome';
-    scene.style.opacity = String(Math.min(hasLooped ? clamp(time/220) : 1,clamp((cycleDuration-time)/300)));
-    const firstFix = progress(time,1300,2900);
-    const secondFix = progress(time,4800,6500);
-    const lostFirstFix = firstFix*(1-progress(time,3500,4300));
-    const repeatedFix = secondFix*(1-progress(time,6800,7600));
-    const kept = firstSite===0 ? [firstFix,secondFix] : [secondFix,firstFix];
-    const discarded = firstSite===0 ? [Math.max(lostFirstFix,repeatedFix),0] : [0,Math.max(lostFirstFix,repeatedFix)];
-    models.forEach((model,modelIndex) => {
-      const values = modelIndex===0 ? kept : discarded;
-      values.forEach((amount,index) => {
-        const active = phase==='common' && index===firstSite || phase==='repair' && index===(modelIndex===0 ? 1-firstSite : firstSite);
-        renderSite(model,index,amount,active,time);
-      });
+  let elapsed=0, startTime=0, frame=null, manuallyPaused=false, hasLooped=false, variant=0, lastDraw=-Infinity, lastPhase='';
+  let safePoints, anchor, futurePoints, badFuture, routeLength;
+  function prepare() {
+    const reflect=p=>[p[0],variant?200-p[1]:p[1]];
+    safePoints=clear.map(reflect);
+    const d=curve(safePoints);
+    panels.forEach(p => {
+      [p.reference,p.executed,p.reveal].forEach(path=>path.setAttribute('d',d));
+      p.obstacleLabel.setAttribute('y',variant?24:166);
     });
-    if (phase===lastPhase) return;
-    figure.dataset.phase = phase;
-    const phases = {
-      start: ['A proposed structure','Two local clashes','Two local clashes','Two regions of the same proposed protein structure need a local repair.'],
-      common: ['The same first repair','Resolving the first clash','Resolving the first clash','Both versions make the same first repair. Only the memory they keep will differ.'],
-      next: ['The next proposal','First fix preserved','First clash returns','The corrected memory preserves the fix. The original memory proposes the clash again.'],
-      repair: ['The next repair step','Fixing the other region','Repeating the first repair','One version repairs the other region. The other spends its next step repeating the first repair.'],
-      outcome: ['What carries forward','Both local fixes preserved','Earlier clash returns','Keeping the correction leaves a better next proposal, with less local work to repeat.']
-    };
-    const copy = phases[phase];
-    stage.textContent = copy[0];
-    keptStatus.textContent = copy[1];
-    discardedStatus.textContent = copy[2];
-    caption.textContent = copy[3];
-    lastPhase = phase;
+    routeLength=panels[0].reference.getTotalLength();
+    const point=panels[0].reference.getPointAtLength(.25*routeLength);
+    anchor=[point.x,point.y];
+    futurePoints=[anchor,...[[105,35],[162,35],[199,35],[226,100],[276,100]].map(reflect)];
+    badFuture=futurePoints.map((p,i)=>mix(anchor,[276,100],i/(futurePoints.length-1)));
+    lastPhase='';
   }
-
+  function render(time) {
+    const phase=time<2000?'propose':time<4700?'correct':time<6200?'store':'next';
+    const adjustment=progress(time,2000,3600);
+    const movement=progress(time,3600,4600);
+    const next=progress(time,6200,7400);
+    scene.style.opacity=String(Math.min(hasLooped?clamp(time/200):1,clamp((cycleDuration-time)/300)));
+    panels.forEach((p,index) => {
+      const points=phase==='next' ? futurePoints.map((point,i)=>index===0?point:mix(point,badFuture[i],next)) : original.map((point,i)=>mix(point,safePoints[i],adjustment));
+      p.proposal.setAttribute('d',curve(points));
+      p.reveal.style.strokeDashoffset=String(1-.25*movement);
+      const pos=p.reference.getPointAtLength(.25*movement*routeLength);
+      p.robot.setAttribute('transform',`translate(${pos.x.toFixed(2)} ${pos.y.toFixed(2)})`);
+      const blockedY=phase==='next'?anchor[1]+(100-anchor[1])*(155-anchor[0])/(276-anchor[0]):100;
+      p.blocked.setAttribute('transform',`translate(155 ${blockedY.toFixed(2)})`);
+      p.blocked.style.opacity=String(phase==='next'?(index===0?0:next):1-adjustment);
+    });
+    if(phase===lastPhase) return;
+    figure.dataset.phase=phase;
+    const selected=phase==='store'?'correct':phase;
+    steps.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.step===selected)));
+    const copy={
+      propose:["The model's hidden state produces a route that hits the obstacle.",'Original state','Original state','Route hits the obstacle','Route hits the obstacle'],
+      correct:['The solver edits that state. Both branches take the same corrected first move.','Corrected state','Corrected state','Same corrected move','Same corrected move'],
+      store:['After the same move, only the state saved for the next input differs.','Corrected state saved','Original state restored','Keep the local work','Discard the state edit'],
+      next:['On the next input, the saved state produces a new route before another solve.','Corrected state','Original state','Useful next proposal','Needs another repair']
+    }[phase];
+    explanation.textContent=copy[0];
+    panels.forEach((p,i)=>{
+      p.stateName.textContent=copy[i+1];
+      p.state.dataset.state=phase==='propose'||i===1&&(phase==='store'||phase==='next')?'original':'corrected';
+      p.status.textContent=copy[i+3];
+    });
+    lastPhase=phase;
+  }
   function pause() {
     if (frame!==null) cancelAnimationFrame(frame);
     frame=null;
@@ -114,11 +94,11 @@
     elapsed=timestamp-startTime;
     if (elapsed>=cycleDuration) {
       const cycles=Math.floor(elapsed/cycleDuration);
-      firstSite=(firstSite+cycles)%2;
+      variant=(variant+cycles)%2;
       startTime+=cycles*cycleDuration;
       elapsed%=cycleDuration;
       hasLooped=true;
-      lastPhase='';
+      prepare();
     }
     if (timestamp-lastDraw>=32) {
       render(elapsed);
@@ -146,6 +126,11 @@
     if (manuallyPaused) {pause();scene.style.opacity='1';figure.dataset.playback='paused';} else {pause();play();}
     updateToggle();
   });
+  steps.forEach(button=>button.addEventListener('click',()=>{
+    pause(); manuallyPaused=true;
+    elapsed={propose:900,correct:4400,next:9200}[button.dataset.step];
+    render(elapsed);scene.style.opacity='1';figure.dataset.playback='paused';updateToggle();
+  }));
   const observer=new IntersectionObserver(entries => {
     if (entries[0].isIntersecting && entries[0].intersectionRatio>=.35) play(); else pause();
   },{threshold:.35});
@@ -157,6 +142,7 @@
     else {elapsed=0;hasLooped=false;render(0);figure.dataset.playback=manuallyPaused ? 'paused' : 'ready';play();}
     updateToggle();
   });
+  prepare();
   figure.dataset.playback=reduceMotion.matches ? 'static' : 'ready';
   render(reduceMotion.matches ? 9500 : 0);
   updateToggle();
