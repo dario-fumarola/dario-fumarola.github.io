@@ -2,8 +2,9 @@
 layout: default
 title: Dario Fumarola
 description: >-
-  Dario Fumarola is a Forward Deployed Engineer at Amazon Web Services and AI researcher in New York City,
-  working on reinforcement learning, LLM agents, adaptive inference, reasoning, and model training.
+  Dario Fumarola is an AI researcher and Forward Deployed Engineer at AWS in New York,
+  working on reinforcement learning, LLM agents and adaptive inference.
+last_modified_at: 2026-10-14
 ---
 
 <section class="page-section" aria-labelledby="about">

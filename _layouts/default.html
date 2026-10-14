@@ -21,46 +21,52 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "@id": "{{ site.url }}/#person",
+      "@type": "ProfilePage",
+      "@id": "{{ site.url }}/#profile",
       "name": "Dario Fumarola",
-      "givenName": "Dario",
-      "familyName": "Fumarola",
       "url": "{{ site.url }}/",
-      "image": "{{ site.url }}/assets/photos/portrait.jpeg",
-      "email": "mailto:hello@dariofumarola.com",
-      "jobTitle": "Forward Deployed Engineer",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Amazon Web Services",
-        "url": "https://aws.amazon.com/"
-      },
-      "alumniOf": {
-        "@type": "CollegeOrUniversity",
-        "name": "Washington and Lee University",
-        "url": "https://www.wlu.edu/"
-      },
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "New York",
-        "addressRegion": "NY",
-        "addressCountry": "US"
-      },
-      "nationality": { "@type": "Country", "name": "Italy" },
-      "knowsAbout": [
-        "Reinforcement learning",
-        "Model training",
-        "Adaptive inference",
-        "LLM agents",
-        "Reasoning",
-        "Machine learning systems"
-      ],
-      "sameAs": [
-        "https://github.com/dario-fumarola",
-        "https://github.com/fumadari",
-        "https://www.linkedin.com/in/fumarolad",
-        "https://fumadari.github.io/"
-      ]
+      "dateModified": "{{ page.last_modified_at | date_to_xmlschema }}",
+      "mainEntity": {
+        "@type": "Person",
+        "@id": "{{ site.url }}/#person",
+        "name": "Dario Fumarola",
+        "givenName": "Dario",
+        "familyName": "Fumarola",
+        "description": "AI Researcher and Forward Deployed Engineer at AWS in New York",
+        "url": "{{ site.url }}/",
+        "image": "{{ site.url }}/assets/photos/portrait.jpeg",
+        "email": "mailto:hello@dariofumarola.com",
+        "jobTitle": "Forward Deployed Engineer",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Amazon Web Services",
+          "url": "https://aws.amazon.com/"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Washington and Lee University",
+          "url": "https://www.wlu.edu/"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "New York",
+          "addressRegion": "NY",
+          "addressCountry": "US"
+        },
+        "nationality": { "@type": "Country", "name": "Italy" },
+        "knowsAbout": [
+          "Reinforcement learning",
+          "Model training",
+          "Adaptive inference",
+          "LLM agents",
+          "Reasoning",
+          "Machine learning systems"
+        ],
+        "sameAs": [
+          "https://github.com/dario-fumarola",
+          "https://www.linkedin.com/in/fumarolad"
+        ]
+      }
     }
     </script>
     {% endif %}
