@@ -1,5 +1,5 @@
-# dario-fumarola.github.io
+# Dario Fumarola
 
-Source for [dario-fumarola.github.io](https://dario-fumarola.github.io), the personal website of Dario Fumarola.
+Source for [dariofumarola.com](https://dariofumarola.com), the personal website of Dario Fumarola.
 
-The site is built with Jekyll on GitHub Pages. The previous address, `fumadari.github.io`, now redirects here.
+The site is built with Jekyll. Its earlier addresses redirect to the custom domain.

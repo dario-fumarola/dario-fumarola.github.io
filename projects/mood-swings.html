@@ -16,7 +16,7 @@ last_modified_at: 2026-10-13
     <p class="subtitle">Calibrated reward and cost control in a frozen PPO policy</p>
     <p class="intro">We study a frozen PPO actor with two runtime inputs: a relative cost weight and a sampling temperature. Validation rollouts map requested mean costs to settings, while a calibrated risk estimate controls entry into and release from caution.</p>
     <p class="byline">Dario Fumarola and Jin Tan Ruan · Amazon Web Services</p>
-    <div class="paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper ↗</a><a href="{{ page.paper }}" download>Download PDF</a><a href="https://icml.cc/media/icml-2025/Slides/46772_lAk9vrp.pdf" target="_blank" rel="noopener">2025 poster ↗</a></div>
+    <div class="paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper ↗</a><a href="{{ page.paper }}" download>Download PDF</a></div>
   </div>
   <figure class="paper-figure hero-figure">
     <img src="../assets/figures/mood-junction.svg" width="149" height="130" alt="A Pac-Mind++ junction with a short eastern route past an active ghost and a longer western detour. S is the decision state and P is the target pellet.">
@@ -89,5 +89,5 @@ last_modified_at: 2026-10-13
     <p>The evaluation covers discrete, partially observed navigation with explicit hazard costs. Increasing the cost weight can raise total episode cost even when discounted cost falls, so deployment selection uses measured outcomes. The risk audit also finds underprediction in states visited during caution and after release.</p>
     <p>Calibration provides a common probability scale; separately tuned raw critic thresholds perform similarly. Static calibration requires 28,928 episodes per trained replicate, and alarm fitting and checking add 1,024 seeking episodes. Those costs are outside the policy-training comparison.</p>
   </div>
-  <p class="archive-note">The linked paper is the current write-up. The 2025 poster records the earlier presentation.</p>
+
 </section>

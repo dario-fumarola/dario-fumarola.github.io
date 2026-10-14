@@ -69,7 +69,6 @@ description: >-
 <div class="card-links">
 <a href="./projects/broadcast-gain.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
 <a href="./assets/broadcast-gain.pdf" target="_blank" rel="noopener">Paper (PDF)</a>
-<a href="./assets/nyrl-poster.pdf">Poster (PDF)</a>
 </div>
 </div>
 

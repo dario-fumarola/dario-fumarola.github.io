@@ -1,4 +1,4 @@
-@import url("design.css?v=editorial-2");
+@import url("design.css?v=editorial-3");
 .wrapper { max-width: calc(var(--page-width) + var(--page-gutter) * 2); margin: 0 auto; padding: 0 var(--page-gutter); }
 .hero {
   display: grid; grid-template-columns: minmax(0, 1fr) 290px;
