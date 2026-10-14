@@ -47,10 +47,10 @@
   <main class="project-content" id="main-content">
     {% unless page.project == 'mood' %}<div class="project-breadcrumb"><a href="{{ '/' | relative_url }}#presented-work">← Presented work</a><span>{{ page.venue }}</span></div>{% endunless %}
     {{ content }}
-    <div class="paper-end">
+    {% unless page.project == 'mood' %}<div class="paper-end">
       <div><p class="eyebrow">Full paper</p><h2>{{ page.title }}</h2><p>{{ page.authors }} · Amazon Web Services</p></div>
       <div class="paper-links"><a class="outline-link" href="{% if page.paper_url %}{{ page.paper_url }}{% else %}{{ page.paper | relative_url }}{% endif %}" target="_blank" rel="noopener">Read paper <span aria-hidden="true">↗</span></a>{% if page.paper %}<a href="{{ page.paper | relative_url }}" download>Download PDF</a>{% endif %}</div>
-    </div>
+    </div>{% endunless %}
     <nav class="related-work" aria-label="Other project pages">
       {% unless page.project == 'mood' %}<a href="{{ '/projects/mood-swings.html' | relative_url }}"><span class="eyebrow">ICML 2025</span><span class="related-work-title">Mood Swings {% include arrow-right.html %}</span></a>{% endunless %}
       {% unless page.project == 'memory' %}<a href="{{ '/projects/elastic-state-models.html' | relative_url }}"><span class="eyebrow">NeurIPS 2025</span><span class="related-work-title">Who Needs Attention Anyway? {% include arrow-right.html %}</span></a>{% endunless %}

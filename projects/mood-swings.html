@@ -72,15 +72,28 @@ last_modified_at: 2026-10-14
   <h2>How the controls work</h2>
   <div class="prose">
     <p>The policy is trained with two runtime inputs. A cost weight changes its action preferences. Temperature changes how concentrated its sampling is, without reordering the actions at a fixed observation and cost weight.</p>
-    <p>A calibrated estimate of failure under continued seeking tells the supervisor when to enter or leave caution. Validation rollouts also translate a requested mean cost into an operating setting.</p>
+  </div>
+  <div class="mood-core">
+    <h3>Learning the trade-off</h3>
+    <p>Training uses separate reward and cost advantages, each measured against its critic's baseline. PPO combines them using the cost weight \(w\):</p>
+    <div class="math-block">\[
+      \widehat A_t^{\,w}=\underbrace{(1-w)\widehat A_t^{\,R}}_{\text{reward}}-\underbrace{w\widehat A_t^{\,C}}_{\text{cost}}.
+    \]</div>
+    <p>A larger \(w\) gives cost avoidance more influence during training. After training, \(w\) remains an input to the actor. Changing it selects a behavior without updating the network.</p>
   </div>
   <figure class="paper-figure action-figure"><a href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-actions.svg" width="300" height="184" loading="lazy" alt="First-action probabilities in the same junction: seeking favors east, caution favors west, and entropy-matched seeking still favors east."></a><figcaption>Figure 3. The observation is unchanged. Matching the cautious actor's entropy sharpens the seeking distribution but preserves its preference for east.<br><a class="figure-source" href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
-  <details class="mood-results-detail"><summary>Policy objective, temperature and alarm rules</summary>
+  <div class="mood-switching">
+    <h3>When to change priorities</h3>
+    <p>The supervisor estimates the chance of failure within 100 actions if the agent keeps seeking. The reversible version uses two thresholds:</p>
+    <ul>
+      <li><strong>Enter caution</strong> when estimated risk rises above 10%.</li>
+      <li><strong>Return to seeking</strong> after five consecutive eligible decisions with estimated risk below 4%.</li>
+    </ul>
+    <p>The weight moves between 0.2 and 0.7 over ten actions. Each mode lasts at least 20 decisions. Threshold counters stay off during ramps, and the release counter starts after that minimum duration. The gap between thresholds and the minimum duration prevent rapid switching.</p>
+  </div>
+  <details class="mood-results-detail"><summary>Architecture and temperature</summary>
   <div class="mood-technical">
-    <p>The cost weight \(w\) conditions two actor layers through FiLM. The actor is trained with separate reward and cost critics, combining their advantages before PPO normalization:</p>
-    <div class="math-block">\[
-      \widehat A_t^{\,w}=(1-w)\widehat A_t^{\,R}-w\widehat A_t^{\,C}.
-    \]</div>
+    <p>The cost weight \(w\) conditions two actor layers through FiLM. The combined advantage is normalized once per rollout for PPO; the reward and cost value losses remain separate.</p>
     <p>Temperature acts only on the final logits. At a fixed observation and weight, increasing temperature preserves the action ranking and cannot decrease entropy.</p>
     <div class="math-block">\[
       \begin{aligned}
@@ -88,7 +101,7 @@ last_modified_at: 2026-10-14
       \pi_\theta(a\mid x,w,\tau)&=\operatorname{softmax}\!\left(\frac{z_\theta(x,w)}{T(\tau)}\right)_a.
       \end{aligned}
     \]</div>
-    <p>The supervisor evaluates the cost critic at a fixed seeking setting throughout the episode. Isotonic calibration maps that score to the probability of failure within 100 actions under continued seeking. The default alarm ramps \(w\) from 0.2 to 0.7 over ten actions. Reversible supervision releases caution after five eligible decisions below 0.04, with a 20-action minimum duration in each mode.</p>
+    <p>The supervisor evaluates the cost critic at a fixed seeking setting throughout the episode. Isotonic calibration maps that score to the probability of failure within 100 actions under continued seeking. Keeping the reference setting fixed prevents a control change from lowering the score just by changing the critic's input.</p>
   </div>
   <p class="source-note"><a href="{{ page.paper_url }}#page=2" target="_blank" rel="noopener">Sections 3 and 4; Figure 3 ↗</a></p>
   </details>

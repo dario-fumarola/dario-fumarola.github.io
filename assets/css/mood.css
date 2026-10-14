@@ -1,5 +1,5 @@
-.project-mood { --mood-seeking:#52648c; --mood-cautious:var(--project-ink); --mood-hazard:#a56d65; --mood-hazard-wash:#f3e8e5; }
-[data-theme="dark"] .project-mood { --mood-seeking:#a6b7da; --mood-hazard:#d39a8e; --mood-hazard-wash:#382b2b; }
+.project-mood { --mood-seeking:#315da8; --mood-cautious:#95620d; --mood-hazard:#a56d65; --mood-hazard-wash:#f3e8e5; }
+[data-theme="dark"] .project-mood { --mood-seeking:#92baff; --mood-cautious:#e1b65f; --mood-hazard:#d39a8e; --mood-hazard-wash:#382b2b; }
 .project-mood .project-hero { grid-template-columns:1.15fr 1fr; grid-template-areas:"title copy" "visual visual"; gap:24px 64px; padding-top:32px; }
 .mood-hero-title { grid-area:title; align-self:start; }
 .mood-hero-copy { grid-area:copy; align-self:start; padding-top:4px; }
@@ -16,8 +16,9 @@
 .mood-scene-heading > span { font-size:10px; color:var(--muted); }
 .mood-story { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; padding:0; margin:0 0 8px; list-style:none; font-size:10px; color:var(--muted); }
 .mood-story li { padding-bottom:8px; border-bottom:2px solid var(--border); transition:color .15s ease, border-color .15s ease; }
-.mood-story li.is-current, .mood-story li.is-past { color:var(--text); border-color:var(--mood-seeking); }
-.mood-story li:nth-child(2).is-current, .mood-story li:nth-child(2).is-past { border-color:var(--mood-cautious); }
+.mood-story li.is-current, .mood-story li.is-past { color:var(--mood-seeking); border-color:var(--mood-seeking); }
+.mood-story li:nth-child(2) { border-bottom-style:dashed; }
+.mood-story li:nth-child(2).is-current, .mood-story li:nth-child(2).is-past { color:var(--mood-cautious); border-color:var(--mood-cautious); }
 .mood-scene-map { display:block; width:100%; max-width:360px; height:auto; margin:12px auto 8px; overflow:visible; }
 .mood-floor, .mood-rooms-floor { fill:var(--bg); }
 .mood-grid-line { stroke:var(--border); stroke-width:.75; }
@@ -26,10 +27,12 @@
 .mood-room-walls, .mood-rooms-outline { fill:none; stroke:var(--border-strong); stroke-width:1.3; }
 .mood-alternative { fill:none; stroke:var(--border-strong); stroke-width:1.3; stroke-dasharray:3 4; opacity:.65; }
 .mood-trail { fill:none; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; }
-.mood-scene:not([data-playback="static"]) .mood-trail { stroke-dasharray:1; }
 .mood-seeking-trail { stroke:var(--mood-seeking); }
-.mood-cautious-trail { stroke:var(--mood-cautious); }
-.mood-moving-agent circle { fill:var(--text); stroke:var(--bg); stroke-width:2; }
+.mood-cautious-trail { stroke:var(--mood-cautious); stroke-dasharray:5 4; }
+.mood-moving-agent circle { fill:var(--mood-seeking); stroke:var(--bg); stroke-width:2; }
+.mood-moving-agent rect { display:none; fill:var(--mood-cautious); stroke:var(--bg); stroke-width:2; }
+.mood-scene[data-phase="cautious"] .mood-moving-agent circle { display:none; }
+.mood-scene[data-phase="cautious"] .mood-moving-agent rect { display:block; }
 .mood-pellets circle { fill:var(--bg); stroke:var(--muted); stroke-width:1; }
 .is-collected { opacity:.12; }
 .mood-moving-ghost path { fill:var(--mood-hazard-wash); stroke:var(--mood-hazard); stroke-width:1.2; }
@@ -42,15 +45,15 @@
 .mood-map-label { fill:var(--muted); font:12px var(--font-sans); }
 .mood-hazard-label { fill:var(--mood-hazard); }
 .mood-scene-caption { font-size:12px; line-height:1.65; min-height:40px; max-width:56ch; margin:0; color:var(--text-2); }
-.mood-scene-footer { margin-top:8px; }
-.mood-model-note { font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
 .mood-motion-toggle { display:inline-flex; align-items:center; gap:7px; min-height:44px; padding:0; border:0; background:none; color:var(--muted); font-size:10px; cursor:pointer; }
 .mood-motion-toggle svg { width:13px; height:13px; }
-.mood-illustration-note { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 20px; color:var(--muted); font-size:10px; margin:8px 0 0; }
+.mood-scene-controls { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 20px; color:var(--muted); font-size:10px; margin:12px 0 0; }
 .mood-legend { display:inline-flex; align-items:center; gap:8px; }
-.mood-legend i { width:20px; height:2px; display:inline-block; }
+.mood-legend i { position:relative; width:24px; height:2px; display:inline-block; }
+.mood-legend i::after { content:""; position:absolute; left:9px; top:-3px; width:8px; height:8px; background:var(--mood-seeking); border-radius:50%; }
 .mood-legend-seeking { background:var(--mood-seeking); }
-.mood-legend-cautious { background:var(--mood-cautious); margin-left:12px; }
+.mood-legend-cautious { border-top:2px dashed var(--mood-cautious); margin-left:16px; }
+.mood-legend .mood-legend-cautious::after { background:var(--mood-cautious); border-radius:1px; transform:rotate(45deg); top:-4px; }
 .mood-findings { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin:26px 0 24px; }
 .mood-finding { border-top:1px solid var(--border); padding-top:16px; }
 .mood-finding h3 { font:400 21px/1.2 var(--font-serif); margin:0 0 16px; }
@@ -64,6 +67,17 @@
 .mood-measure { font-size:11px; color:var(--muted); margin:0; }
 .mood-technical { padding-top:12px; }
 .mood-technical > p { max-width:90ch; font-size:14px; line-height:1.85; }
+.mood-core { max-width:90ch; margin:28px 0; padding:20px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); font-size:14px; line-height:1.85; }
+.mood-core h3 { margin:0 0 14px; font-size:24px; }
+.mood-core .math-block { margin:16px 0; }
+.mood-core mjx-container[display="true"] { font-size:155% !important; }
+.mood-core p:last-child { margin-bottom:0; }
+.mood-switching { max-width:90ch; font-size:14px; line-height:1.85; }
+.mood-switching ul { margin:16px 0; padding-left:20px; }
+.mood-switching li + li { margin-top:8px; }
+.mood-switching li:first-child strong { color:var(--mood-cautious); }
+.mood-switching li:last-child strong { color:var(--mood-seeking); }
+.project-mood .related-work { border-top:0; }
 @media (max-width:1080px) { .project-mood .project-hero { column-gap:32px; } .mood-scenes { column-gap:32px; } }
 @media (max-width:760px) {
   .project-mood .project-hero { grid-template-columns:1fr; grid-template-areas:"title" "visual" "copy"; gap:24px; padding-top:28px; }

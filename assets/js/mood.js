@@ -44,17 +44,23 @@
   }
   const stories = {pac:[pacStory(false), pacStory(true)], rooms:[roomsStory(false), roomsStory(true)]};
 
-  function position(points, progress) {
+  function travelled(points, progress) {
     const lengths = points.slice(1).map((point, index) => Math.hypot(point[0]-points[index][0], point[1]-points[index][1]));
     let distance = clamp(progress) * lengths.reduce((sum, value) => sum+value, 0);
+    const visited = [points[0]];
+    if (distance === 0) return visited;
     for (let index = 0; index < lengths.length; index++) {
-      if (distance <= lengths[index] || index === lengths.length-1) {
+      if (distance < lengths[index]) {
         const fraction = distance/lengths[index];
-        return points[index].map((value, axis) => value+fraction*(points[index+1][axis]-value));
+        visited.push(points[index].map((value, axis) => value+fraction*(points[index+1][axis]-value)));
+        break;
       }
+      visited.push(points[index+1]);
       distance -= lengths[index];
     }
+    return visited;
   }
+  const position = (points, progress) => travelled(points, progress).at(-1);
 
   const scenes = figures.map(figure => {
     const world = figure.dataset.world;
@@ -112,7 +118,7 @@
       const phase = time < cautionAt ? 0 : time < resumeAt ? 1 : 2;
       const point = position(story.routes[phase], ease(progress[phase]));
       actor.setAttribute('transform', `translate(${point[0].toFixed(2)} ${point[1].toFixed(2)})`);
-      trails.forEach((trail, index) => trail.style.strokeDashoffset = String(1-ease(progress[index])));
+      trails.forEach((trail, index) => trail.setAttribute('d', path(travelled(story.routes[index], ease(progress[index])))));
       map.style.opacity = String(Math.min(hasLooped ? clamp(time/fadeDuration) : 1, clamp((cycleDuration-time)/fadeDuration)));
       if (phase !== lastPhase) {
         figure.dataset.phase = ['seeking','cautious','resume'][phase];
