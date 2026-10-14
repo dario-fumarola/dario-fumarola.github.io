@@ -2,12 +2,14 @@
 [data-theme="dark"] .project-mood { --mood-seeking:#92baff; --mood-cautious:#e1b65f; --mood-hazard:#d39a8e; --mood-hazard-wash:#382b2b; }
 .project-mood .project-hero { grid-template-columns:1.15fr 1fr; grid-template-areas:"title copy" "visual visual"; gap:24px 64px; padding-top:32px; }
 .mood-hero-title { grid-area:title; align-self:start; }
-.mood-hero-copy { grid-area:copy; align-self:start; padding-top:4px; }
+.mood-hero-copy { grid-area:copy; align-self:start; padding-top:32px; }
 .mood-mobile-paper-links { display:none; }
 .mood-hero-meta { display:flex; flex-wrap:wrap; gap:10px 20px; align-items:center; }
 .mood-hero-meta .mood-venue { letter-spacing:.08em; color:var(--muted); }
 .project-mood .project-hero h1 { margin-bottom:16px; }
 .project-mood .project-hero .subtitle { margin-bottom:0; }
+.project-mood .research-section h2 { font-size:28px; margin-bottom:18px; }
+.project-mood .research-section h3 { font-size:22px; }
 .project-mood .byline { margin:14px 0; }
 .mood-scenes { grid-area:visual; display:grid; grid-template-columns:1fr 1fr; gap:0 48px; min-width:0; }
 .mood-scene { margin:0; min-width:0; border-top:1px solid var(--border); padding-top:18px; }
