@@ -42,11 +42,10 @@
 .mood-map-label { fill:var(--muted); font:12px var(--font-sans); }
 .mood-hazard-label { fill:var(--mood-hazard); }
 .mood-scene-caption { font-size:12px; line-height:1.65; min-height:40px; max-width:56ch; margin:0; color:var(--text-2); }
-.mood-scene-footer { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:4px; min-height:40px; }
+.mood-scene-footer { margin-top:8px; }
 .mood-model-note { font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
-.mood-replay { display:inline-flex; align-items:center; gap:7px; min-height:44px; padding:0; border:0; background:none; color:var(--text-2); font-size:11px; cursor:pointer; }
-.mood-replay svg { width:13px; height:13px; }
-.mood-replay:disabled { opacity:.45; cursor:default; }
+.mood-motion-toggle { display:inline-flex; align-items:center; gap:7px; min-height:44px; padding:0; border:0; background:none; color:var(--muted); font-size:10px; cursor:pointer; }
+.mood-motion-toggle svg { width:13px; height:13px; }
 .mood-illustration-note { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 20px; color:var(--muted); font-size:10px; margin:8px 0 0; }
 .mood-legend { display:inline-flex; align-items:center; gap:8px; }
 .mood-legend i { width:20px; height:2px; display:inline-block; }

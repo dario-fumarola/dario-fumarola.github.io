@@ -2,114 +2,199 @@
   const figures = [...document.querySelectorAll('.mood-scene')];
   if (!figures.length) return;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const duration = 4800;
-  const cautionAt = 1100;
-  const resumeAt = 3600;
-  const stories = {
-    pac: {
-      routes: [[[196,168],[196,136]], [[196,136],[100,136],[100,40],[196,40]], [[196,40],[260,40]]],
-      captions: ['Collecting pellets along the corridor.', 'A ghost approaches. The policy takes the longer route.', 'Clear of the ghost, the policy returns to seeking.'],
-      complete: 'The agent detours around the ghost, then resumes collecting pellets.'
-    },
-    rooms: {
-      routes: [[[68,152],[68,128]], [[68,128],[68,56],[244,56]], [[244,56],[292,56]]],
-      captions: ['Moving toward the amulet.', 'A detour avoids the spikes and uses a key to open the door.', 'Beyond the hazard, seeking resumes toward the amulet.'],
-      complete: 'The agent avoids the spikes, unlocks the door, then continues to the amulet.'
-    }
-  };
+  const toggle = document.querySelector('.mood-motion-toggle');
+  const cautionAt = 1400;
+  const resumeAt = 5000;
+  const duration = 6400;
+  const cycleDuration = 7900;
+  const fadeDuration = 300;
+  let manuallyPaused = false;
   const clamp = value => Math.max(0, Math.min(1, value));
   const ease = value => value < .5 ? 2 * value * value : 1 - Math.pow(-2 * value + 2, 2) / 2;
+  const path = points => points.map((point, index) => `${index ? 'L' : 'M'}${point.join(' ')}`).join('');
+
+  function pacStory(mirrored) {
+    const reflect = point => [mirrored ? 360-point[0] : point[0], point[1]];
+    return {
+      name: mirrored ? 'Ghost from the left' : 'Ghost from the right',
+      routes: [[[196,168],[196,136]], [[196,136],[100,136],[100,40],[196,40]], [[196,40],[260,40]]].map(route => route.map(reflect)),
+      alternative: [[196,136],[228,136],[228,40],[196,40]].map(reflect),
+      ghost: [[260,104],[228,104],[228,136],[292,136]].map(reflect),
+      pellets: [[196,152],[196,40],[228,40],[260,40]].map(reflect),
+      wallX: mirrored ? 148 : 116,
+      mirrored,
+      captions: ['Collecting pellets along the corridor.', 'A ghost approaches. The policy takes the longer route.', 'Clear of the ghost, the policy returns to seeking.'],
+      complete: 'The agent detours around the ghost, then resumes collecting pellets.'
+    };
+  }
+  function roomsStory(upper) {
+    const startY = upper ? 56 : 152;
+    const goalY = upper ? 148 : 56;
+    return {
+      name: upper ? 'Spikes in the upper passage' : 'Spikes in the lower passage',
+      routes: [[[68,startY],[100,startY]], [[100,startY],[68,startY],[68,goalY],[244,goalY]], [[244,goalY],[292,goalY]]],
+      alternative: [[100,startY],[292,startY],[292,goalY]],
+      goalY,
+      upper,
+      keyAt: (32+Math.abs(startY-104))/(32+Math.abs(startY-goalY)+176),
+      doorAt: (32+Math.abs(startY-goalY)+46)/(32+Math.abs(startY-goalY)+176),
+      captions: ['Moving toward the amulet.', 'Turning back for a key and a clear route around the spikes.', 'Beyond the door, seeking resumes toward the amulet.'],
+      complete: 'The agent uses the key to avoid the spike passage, then reaches the amulet.'
+    };
+  }
+  const stories = {pac:[pacStory(false), pacStory(true)], rooms:[roomsStory(false), roomsStory(true)]};
+
   function position(points, progress) {
     const lengths = points.slice(1).map((point, index) => Math.hypot(point[0]-points[index][0], point[1]-points[index][1]));
-    let distance = clamp(progress) * lengths.reduce((sum, value) => sum + value, 0);
+    let distance = clamp(progress) * lengths.reduce((sum, value) => sum+value, 0);
     for (let index = 0; index < lengths.length; index++) {
       if (distance <= lengths[index] || index === lengths.length-1) {
-        const fraction = distance / lengths[index];
-        return points[index].map((value, axis) => value + fraction * (points[index+1][axis]-value));
+        const fraction = distance/lengths[index];
+        return points[index].map((value, axis) => value+fraction*(points[index+1][axis]-value));
       }
       distance -= lengths[index];
     }
   }
+
   const scenes = figures.map(figure => {
-    const story = stories[figure.dataset.world];
+    const world = figure.dataset.world;
+    const variants = stories[world];
     const actor = figure.querySelector('.mood-moving-agent');
+    const map = figure.querySelector('.mood-scene-map');
     const caption = figure.querySelector('.mood-scene-caption');
     const trails = [...figure.querySelectorAll('.mood-trail')];
     const steps = [...figure.querySelectorAll('.mood-story li')];
-    const replay = figure.querySelector('.mood-replay');
+    const ghost = figure.querySelector('.mood-moving-ghost');
+    const pellets = [...figure.querySelectorAll('.mood-pellets circle')];
+    const key = figure.querySelector('.mood-key');
+    const doorLeaf = figure.querySelector('.mood-door-leaf');
+    const amulet = figure.querySelector('.mood-amulet');
+    let storyIndex = 0;
+    let story = variants[storyIndex];
     let elapsed = 0;
     let startTime = 0;
     let frame = null;
     let visible = false;
-    let played = false;
+    let hasLooped = false;
     let lastPhase = -1;
+
+    function prepare() {
+      story = variants[storyIndex];
+      lastPhase = -1;
+      figure.querySelector('.mood-scenario').textContent = story.name;
+      trails.forEach((trail, index) => trail.setAttribute('d', path(story.routes[index])));
+      figure.querySelector('.mood-alternative').setAttribute('d', path(story.alternative));
+      const shortLabel = figure.querySelector('.mood-short-label');
+      if (world === 'pac') {
+        figure.querySelector('.mood-central-wall').setAttribute('x', story.wallX);
+        pellets.forEach((pellet, index) => {
+          pellet.setAttribute('cx', story.pellets[index][0]);
+          pellet.setAttribute('cy', story.pellets[index][1]);
+        });
+        figure.querySelector('.mood-pellets-label').setAttribute('x', story.mirrored ? 114 : 246);
+        shortLabel.setAttribute('x', story.mirrored ? 124 : 236);
+        shortLabel.setAttribute('text-anchor', story.mirrored ? 'end' : 'start');
+        ghost.querySelector('text').setAttribute('x', story.mirrored ? -14 : 14);
+        ghost.querySelector('text').setAttribute('text-anchor', story.mirrored ? 'end' : 'start');
+      } else {
+        figure.querySelector('.mood-spike-passage').setAttribute('transform', `translate(0 ${story.upper ? -92 : 0})`);
+        figure.querySelector('.mood-door').setAttribute('transform', `translate(128 ${story.goalY})`);
+        amulet.setAttribute('transform', `translate(292 ${story.goalY})`);
+        figure.querySelector('.mood-door-label').setAttribute('y', story.upper ? 201 : 16);
+        figure.querySelector('.mood-amulet-label').setAttribute('y', story.upper ? 201 : 16);
+        figure.querySelector('.mood-spikes-label').setAttribute('y', story.upper ? 85 : 177);
+        shortLabel.setAttribute('y', story.upper ? 49 : 169);
+      }
+    }
+
     function render(time) {
-      const progress = [clamp(time / 750), clamp((time-cautionAt)/(resumeAt-cautionAt)), clamp((time-resumeAt)/(duration-resumeAt))];
+      const progress = [clamp((time-250)/800), clamp((time-cautionAt)/(resumeAt-cautionAt)), clamp((time-resumeAt)/(duration-resumeAt))];
       const phase = time < cautionAt ? 0 : time < resumeAt ? 1 : 2;
       const point = position(story.routes[phase], ease(progress[phase]));
       actor.setAttribute('transform', `translate(${point[0].toFixed(2)} ${point[1].toFixed(2)})`);
       trails.forEach((trail, index) => trail.style.strokeDashoffset = String(1-ease(progress[index])));
+      map.style.opacity = String(Math.min(hasLooped ? clamp(time/fadeDuration) : 1, clamp((cycleDuration-time)/fadeDuration)));
       if (phase !== lastPhase) {
         figure.dataset.phase = ['seeking','cautious','resume'][phase];
         caption.textContent = story.captions[phase];
-        steps.forEach((step, index) => {step.classList.toggle('is-current', index === phase); step.classList.toggle('is-past', index < phase);});
+        steps.forEach((step, index) => {
+          step.classList.toggle('is-current', index === phase);
+          step.classList.toggle('is-past', index < phase);
+        });
         lastPhase = phase;
       }
-      if (figure.dataset.world === 'pac') {
-        const ghost = position([[260,104],[228,104],[228,136],[292,136]], clamp(time/resumeAt));
-        figure.querySelector('.mood-moving-ghost').setAttribute('transform', `translate(${ghost[0].toFixed(2)} ${ghost[1].toFixed(2)})`);
-        const collected = {first:progress[0] >= .5, turn:progress[1] >= 1, middle:progress[2] >= .5, last:progress[2] >= 1};
-        Object.entries(collected).forEach(([name, value]) => figure.querySelector(`[data-pellet="${name}"]`).classList.toggle('is-collected', value));
+      if (world === 'pac') {
+        const point = position(story.ghost, clamp(time/resumeAt));
+        ghost.setAttribute('transform', `translate(${point[0].toFixed(2)} ${point[1].toFixed(2)})`);
+        const collected = [progress[0] >= .5, progress[1] >= 1, progress[2] >= .5, progress[2] >= 1];
+        pellets.forEach((pellet, index) => pellet.classList.toggle('is-collected', collected[index]));
       } else {
-        const hasKey = ease(progress[1]) >= 24/248;
-        const doorOpen = ease(progress[1]) >= 118/248;
+        const hasKey = ease(progress[1]) >= story.keyAt;
+        const doorOpen = ease(progress[1]) >= story.doorAt;
         figure.classList.toggle('has-key', hasKey);
         figure.classList.toggle('door-open', doorOpen);
-        figure.querySelector('.mood-key').classList.toggle('is-collected', hasKey);
-        figure.querySelector('.mood-door-leaf').setAttribute('d', doorOpen ? 'M0-12 18-17' : 'M0-12V12');
-        figure.querySelector('.mood-amulet').classList.toggle('is-collected', progress[2] >= 1);
+        key.classList.toggle('is-collected', hasKey);
+        doorLeaf.setAttribute('d', doorOpen ? 'M0-12 18-17' : 'M0-12V12');
+        amulet.classList.toggle('is-collected', progress[2] >= 1);
       }
-      if (time >= duration) {
-        figure.dataset.playback = 'complete';
-        caption.textContent = story.complete;
-        replay.disabled = false;
-      }
+      if (time >= duration) caption.textContent = story.complete;
     }
+
     function tick(timestamp) {
-      elapsed = Math.min(duration, timestamp-startTime);
+      elapsed = timestamp-startTime;
+      if (elapsed >= cycleDuration) {
+        const cycles = Math.floor(elapsed/cycleDuration);
+        storyIndex = (storyIndex+cycles)%variants.length;
+        startTime += cycles*cycleDuration;
+        elapsed %= cycleDuration;
+        hasLooped = true;
+        prepare();
+      }
       render(elapsed);
-      frame = elapsed < duration ? requestAnimationFrame(tick) : null;
+      frame = requestAnimationFrame(tick);
     }
     function pause() {
       if (frame !== null) cancelAnimationFrame(frame);
       frame = null;
     }
-    function play(reset = false) {
-      pause();
-      if (reset) {elapsed = 0; lastPhase = -1; render(0);}
-      if (reduceMotion.matches) {render(duration); replay.hidden = true; played = true; return;}
-      if (elapsed >= duration || document.hidden) return;
-      played = true;
-      replay.hidden = false;
-      replay.disabled = true;
+    function play() {
+      if (frame !== null || !visible || manuallyPaused || reduceMotion.matches || document.hidden) return;
       figure.dataset.playback = 'playing';
       startTime = performance.now()-elapsed;
       frame = requestAnimationFrame(tick);
     }
-    replay.addEventListener('click', () => play(true));
-    figure.dataset.playback = 'ready';
+    prepare();
+    figure.dataset.playback = reduceMotion.matches ? 'static' : 'ready';
     render(reduceMotion.matches ? duration : 0);
-    replay.hidden = reduceMotion.matches;
-    replay.disabled = !reduceMotion.matches;
     return {
       figure,
-      setVisible(value) {visible = value; if (!value) pause(); else if (!played || elapsed < duration) play();},
-      visibilityChanged() {if (document.hidden) pause(); else if (visible && elapsed < duration) play();},
-      motionChanged() {pause(); if (reduceMotion.matches) {render(duration); replay.hidden = true; elapsed = duration;} else {replay.hidden = false; if (!played && visible) play();}}
+      setVisible(value) {visible = value; if (value) play(); else pause();},
+      setPaused(value) {if (value) {pause(); map.style.opacity = '1'; figure.dataset.playback = 'paused';} else play();},
+      visibilityChanged() {if (document.hidden) pause(); else play();},
+      motionChanged() {
+        pause();
+        if (reduceMotion.matches) {render(duration); figure.dataset.playback = 'static';}
+        else {elapsed = 0; hasLooped = false; lastPhase = -1; figure.dataset.playback = manuallyPaused ? 'paused' : 'ready'; render(0); play();}
+      }
     };
   });
-  const observer = new IntersectionObserver(entries => entries.forEach(entry => scenes.find(scene => scene.figure === entry.target).setVisible(entry.isIntersecting && entry.intersectionRatio >= .35)), {threshold:.35});
+
+  function updateToggle() {
+    toggle.hidden = reduceMotion.matches;
+    toggle.setAttribute('aria-pressed', String(manuallyPaused));
+    toggle.querySelector('span').textContent = manuallyPaused ? 'Resume motion' : 'Pause motion';
+    toggle.querySelector('path').setAttribute('d', manuallyPaused ? 'M5 3 12 8 5 13Z' : 'M5 3v10M11 3v10');
+  }
+  toggle.addEventListener('click', () => {
+    manuallyPaused = !manuallyPaused;
+    scenes.forEach(scene => scene.setPaused(manuallyPaused));
+    updateToggle();
+  });
+  updateToggle();
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => scenes.find(scene => scene.figure === entry.target).setVisible(entry.isIntersecting && entry.intersectionRatio >= .35));
+  }, {threshold:.35});
   scenes.forEach(scene => observer.observe(scene.figure));
   document.addEventListener('visibilitychange', () => scenes.forEach(scene => scene.visibilityChanged()));
-  reduceMotion.addEventListener('change', () => scenes.forEach(scene => scene.motionChanged()));
+  reduceMotion.addEventListener('change', () => {scenes.forEach(scene => scene.motionChanged()); updateToggle();});
 })();

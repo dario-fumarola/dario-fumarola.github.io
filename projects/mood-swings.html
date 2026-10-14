@@ -7,7 +7,7 @@ authors: Dario Fumarola and Jin Tan Ruan
 venue: ICML 2025
 paper_url: https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf
 paper: /assets/mood-swings.pdf
-last_modified_at: 2026-10-13
+last_modified_at: 2026-10-14
 ---
 <header class="project-hero">
   <div class="mood-hero-title">
@@ -56,15 +56,15 @@ last_modified_at: 2026-10-13
     <p>Releasing caution helps recover progress. In full Pac-Mind++ episodes from reset, completion rises from 62.1% to 64.6% compared with keeping caution active after the first alarm. Failure rises from 4.7% to 5.0%.</p>
   </div>
   <h3>One policy across settings</h3>
-  <div class="prose"><p>In these tasks, sharing the actor across settings works better than dividing the same training interactions among eight specialists.</p></div>
-  <details class="mood-results-detail"><summary>Training budget and reward-cost coverage</summary>
-  <div class="mood-technical"><p>MC-PPO retains 98.0% and 97.2% of the full eight-actor <em>action mixture's</em> mean reward-cost coverage in the two tasks, using one-eighth of its policy-training interactions. Calibration rollouts are separate from that budget. CCPO remains a competitive single-policy alternative.</p></div>
+  <div class="prose">
+    <p>In these tasks, sharing the actor across settings works better than dividing the same training interactions among eight specialists.</p>
+    <p>MC-PPO retains 98.0% and 97.2% of the full eight-actor <em>action mixture's</em> mean reward-cost coverage in the two tasks, using one-eighth of its policy-training interactions. Calibration rollouts are separate from that budget. CCPO remains a competitive single-policy alternative.</p>
+  </div>
   <div class="figure-pair">
     <figure class="paper-figure"><a href="../assets/figures/mood-frontier-pac.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-frontier-pac.svg" width="247" height="148" loading="lazy" alt="Pac-Mind++ reward-cost frontiers for MC-PPO, CCPO, and eight-actor libraries at matched and full training budgets."></a><figcaption><a class="figure-source" href="../assets/figures/mood-frontier-pac.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
     <figure class="paper-figure"><a href="../assets/figures/mood-frontier-hack.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-frontier-hack.svg" width="247" height="148" loading="lazy" alt="MiniHack-HazardRooms reward-cost frontiers. MC-PPO and CCPO are close, and the full-budget eight-actor library has a small advantage."></a><figcaption><a class="figure-source" href="../assets/figures/mood-frontier-hack.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
   </div>
   <p class="source-note">Figure 4. Test-set envelopes of the best observed reward within each cost ceiling. Both libraries shown here use logit mixing.</p>
-  </details>
   <p class="source-note"><a href="{{ page.paper_url }}#page=5" target="_blank" rel="noopener">Tables 1, 3, 4, 11–13; Figure 4 ↗</a></p>
 </section>
 
@@ -74,6 +74,7 @@ last_modified_at: 2026-10-13
     <p>The policy is trained with two runtime inputs. A cost weight changes its action preferences. Temperature changes how concentrated its sampling is, without reordering the actions at a fixed observation and cost weight.</p>
     <p>A calibrated estimate of failure under continued seeking tells the supervisor when to enter or leave caution. Validation rollouts also translate a requested mean cost into an operating setting.</p>
   </div>
+  <figure class="paper-figure action-figure"><a href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-actions.svg" width="300" height="184" loading="lazy" alt="First-action probabilities in the same junction: seeking favors east, caution favors west, and entropy-matched seeking still favors east."></a><figcaption>Figure 3. The observation is unchanged. Matching the cautious actor's entropy sharpens the seeking distribution but preserves its preference for east.<br><a class="figure-source" href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
   <details class="mood-results-detail"><summary>Policy objective, temperature and alarm rules</summary>
   <div class="mood-technical">
     <p>The cost weight \(w\) conditions two actor layers through FiLM. The actor is trained with separate reward and cost critics, combining their advantages before PPO normalization:</p>
@@ -89,7 +90,6 @@ last_modified_at: 2026-10-13
     \]</div>
     <p>The supervisor evaluates the cost critic at a fixed seeking setting throughout the episode. Isotonic calibration maps that score to the probability of failure within 100 actions under continued seeking. The default alarm ramps \(w\) from 0.2 to 0.7 over ten actions. Reversible supervision releases caution after five eligible decisions below 0.04, with a 20-action minimum duration in each mode.</p>
   </div>
-  <figure class="paper-figure action-figure"><a href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/mood-actions.svg" width="300" height="184" loading="lazy" alt="First-action probabilities in the same junction: seeking favors east, caution favors west, and entropy-matched seeking still favors east."></a><figcaption>Figure 3. The observation is unchanged. Matching the cautious actor's entropy sharpens the seeking distribution but preserves its preference for east.<br><a class="figure-source" href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
   <p class="source-note"><a href="{{ page.paper_url }}#page=2" target="_blank" rel="noopener">Sections 3 and 4; Figure 3 ↗</a></p>
   </details>
 
