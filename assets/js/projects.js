@@ -32,7 +32,7 @@
     $('delivery-marker').setAttribute('cy', y(time));
     $('delivery-marker-line').setAttribute('d', 'M' + x(q) + ' 195V' + y(time));
     const probabilities = switchDistribution(q);
-    [...$('switch-distribution').children].forEach((column, index) => {
+    [...($('switch-distribution')?.children || [])].forEach((column, index) => {
       column.querySelector('output').textContent = (100 * probabilities[index]).toFixed(1) + '%';
       column.querySelector('i').style.height = 100 * probabilities[index] + '%';
     });

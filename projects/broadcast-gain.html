@@ -2,64 +2,130 @@
 layout: project
 project: broadcast
 title: "Broadcast-Gain: Two-Byte Junction Control under Partial Information"
-description: "An exact counterexample shows how incoming reports can postpone a junction controller's fallback. An unconditional deadline restores a service bound, with workload tests of its costs."
+description: "A two-byte report can postpone a junction controller's fallback. An unconditional deadline keeps service bounded, with an exact counterexample and workload tests of the timing tradeoff."
 authors: Dario Fumarola
 venue: NY-RL 2025
 paper: /assets/broadcast-gain.pdf
-last_modified_at: 2026-10-13
+last_modified_at: 2026-10-15
 ---
 <header class="project-hero">
-  <div><p class="eyebrow">Control under partial information</p><h1>Broadcast-Gain</h1><p class="subtitle">Two-byte junction control under partial information</p><p class="intro">Broadcast-Gain uses sparse reports to schedule competing approaches at a junction. We identify a case where better report delivery postpones service, derive its expected switch time, and replace the conditional fallback with an unconditional deadline.</p><p class="byline">Dario Fumarola · Amazon Web Services</p><div class="paper-links"><a class="outline-link" href="{{ page.paper | relative_url }}" target="_blank" rel="noopener">Read paper ↗</a><a href="{{ page.paper | relative_url }}" download>Download PDF</a></div></div>
+  <div class="bg-hero-title">
+    <p class="eyebrow bg-hero-meta"><span>Sparse communication</span><span>NY-RL 2025</span></p>
+    <h1>Broadcast-Gain</h1>
+    <p class="subtitle">When a report delays service</p>
+    <p class="byline">Dario Fumarola · Amazon Web Services</p>
+    <div class="paper-links bg-mobile-paper-links"><a class="outline-link" href="{{ page.paper | relative_url }}" target="_blank" rel="noopener">Read paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><a href="{{ page.paper | relative_url }}" download>Download PDF</a></div>
+  </div>
+  <div class="bg-hero-copy">
+    <p class="intro">At a red light, an agent reports that it is waiting. Original BG can receive that message and keep the empty green axis open longer. We protect the service deadline while allowing useful evidence to trigger an earlier switch.</p>
+    <div class="paper-links"><a class="outline-link" href="{{ page.paper | relative_url }}" target="_blank" rel="noopener">Read paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><a href="{{ page.paper | relative_url }}" download>Download PDF</a></div>
+  </div>
+  {% include broadcast-demo.html %}
+</header>
+<nav class="section-nav" aria-label="On this page"><a href="#failure">Counterexample</a><a href="#method">Deadline</a><a href="#results">Evidence</a><a href="#outlook">Outlook</a></nav>
+
+<section class="research-section" id="failure">
+  <h2>Why a report can make the wait longer</h2>
+  <div class="figure-and-copy bg-counterexample">
+    <div class="prose">
+      <p>The original controller has two timing branches. With no cached reports, it switches after four reporting cycles. With a nonempty cache, it can hold for eight cycles while waiting for an evidence test to pass.</p>
+      <p>One stationary agent keeps this cache alive under reliable delivery. Its report identifies the waiting axis, yet one sender cannot supply enough effective support for a switch. The short fallback disappears before the report can cause service.</p>
+      <p>At six steps per reporting cycle, this moves the switch from step 24 to step 48. After two steps of clearance, green returns at step 26 or 50.</p>
+      <p>For intermediate delivery probabilities, the curve evaluates the exact expected switch time. Improving delivery can remove an empty-cache switching opportunity without supplying enough evidence to act.</p>
+    </div>
   <figure class="calculation-figure" aria-label="Exact single-reporter calculation">
-    <svg class="plot deadline-chart" viewBox="0 0 440 255" role="img" aria-labelledby="deadline-title deadline-desc"><title id="deadline-title">Expected next-switch time</title><desc id="deadline-desc">With one waiting reporter, original BG rises from 24 to 48 steps as delivery probability increases. A 24-step unconditional deadline stays fixed.</desc><g class="plot-grid"><path d="M45 45H420M45 95H420M45 145H420M45 195H420"/></g><path d="M45 25V195H420" fill="none" class="plot-axis"/><text x="36" y="49" text-anchor="end">48</text><text x="36" y="99" text-anchor="end">40</text><text x="36" y="149" text-anchor="end">32</text><text x="36" y="199" text-anchor="end">24</text><text x="45" y="215" text-anchor="middle">0</text><text x="232" y="215" text-anchor="middle">0.5</text><text x="420" y="215" text-anchor="middle">1</text><text x="45" y="15">Expected next switch · steps</text><text x="240" y="242">Delivery probability q</text><path id="deadline-curve" d="M45 195L420 45" class="ink" stroke-width="2.5" fill="none"/><path d="M45 195H420" class="neutral-stroke" stroke-width="2" stroke-dasharray="5 5"/><text x="315" y="33">Original BG</text><text x="274" y="185">BG-D · H = 24</text><path id="delivery-marker-line" d="M157.5 195V148.9" class="neutral-stroke" stroke-dasharray="3 4"/><circle id="delivery-marker" cx="157.5" cy="148.9" r="5" class="ink-fill"/></svg>
+    <svg class="plot deadline-chart" viewBox="0 0 440 255" role="img" aria-labelledby="deadline-title deadline-desc"><title id="deadline-title">Expected next-switch time</title><desc id="deadline-desc">With one waiting reporter, original BG rises from 24 to 48 steps as delivery probability increases. A 24-step unconditional deadline stays fixed.</desc><g class="plot-grid"><path d="M45 45H420M45 95H420M45 145H420M45 195H420"/></g><path d="M45 25V195H420" fill="none" class="plot-axis"/><text x="36" y="49" text-anchor="end">48</text><text x="36" y="99" text-anchor="end">40</text><text x="36" y="149" text-anchor="end">32</text><text x="36" y="199" text-anchor="end">24</text><text x="45" y="215" text-anchor="middle">0</text><text x="232" y="215" text-anchor="middle">0.5</text><text x="420" y="215" text-anchor="middle">1</text><text x="45" y="15">Expected next switch · steps</text><text x="240" y="242">Delivery probability q</text><path id="deadline-curve" d="M45.000 195.000L48.750 193.860L52.500 192.690L56.250 191.490L60.000 190.260L63.750 189.001L67.500 187.712L71.250 186.394L75.000 185.046L78.750 183.670L82.500 182.265L86.250 180.831L90.000 179.370L93.750 177.881L97.500 176.366L101.250 174.823L105.000 173.254L108.750 171.660L112.500 170.040L116.250 168.396L120.000 166.728L123.750 165.036L127.500 163.322L131.250 161.586L135.000 159.828L138.750 158.049L142.500 156.251L146.250 154.433L150.000 152.597L153.750 150.744L157.500 148.874L161.250 146.988L165.000 145.087L168.750 143.172L172.500 141.244L176.250 139.304L180.000 137.353L183.750 135.391L187.500 133.421L191.250 131.442L195.000 129.456L198.750 127.464L202.500 125.467L206.250 123.467L210.000 121.464L213.750 119.459L217.500 117.454L221.250 115.449L225.000 113.447L228.750 111.448L232.500 109.453L236.250 107.464L240.000 105.482L243.750 103.507L247.500 101.543L251.250 99.589L255.000 97.646L258.750 95.718L262.500 93.803L266.250 91.905L270.000 90.024L273.750 88.162L277.500 86.319L281.250 84.498L285.000 82.699L288.750 80.925L292.500 79.176L296.250 77.454L300.000 75.760L303.750 74.096L307.500 72.462L311.250 70.862L315.000 69.295L318.750 67.763L322.500 66.269L326.250 64.812L330.000 63.395L333.750 62.019L337.500 60.686L341.250 59.396L345.000 58.152L348.750 56.955L352.500 55.806L356.250 54.706L360.000 53.658L363.750 52.662L367.500 51.720L371.250 50.834L375.000 50.004L378.750 49.233L382.500 48.522L386.250 47.871L390.000 47.283L393.750 46.759L397.500 46.301L401.250 45.909L405.000 45.586L408.750 45.331L412.500 45.148L416.250 45.037L420.000 45.000" class="ink" stroke-width="2.5" fill="none"/><path d="M45 195H420" class="bg-bound-line"/><text x="315" y="33">Original BG</text><text x="274" y="185">BG-D · H = 24</text><path id="delivery-marker-line" d="M157.5 195V148.9" class="neutral-stroke" stroke-dasharray="3 4"/><circle id="delivery-marker" cx="157.5" cy="148.9" r="5" class="ink-fill"/></svg>
     <label class="range-label" for="delivery"><span>Report delivery probability</span><output id="delivery-value" for="delivery">30%</output></label><input id="delivery" type="range" min="0" max="1" step="0.01" value="0.30">
-    <div class="calculation-values" aria-live="polite"><span>Original: <strong id="original-switch">31.38 steps</strong></span><span>BG-D: <strong>24 steps</strong></span></div>
+    <div class="calculation-values" aria-live="polite"><span class="bg-original-number">Original: <strong id="original-switch">31.38 steps</strong></span><span class="bg-deadline-number">BG-D: <strong>24 steps</strong></span></div>
+    <details class="bg-details"><summary>Possible original switch times</summary>
     <p class="distribution-label">Probability of each original switch time</p>
     <div class="switch-distribution" id="switch-distribution" aria-live="off">
       <div><output>49.0%</output><span class="distribution-track"><i style="height:49%"></i></span><span>24</span></div><div><output>14.7%</output><span class="distribution-track"><i style="height:14.7%"></i></span><span>30</span></div><div><output>14.7%</output><span class="distribution-track"><i style="height:14.7%"></i></span><span>36</span></div><div><output>7.5%</output><span class="distribution-track"><i style="height:7.5%"></i></span><span>42</span></div><div><output>14.1%</output><span class="distribution-track"><i style="height:14.1%"></i></span><span>48 steps</span></div>
     </div>
-    <figcaption>Exact calculation for one stationary reporter on the unserved axis, with a report every six steps. Clearance follows the switch. Move the slider to change delivery probability.</figcaption>
+    </details>
+    <figcaption>Exact single-reporter calculation, with a report every six steps. Clearance follows the switch. Move the slider to change delivery probability.</figcaption>
   </figure>
-</header>
-<nav class="section-nav" aria-label="On this page"><a href="#failure">Counterexample</a><a href="#method">Deadline rule</a><a href="#results">Results</a><a href="#scope">Scope</a></nav>
-<section class="research-section" id="failure">
-  <h2>The single-reporter counterexample</h2>
+
+  </div>
+  <details class="bg-details"><summary>The exact calculation</summary>
+    <div class="prose">
+      <p>With one sender, the cache is empty when the current and previous reporting attempts are both lost. Let \(f_n(q)\) be the probability that \(n\) independent attempts contain no adjacent losses, with delivery probability \(q\):</p>
+      <div class="math-block">\[
+        \begin{aligned}
+        f_0=f_1&=1,\\
+        f_n&=qf_{n-1}+q(1-q)f_{n-2},\\
+        \mathbb E[\tau]&=C\left(4+\sum_{n=2}^{5}f_n(q)\right).
+        \end{aligned}
+      \]</div>
+      <p>At \(q=0.30\) and \(C=6\), the expected switch occurs at 31.38 steps. It ranges from 24 under complete loss to 48 under reliable delivery. Turning a loss into a delivery can only remove an early fallback opportunity in this example.</p>
+    </div>
+  </details>
+  <p class="source-note"><a href="{{ page.paper }}#page=3" target="_blank" rel="noopener">Section 3.1; Figure 1; Appendix B ↗</a></p>
+</section>
+
+<section class="research-section" id="method">
+  <h2>Check the deadline every step</h2>
   <div class="prose">
-    <p>The original rule switches after four reporting cycles when its cache is empty. With a nonempty cache, an evidence test governs early switches and the maximum hold rises to eight cycles. One or two effective reports cannot pass the evidence test, even when all reports favor the unserved axis.</p>
-    <p>With one stationary agent waiting and no traffic on the served axis, complete loss therefore gives a switch at step 24. Reliable delivery keeps the cache nonempty and delays the switch to step 48. With two-step clearance, the waiting axis first opens at step 26 or 50.</p>
-    <p>Under independent delivery probability \(q\), an empty cache requires two consecutive lost attempts. Let \(f_n(q)\) be the probability of no adjacent losses in \(n\) attempts. The expected next-switch time is</p>
+    <p>When a phase starts, assign it a deadline in physical time. At report boundaries, update the evidence as before. At every environment step, switch if either the deadline has arrived or eligible evidence calls for an earlier change.</p>
+    <p>This is BG-D. A received report can affect the evidence, but it cannot disable the deadline. The report format, cache handling and evidence thresholds stay the same.</p>
+  </div>
+  <div class="bg-core">
+    <p>Let \(t_0\) be the phase start, \(H\) its deadline duration and \(E(t)\) the eligible evidence event. The next switch occurs at:</p>
     <div class="math-block">\[
       \begin{aligned}
-      f_0=f_1&=1,\\
-      f_n&=qf_{n-1}+q(1-q)f_{n-2},\\
-      \mathbb E[\tau]&=C\left(4+\sum_{n=2}^{5}f_n(q)\right).
+      \tau&=\min\{t_0+H,\ \tau_E\},\\
+      \tau_E&=\inf\{t>t_0:E(t)\}.
       \end{aligned}
     \]</div>
-    <p>The curve above evaluates this recurrence exactly. A delivered report can remove an empty-cache switching opportunity without supplying enough support for an evidence-triggered switch.</p>
-  </div><p class="source-note"><a href="{{ page.paper }}#page=3" target="_blank" rel="noopener">Section 3.1 and Appendix B ↗</a></p>
-</section>
-<section class="research-section" id="method">
-  <h2>Reports and the unconditional deadline</h2>
-  <div class="prose">
-    <p>Agents within eight cells of the gate send a signed waiting-progress residual in one byte and their axis and distance in another. Sender identity and sequence number are transport fields outside this payload. Cached reports receive freshness weight \(\eta_j=e^{-a_j/C}\), where \(a_j\) is report age.</p>
-    <div class="math-block">\[
-      Q_s=\sum_{j:s_j=s}\eta_j e^{-d_j/8}\frac{1+\widehat x_j}{2},
-      \qquad n_{\mathrm{eff}}=\sum_j\eta_j.
-    \]</div>
-    <p>The corrected rule, BG-D, gives each phase a physical-time deadline \(t_0+H\). The deadline is checked every environment step, outside the report-dependent support and minimum-hold tests. Eligible evidence can cause an earlier switch:</p>
-    <div class="math-block">\[
-      \tau=\min\!\left\{t_0+H,\ \inf\{t>t_0:E(t)\}\right\}.
-    \]</div>
-    <p>For any report sequence, an axis's uninterrupted interval without green is at most \(H+c\), where \(c\) is clearance and \(H>c\). This bounds service interruption; agents can still wait behind a queue.</p>
-  </div><p class="source-note"><a href="{{ page.paper }}#page=4" target="_blank" rel="noopener">Algorithm 1 and Proposition 1 ↗</a></p>
-</section>
-<section class="research-section" id="results">
-  <h2>Workload results and timing tradeoffs</h2>
-  <div class="prose">
-    <p>In the stress workload, making the 24-step fallback unconditional lowers p95 waiting from 173.4 to 164.9 steps. The paired reduction is 8.5 steps [7.2, 9.8]. Throughput rises from 678.9 to 682.8 crossings per 1,000 steps.</p>
-    <p>Phase traces show that 46.0% of original phases exceed the 24-step fallback; the corrected rule has no such extension. The narrower weak-cache patch lowers p95 by only 0.7 steps. Most extended phases have more support than the single-reporter example, but inconclusive evidence.</p>
-    <p>A separately selected 12-step timer has lower waiting in the reference workload. Its advantage changes with clearance cost and demand imbalance.</p>
+    <p>Every report pattern therefore returns an axis to green within \(H+c\) steps, where \(c\) is clearance and \(H>c\). With \(H=24\) and \(c=2\), that is 26 steps. This bounds uninterrupted loss of green; an agent can still wait behind a queue.</p>
   </div>
+  <h3>What the two bytes carry</h3>
+  <div class="prose"><p>Agents near the gate send a signed waiting-progress residual in one byte, then their axis and distance in a second. Sender identity and sequence number are transport fields outside this payload. Old reports lose weight and expire after two reporting cycles.</p></div>
+  <details class="bg-details"><summary>Scores and the evidence threshold</summary>
+    <div class="prose">
+      <p>Freshness weight \(\eta_j=e^{-a_j/C}\) discounts report age \(a_j\). With decoded residual \(\widehat x_j\), the score and effective support are:</p>
+      <div class="math-block">\[
+        \begin{aligned}
+        Q_s&=\sum_{j:s_j=s}\eta_j e^{-d_j/8}\frac{1+\widehat x_j}{2},\\
+        n_{\mathrm{eff}}&=\sum_j\eta_j,\qquad u=\min(1,n_{\mathrm{eff}}/8).
+        \end{aligned}
+      \]</div>
+      <p>The normalized advantage \(a_S\) is less than one. The original evidence test \(ua_S>0.12+0.20(1-u)\) therefore requires \(u>4/15\), or \(n_{\mathrm{eff}}>32/15\). That is necessary, not sufficient. One or two effective reports cannot pass it.</p>
+    </div>
+  </details>
+  <p class="source-note"><a href="{{ page.paper }}#page=4" target="_blank" rel="noopener">Equations 2, 6 and 8; Algorithm 1; Proposition 1 ↗</a></p>
+</section>
+
+<section class="research-section" id="results">
+  <h2>What changes in traffic</h2>
+  <div class="figure-and-copy">
+    <div class="prose">
+      <p>In the high-load, high-loss workload, making the same 24-step fallback unconditional lowers p95 waiting from 173.4 to 164.9 steps. The paired reduction is 8.5 steps [7.2, 9.8]. Throughput rises from 678.9 to 682.8 crossings per thousand steps.</p>
+      <p>The phase traces show the mechanism. Original BG extends 46.0% of phases beyond its no-report fallback. BG-D removes those extensions and still permits earlier evidence-triggered switches.</p>
+      <p>The single-reporter example exposes the defect, but it is not the typical crowded state. Most extended phases have more reports and inconclusive evidence. Changing only the strictly weak-cache branch lowers p95 by 0.7 steps, compared with 8.5 for the unconditional deadline.</p>
+    </div>
+    <figure class="paper-figure bg-result-figure"><a href="../assets/figures/broadcast-phase-durations.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/broadcast-phase-durations.svg" width="421" height="153" loading="lazy" alt="Original BG has phases at 30, 36, 42 and 48 steps. BG-D(24) has none beyond 24 and retains earlier switches."></a><figcaption>Figure 2. Completed phase durations in the stress workload, including clearance.<br><a class="figure-source" href="../assets/figures/broadcast-phase-durations.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
+  </div>
+  <dl class="bg-findings"><div><dt>Reduction in p95 waiting</dt><dd>8.5 steps<small>173.4 to 164.9</small></dd></div><div><dt>Phases beyond the 24-step fallback</dt><dd>46% → 0%<small>Original BG to BG-D(24)</small></dd></div></dl>
+  <details class="bg-details"><summary>Controller comparison</summary>
+    <div class="table-scroll" tabindex="0" aria-label="Stress-workload controller results, horizontally scrollable"><table><caption>Table 1. Greedy movement; 140 agents, 70% report loss, six-step reporting, two-step clearance. Throughput is crossings per 1,000 steps.</caption><thead><tr><th scope="col">Controller</th><th scope="col">p95 waiting</th><th scope="col">Throughput</th></tr></thead><tbody>
+      <tr><th scope="row">Fixed 12 / BG-D(12)</th><td>156.8</td><td>683.6</td></tr>
+      <tr><th scope="row">Fixed 24</th><td>184.6</td><td>653.8</td></tr>
+      <tr><th scope="row">Packet-pressure</th><td>171.2</td><td>682.1</td></tr>
+      <tr><th scope="row">Original BG</th><td>173.4</td><td>678.9</td></tr>
+      <tr><th scope="row">Weak-cache patch</th><td>172.7</td><td>679.3</td></tr>
+      <tr class="result-emphasis"><th scope="row">BG-D(24)</th><td>164.9</td><td>682.8</td></tr>
+    </tbody></table></div>
+    <div class="prose"><p>BG-D(24) still adds 8.1 waiting steps [6.7, 9.4] relative to the separately selected 12-step timer. At this reporting interval, BG-D(12) is exactly that timer because its minimum evidence-triggered hold is at least 12 steps.</p></div>
+  </details>
+  <p class="source-note"><a href="{{ page.paper }}#page=6" target="_blank" rel="noopener">Sections 4.2 and 4.3; Tables 1 and 3 ↗</a></p>
+
+  <h3>Choosing the duration</h3>
+  <div class="prose">
+    <p>A 12-step timer has lower waiting in the reference workload. When clearance lasts six steps, however, it spends half its phase closed. A 24-step timer then has substantially lower waiting. Under persistent 90:10 demand, original BG benefits from longer service on the busy axis, and the 24-step cap increases p95 by 49.2 steps.</p>
+    <p>Keeping a deadline active and choosing its duration are separate decisions. The first restores the service bound. The second trades service frequency against switching cost and sustained capacity.</p>
+  </div>
+  <details class="bg-details"><summary>Workload sensitivity</summary>
   <div class="table-scroll" tabindex="0" aria-label="Workload sensitivity results, horizontally scrollable"><table><caption>p95 waiting, in steps. One-factor changes from the stress workload, with greedy movement and fixed controller settings. Table 5.</caption><thead><tr><th scope="col">Workload</th><th scope="col">Fixed 12</th><th scope="col">Fixed 24</th><th scope="col">Original BG</th><th scope="col">BG-D(24)</th></tr></thead><tbody>
     <tr><th scope="row">Reference</th><td>156.8</td><td>184.6</td><td>173.4</td><td>164.9</td></tr>
     <tr><th scope="row">Steady 50:50 demand</th><td>143.5</td><td>164.7</td><td>149.8</td><td>141.9</td></tr>
@@ -70,10 +136,19 @@ last_modified_at: 2026-10-13
     <tr><th scope="row">80 agents</th><td>77.6</td><td>91.4</td><td>96.3</td><td>82.9</td></tr>
     <tr><th scope="row">180 agents</th><td>211.6</td><td>244.8</td><td>237.9</td><td>222.4</td></tr>
   </tbody></table></div>
-  <div class="prose"><p>With six-step clearance, a 12-step phase spends half its time closed. Under persistent 90:10 demand, original BG benefits from longer service on the busy axis, and capping it at 24 steps increases waiting. Enforcing the deadline and choosing its duration are separate decisions.</p><p>Unequal loss also biases service. With 60% and 80% erasures on the two axes, the higher-loss minus lower-loss p95 gap falls from 37.3 to 17.8 steps under BG-D(24), after exchanging loss labels within each paired realization. The remaining gap reflects report-dependent evidence before the deadline.</p></div>
-  <p class="source-note">Reference: 140 agents, 70% report loss, six-step reporting, two-step clearance, and 75:25 demand alternating every 256 steps. <a href="{{ page.paper }}#page=6" target="_blank" rel="noopener">Tables 1, 3, 4 and 5 ↗</a></p>
+  </details>
+  <h3>When the channels are unequal</h3>
+  <div class="prose"><p>With 60% and 80% report erasures on the two axes, the higher-loss minus lower-loss p95 gap falls from 37.3 to 17.8 steps under BG-D(24). Loss labels are exchanged within each paired realization. The remaining gap reflects biased evidence before the deadline; the deadline does not make the received scores unbiased.</p></div>
+  <details class="bg-details"><summary>Evaluation and measurement</summary>
+    <div class="prose"><p>The tests use one junction and fixed routes. Greedy legal movement is the main comparison; a frozen PPO actor and its optional report-conditioned logit gain are secondary controls. The routes carry no energy or risk penalty for legal movement.</p><p>Each condition uses 20 blocks of four realizations. Reported p95 is the mean of realization-level quantiles, not a pooled percentile. Intervals use paired bootstrap resampling of blocks. Waiting subtracts the 48-step free-flow traversal from each visit's ready-to-completion time.</p><p>The service bound concerns loss of green. It does not establish network stability or individual queue-waiting guarantees. Downstream spillback, transport delay and failure of the reliable phase-status interface are outside this evaluation.</p></div>
+  </details>
+  <p class="source-note"><a href="{{ page.paper }}#page=8" target="_blank" rel="noopener">Tables 4 and 5; Appendix A ↗</a></p>
 </section>
-<section class="research-section" id="scope">
-  <h2>Scope and measurements</h2>
-  <div class="prose"><p>The tests use one junction with fixed routes. Greedy movement is the main comparison because legal movement carries no energy or risk penalty. Learned PPO movement and the optional report-conditioned logit gain are secondary controls.</p><p>Waiting subtracts the 48-step free-flow traversal from each visit's ready-to-completion time. Reported p95 is the mean of realization-level quantiles, not a pooled percentile. The service bound does not establish individual waiting guarantees or network stability; downstream spillback, transport delay, and failure of the reliable status interface are outside the evaluation.</p></div>
+
+<section class="research-section" id="outlook">
+  <h2>Designing for partial information</h2>
+  <div class="prose">
+    <p>A controller should be able to use new reports while keeping its fallback available. In this junction, the useful correction is where the deadline is checked. Its duration still needs to be chosen against switching costs, demand patterns and strong timing baselines.</p>
+    <p>For systems that act on sparse messages, the broader question is which decisions may adapt and which service promises must survive missing or inconclusive evidence. Making those promises explicit gives a clearer starting point for evaluating what communication and learning add.</p>
+  </div>
 </section>
