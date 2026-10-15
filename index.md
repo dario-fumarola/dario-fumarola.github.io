@@ -4,7 +4,7 @@ title: Dario Fumarola
 description: >-
   Dario Fumarola is an AI researcher and Forward Deployed Engineer at AWS in New York,
   working on reinforcement learning, LLM agents and adaptive inference.
-last_modified_at: 2026-10-14
+last_modified_at: 2026-10-15
 ---
 
 <section class="page-section" aria-labelledby="about">
@@ -49,7 +49,7 @@ last_modified_at: 2026-10-14
 <p>Two runtime controls for a frozen PPO actor, with validation-based cost selection and a calibrated risk alarm. Experiments test when caution prevents failure, when to release it, and how changed hazards affect the calibration.</p>
 <div class="card-links">
 <a href="./projects/mood-swings.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-<a href="https://icml.cc/media/icml-2025/Slides/46772_1jlqeVi.pdf" target="_blank" rel="noopener">Paper</a>
+<a href="https://icml.cc/media/icml-2025/Slides/46772_oP1ogao.pdf" target="_blank" rel="noopener">Paper</a>
 </div>
 </div>
 
@@ -59,7 +59,7 @@ last_modified_at: 2026-10-14
 <p>What should a recurrent controller remember after a local planner corrects its action? Paired experiments separate the benefit of retaining a corrected state from caching its plan, and test a rollback rule for changed targets or stale sensing.</p>
 <div class="card-links">
 <a href="./projects/elastic-state-models.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-<a href="https://neurips.cc/media/neurips-2025/Slides/128648_AAiShmx.pdf" target="_blank" rel="noopener">Paper</a>
+<a href="https://neurips.cc/media/neurips-2025/Slides/128648_FEbZXh8.pdf" target="_blank" rel="noopener">Paper</a>
 </div>
 </div>
 
