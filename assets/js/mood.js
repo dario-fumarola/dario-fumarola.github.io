@@ -23,7 +23,7 @@
       pellets: [[196,152],[196,40],[228,40],[260,40]].map(reflect),
       wallX: mirrored ? 148 : 116,
       mirrored,
-      captions: ['Collecting pellets along the corridor.', 'A ghost approaches. The policy takes the longer route.', 'Clear of the ghost, the policy returns to seeking.'],
+      captions: ['Collecting pellets along the corridor.', 'A ghost approaches. The policy takes the longer route.', 'Clear of the ghost, the policy resumes collecting pellets.'],
       complete: 'The agent detours around the ghost, then resumes collecting pellets.'
     };
   }
@@ -38,7 +38,7 @@
       upper,
       keyAt: (32+Math.abs(startY-104))/(32+Math.abs(startY-goalY)+176),
       doorAt: (32+Math.abs(startY-goalY)+46)/(32+Math.abs(startY-goalY)+176),
-      captions: ['Moving toward the amulet.', 'Turning back for a key and a clear route around the spikes.', 'Beyond the door, seeking resumes toward the amulet.'],
+      captions: ['Moving toward the amulet.', 'Turning back for a key and a clear route around the spikes.', 'Beyond the door, the agent continues toward the amulet.'],
       complete: 'The agent uses the key to avoid the spike passage, then reaches the amulet.'
     };
   }
