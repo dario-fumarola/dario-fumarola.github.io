@@ -10,8 +10,8 @@ last_modified_at: 2026-10-15
 <section class="page-section" aria-labelledby="about">
 <h2 id="about">About Me</h2>
 <div class="about-copy">
-<p>I study how trained agents change their behavior at deployment. <a href="./projects/mood-swings.html">Mood Swings</a> lets one policy shift between reward and caution without retraining. In <a href="./projects/elastic-state-models.html">Who Needs Attention Anyway?</a>, I test whether keeping a planner's correction in the controller's memory improves its next decisions.</p>
-<p>At Amazon Science, I also work on training and evaluating LLM agents, with a focus on reasoning, cooperation and safety. <a href="./projects/broadcast-gain.html">Broadcast-Gain</a> studies how a junction controller handles incomplete reports. I'm open to research collaborations; <a href="mailto:hello@dariofumarola.com">get in touch</a> if you'd like to work together.</p>
+<p>My work combines research engineering and forward deployed engineering. At Amazon Science, I study reinforcement learning, model training and adaptive inference, with a focus on how agents reason, cooperate and respond to changing conditions. I build training infrastructure and evaluations, run experiments, and develop methods around those questions.</p>
+<p>At AWS, I work directly with customers to build and deploy AI systems, including agents, evaluation tools and inference pipelines. I stay involved from defining the problem and testing an approach through integration, performance and reliability. I'm open to research and engineering collaborations; <a href="mailto:hello@dariofumarola.com">get in touch</a> if you'd like to work together.</p>
 </div>
 </section>
 
