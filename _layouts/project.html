@@ -61,6 +61,6 @@
   {% if page.project == 'mood' %}<script src="{{ '/assets/js/mood.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>{% endif %}
   {% if page.project == 'memory' %}<script src="{{ '/assets/js/memory.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>{% endif %}
   {% if page.project == 'broadcast' %}<script src="{{ '/assets/js/broadcast.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>{% endif %}
-  <script src="{{ '/assets/js/motion.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>
+  <script type="module" src="{{ '/assets/js/motion.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>
 </body>
 </html>

@@ -35,9 +35,11 @@
 .content h3 { font-size: 23px; }
 .about-copy { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; }
 .about-copy p { margin: 0; font-size: 14px; }
+.about-note a { text-decoration:underline; text-underline-offset:3px; }
 .about-note { font-size:13px; margin:18px 0 0; max-width:100ch; }
 .document-links { display:flex; flex-wrap:wrap; gap:10px 24px; font-size:12px; }
 .document-links a { display:inline-flex; align-items:center; gap:8px; min-height:44px; text-decoration:underline; text-underline-offset:3px; }
+.hero .document-links { margin-top:14px; gap:10px 28px; font-size:13px; }
 .document-links svg { width:15px; height:15px; }
 .interest-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:32px; }
 .interest-grid > div + div { border-left:1px solid var(--border); padding-left:28px; }

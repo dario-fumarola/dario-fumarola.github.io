@@ -90,6 +90,7 @@
             <p class="site-role">Forward Deployed Engineer, AWS<br>AI Researcher</p>
             {% include hero-intro.html %}
             {% include profile-links.html %}
+            {% include documents-links.html %}
           </div>
           {% include portrait-slideshow.html %}
         </section>
@@ -101,6 +102,6 @@
     </div>
     <script src="{{ "/assets/js/theme.js?v=editorial-1" | relative_url }}" defer></script>
     <script src="{{ "/assets/js/main.js?v=editorial-3" | relative_url }}" defer></script>
-    <script src="{{ '/assets/js/motion.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>
-</body>
+    <script type="module" src="{{ '/assets/js/motion.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>
+  </body>
 </html>

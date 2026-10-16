@@ -1,3 +1,5 @@
+import { proteinPose, proteinSegment } from './protein-shape.js?v=2';
+
 (() => {
   'use strict';
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -31,93 +33,89 @@
   const follow = (circle, path, p) => { const point = path.getPointAtLength(path.getTotalLength() * clamp(p)); place(circle, point.x, point.y); };
 
   document.querySelectorAll('[data-project-mark]').forEach(svg => {
-    const card = svg.closest('.project-card');
-    let seen = false, visible = false, stop = () => {};
-    let render;
+    let visible = false, frame = null, base = 0, elapsed = 0, lastDraw = -Infinity, cycle = -1;
+    let render, duration;
+    const fade = p => phase(p, 0, .035) * (1 - phase(p, .965, 1));
     if (svg.dataset.projectMark === 'mood') {
+      duration = 7200;
       const route = svg.querySelector('.mark-route'), dot = svg.querySelector('.mark-traveller');
-      const approach = document.createElementNS(ns, 'path'); approach.setAttribute('d', 'M12 72H58V58');
-      const detour = document.createElementNS(ns, 'path'); detour.setAttribute('d', 'M58 58V72H28V10H108V24');
+      const approach = document.createElementNS(ns, 'path'); approach.setAttribute('d', 'M14 78H106V62');
+      const detour = document.createElementNS(ns, 'path'); detour.setAttribute('d', 'M106 62V78H74V18H106');
       render = p => {
-        follow(dot, p < .28 ? approach : detour, p < .28 ? phase(p, 0, .28) : phase(p, .28, .96));
-        route.style.opacity = p < .28 ? .25 : .85;
-        svg.querySelector('.mark-hazard').style.opacity = .6 + .4 * Math.sin(Math.PI * phase(p, .15, .65));
+        follow(dot, p < .27 ? approach : detour, p < .27 ? phase(p, .03, .24) : phase(p, .32, .82));
+        dot.style.opacity = fade(p);
+        const cautious = p >= .27 && p < .77;
+        svg.dataset.phase = cautious ? 'caution' : 'seeking';
+        route.style.opacity = .2 + .7 * phase(p, .25, .34) * (1 - phase(p, .91, .99));
+        svg.querySelector('.mark-ghost').setAttribute('transform', `translate(106 ${44 + 4 * Math.sin(p * Math.PI * 2)})`);
       };
     } else if (svg.dataset.projectMark === 'memory') {
-      const edits = [...svg.querySelectorAll('.mark-state-edit')], signal = svg.querySelector('.mark-memory-signal');
+      duration = 14000;
+      const group = svg.querySelector('.mark-protein'), backbone = svg.querySelector('.mark-protein-base');
+      const segments = [...svg.querySelectorAll('.mark-protein-segment')].map((node, i) => ({node, i, path:node.querySelector('path')}));
       render = p => {
-        edits.forEach((edit, i) => { edit.style.opacity = .15 + .85 * phase(p, i * .28, i * .28 + .18); });
-        place(signal, 18 + 84 * phase(p, .18, .86), 48);
-        signal.style.opacity = p > .18 && p < .86 ? 1 : 0;
+        const bend = .3 + .85 * (.5 - .5 * Math.cos(p * Math.PI * 2));
+        const points = proteinPose(bend, .35 + .55 * Math.sin(p * Math.PI * 2));
+        const depths = points.map(point => point[2]), low = Math.min(...depths), span = Math.max(...depths) - low;
+        segments.forEach(segment => {
+          segment.depth = (points[segment.i][2] + points[segment.i + 1][2]) / 2;
+          const path = proteinSegment(points, segment.i);
+          segment.path.setAttribute('d', path);
+          segment.path.style.opacity = .4 + .6 * (segment.depth - low) / span;
+        });
+        backbone.setAttribute('d', segments.map(segment => segment.path.getAttribute('d')).join(''));
+        [...segments].sort((a,b) => a.depth-b.depth).forEach(segment => group.append(segment.node));
       };
     } else {
+      duration = 9600;
       const a = svg.querySelector('.mark-agent-a'), b = svg.querySelector('.mark-agent-b');
       const c = svg.querySelector('.mark-agent-c'), d = svg.querySelector('.mark-agent-d');
       const packets = [...svg.querySelectorAll('.mark-packet')];
       render = p => {
-        place(a, 12 + 96 * phase(p, .25, .44), 42); place(b, 108 - 96 * phase(p, .45, .64), 54);
-        place(c, 54, 10 + 76 * phase(p, .65, .81)); place(d, 66, 86 - 76 * phase(p, .82, .98));
+        place(a, 12 + 96 * phase(p, .16, .33), 42); place(b, 108 - 96 * phase(p, .35, .52), 54);
+        place(c, 54, 10 + 76 * phase(p, .58, .74)); place(d, 66, 86 - 76 * phase(p, .76, .92));
+        [a,b,c,d].forEach(agent => { agent.style.opacity = fade(p); });
         packets.forEach((packet, i) => {
-          const t = phase(p, .02 + i * .035, .24);
-          place(packet, 60, i ? 86 - 38 * t : 10 + 38 * t);
-          packet.style.opacity = p > .02 && p < .24 ? Math.sin(Math.PI * t) : 0;
+          const t = phase(p, .04 + i * .025, .17);
+          place(packet, i ? 66 : 54, i ? 86 - 38*t : 10 + 38*t);
+          packet.style.opacity = p > .04 && p < .17 ? Math.sin(Math.PI*t) : 0;
         });
+        svg.querySelector('.mark-controller').style.opacity = p > .53 && p < .92 ? 1 : .5;
       };
     }
-    const settle = () => { render(1); svg.dataset.motion = 'still'; };
-    const play = () => {
-      if (!visible || reduced.matches || document.hidden) return;
-      stop(); svg.dataset.motion = 'playing';
-      stop = animate(3200, render, settle);
+    const pause = () => { cancelAnimationFrame(frame); frame = null; svg.dataset.motion = reduced.matches ? 'still' : 'paused'; };
+    const tick = now => {
+      elapsed = now - base;
+      if (now - lastDraw >= 32) {
+        render((elapsed % duration) / duration); lastDraw = now;
+        const nextCycle = Math.floor(elapsed / duration);
+        if (nextCycle !== cycle) { cycle = nextCycle; svg.dataset.cycle = String(cycle); }
+      }
+      frame = requestAnimationFrame(tick);
     };
-    settle();
-    card.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') play(); });
-    card.addEventListener('focusin', event => { if (!card.contains(event.relatedTarget)) play(); });
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(entries => {
-        visible = entries[0].isIntersecting;
-        if (!visible) stop();
-        else if (!seen) { seen = true; play(); }
-      }, {threshold: .65}).observe(svg);
-    }
-  });
-
-  const contours = document.querySelector('.hero-contours');
-  if (contours && !reduced.matches && contours.getBoundingClientRect().width && getComputedStyle(contours).display !== 'none') {
-    const point = contours.querySelector('.contour-point'), route = contours.querySelector('.contour-current');
-    let stop = () => {}, seen = false;
-    const play = () => {
-      const trace = route.cloneNode(); trace.setAttribute('class', 'contour-trace');
-      const length = route.getTotalLength(); trace.style.strokeDasharray = length; trace.style.opacity = 0;
-      contours.insertBefore(trace, point);
-      stop = animate(3600, p => {
-        const t = phase(p, .05, .95);
-        trace.style.strokeDashoffset = length * (1 - t);
-        trace.style.opacity = .45 * Math.sin(Math.PI * t);
-        follow(point, route, t); point.style.opacity = .6 * Math.sin(Math.PI * t);
-      }, () => { trace.remove(); point.style.opacity = 0; });
+    const sync = () => {
+      if (!visible || document.hidden || reduced.matches) { pause(); if (reduced.matches) render(.2); return; }
+      if (frame !== null) return;
+      base = performance.now() - elapsed; svg.dataset.motion = 'playing'; frame = requestAnimationFrame(tick);
     };
+    render(.2); svg.dataset.motion = 'paused';
+    document.addEventListener('visibilitychange', sync);
+    reduced.addEventListener('change', sync);
     if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
-      if (!entries[0].isIntersecting) stop();
-      else if (!seen) { seen = true; play(); }
-    }).observe(contours);
-  }
+      visible = entries[0].isIntersecting; sync();
+    }, {threshold:.1}).observe(svg);
+  });
 
   const nav = document.querySelector('.section-nav');
   if (nav) {
     const links = [...nav.querySelectorAll('a[href^="#"]')];
     const sections = links.map(link => document.getElementById(link.hash.slice(1)));
-    const line = document.createElement('span'); line.className = 'section-nav-indicator'; line.setAttribute('aria-hidden', 'true'); nav.append(line);
     let current = -1, frame;
     const move = index => {
-      const bounds = links[index].getBoundingClientRect(), origin = nav.getBoundingClientRect();
-      line.style.width = `${bounds.width}px`;
-      line.style.transform = `translate(${bounds.left - origin.left}px,${bounds.bottom - origin.top + 5}px)`;
       if (current !== index) {
         links.forEach((link, i) => { if (i === index) link.setAttribute('aria-current', 'location'); else link.removeAttribute('aria-current'); });
         current = index;
       }
-      nav.dataset.tracking = '';
     };
     const update = () => {
       frame = null;

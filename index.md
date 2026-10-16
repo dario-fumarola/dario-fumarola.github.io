@@ -10,10 +10,10 @@ last_modified_at: 2026-10-16
 <section class="page-section" aria-labelledby="about">
 <h2 id="about">About Me</h2>
 <div class="about-copy">
-<p>At Amazon Science, I work on reinforcement learning and adaptive inference. I study how agents reason and cooperate, and how their behavior holds up when conditions change after training.</p>
 <p>With AWS customers, I take a working experiment through deployment. Latency, integration and reliability matter as much as model quality, and I stay involved as the system goes into use.</p>
+<p>At Amazon Science, I work on reinforcement learning and adaptive inference. I study how agents reason and cooperate, and how their behavior holds up when conditions change after training.</p>
 </div>
-<p class="about-note">I grew up in a <a class="place-link" href="https://en.wikipedia.org/wiki/Cisternino">small village in Italy</a>. For research or engineering collaborations, <a href="mailto:hello@dariofumarola.com">get in touch</a>.</p>
+<p class="about-note">For research or engineering collaborations, <a href="mailto:hello@dariofumarola.com">get in touch</a>.</p>
 </section>
 
 <section class="page-section" id="work" aria-labelledby="presented-work">
@@ -28,7 +28,7 @@ last_modified_at: 2026-10-16
 {% include motion/project-mark.html kind="mood" %}
 <h3><a href="./projects/mood-swings.html">Mood Swings: Calibrated Reward-Cost Control</a> <span class="venue-badge icml">ICML 2025</span></h3>
 <p>Make a trained agent more or less cautious at deployment, without retraining.</p>
-<p class="project-result">In a maze task, one policy covers 98% of the reward-cost range of eight separately trained policies, using one-eighth as many policy-training interactions.</p>
+<p class="project-result">98% of an eight-policy library's reward-cost coverage, at one-eighth the training.</p>
 <div class="card-links">
 <a href="./projects/mood-swings.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
 <a href="https://icml.cc/media/icml-2025/Slides/46772_oP1ogao.pdf" target="_blank" rel="noopener">Paper</a>
@@ -82,12 +82,11 @@ last_modified_at: 2026-10-16
 <section class="page-section experience-section" aria-labelledby="experience">
 <div class="section-heading">
 <h2 id="experience">Experience</h2>
-{% include documents-links.html %}
 </div>
 
 <div class="xp-item">
 <h3>Amazon Web Services</h3>
-<p class="xp-org">Forward Deployed Engineer &middot; 2023 to present &middot; New York City</p>
+<p class="xp-org">Forward Deployed Engineer &middot; 2023 to present</p>
 <p>Technical lead for more than 20 enterprise AI engagements, from customer discovery through production. For pharmaceutical research teams, I built deployment agents that automate model packaging, GPU scheduling, validation and recovery, cutting deployment time from weeks to hours.</p>
 <p>Other work spans evaluation frameworks, Bedrock inference optimization and camera-to-radar data synthesis.</p>
 </div>
