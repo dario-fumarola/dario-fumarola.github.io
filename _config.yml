@@ -1,7 +1,7 @@
 # Site identity. jekyll-seo-tag turns these into <title>, meta description,
 # Open Graph tags, and JSON-LD on every page.
 title: Dario Fumarola
-tagline: AI Researcher & Forward Deployed Engineer at AWS
+tagline: AI Researcher & Engineer
 description: >-
   Dario Fumarola is an AI researcher and Forward Deployed Engineer at AWS in New York,
   working on reinforcement learning, LLM agents and adaptive inference.
