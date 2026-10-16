@@ -59,7 +59,7 @@
   const statePath = find('.arm-state-read');
   const allDrawing = [...svg.children].filter(node => !['title', 'desc', 'defs'].includes(node.tagName));
   let layout, elapsed = 0, variant = 0, frame = null, startTime = 0;
-  let manuallyPaused = false, onScreen = false, hasLooped = false, lastDraw = -Infinity, lastPhase = '';
+  let manuallyPaused = false, hasLooped = false, lastDraw = -Infinity, lastPhase = '';
   const pointsText = points => points.map(p => p.map(n => n.toFixed(2)).join(',')).join(' ');
   function setPath(node, d) { node.setAttribute('d', d); }
   function scenePoint(point) { return [layout.wx + point[0] * layout.scale, layout.wy + point[1] * layout.scale]; }
@@ -233,8 +233,15 @@
     if (timestamp - lastDraw >= 32) {render(elapsed);lastDraw = timestamp;}
     frame = requestAnimationFrame(tick);
   }
+  function inView() {
+    const bounds = svg.getBoundingClientRect();
+    return bounds.height > 0 && bounds.bottom > 40 && bounds.top < window.innerHeight - 40;
+  }
+  function syncVisibility() {
+    if (inView()) play();else pause();
+  }
   function play() {
-    if (frame !== null || !onScreen || document.hidden || manuallyPaused || reducedMotion.matches) return;
+    if (frame !== null || document.hidden || manuallyPaused || reducedMotion.matches || !inView()) return;
     figure.dataset.playback = 'playing';
     startTime = performance.now() - elapsed;
     frame = requestAnimationFrame(tick);
@@ -251,10 +258,9 @@
     else play();
     updateToggle();
   });
-  new IntersectionObserver(entries => {
-    onScreen = entries[0].isIntersecting;
-    if (onScreen) play();else pause();
-  }, {rootMargin: '-40px 0px', threshold: 0}).observe(svg);
+  new IntersectionObserver(syncVisibility, {rootMargin: '-40px 0px', threshold: 0}).observe(svg);
+  // Scroll can precede the observer callback, including an immediate Resume click.
+  window.addEventListener('scroll', syncVisibility, {passive: true});
   document.addEventListener('visibilitychange', () => {if (document.hidden) pause();else play();});
   reducedMotion.addEventListener('change', () => {
     pause();
