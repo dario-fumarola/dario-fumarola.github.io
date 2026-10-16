@@ -85,8 +85,16 @@
 .bg-motion-toggle { display:inline-flex; align-items:center; gap:7px; min-height:44px; padding:0; border:0; background:none; color:var(--muted); font-size:10px; white-space:nowrap; cursor:pointer; }
 .bg-motion-toggle[hidden] { display:none; }
 .bg-motion-toggle svg { width:13px; height:13px; }
-.bg-counterexample { margin:24px 0; }
-.bg-counterexample .calculation-figure { max-width:520px; padding-top:0; }
+.bg-counterexample { grid-template-areas:"copy chart" "notes chart"; grid-template-rows:min-content 1fr; gap:12px 48px; margin:24px 0 0; }
+.bg-counterexample-copy { grid-area:copy; }
+.bg-counterexample .calculation-figure { grid-area:chart; max-width:520px; padding-top:0; }
+.bg-counterexample-notes { grid-area:notes; min-width:0; }
+.bg-counterexample-notes > .bg-details { margin:0; }
+.bg-counterexample-notes > .source-note { margin-top:6px; }
+.bg-counterexample .deadline-chart { margin-bottom:16px; }
+.bg-counterexample input[type="range"] { margin:10px 0; }
+.bg-counterexample .calculation-figure > .bg-details { margin:12px 0; }
+.bg-counterexample .calculation-figure figcaption { margin-top:12px; }
 .bg-bound-line { stroke:var(--bg-ink); stroke-width:2; stroke-dasharray:5 5; }
 .bg-original-number strong { color:var(--bg-original); }
 .bg-deadline-number strong { color:var(--bg-ink); }
@@ -104,8 +112,9 @@
 .bg-findings dd { color:var(--text); margin:8px 0 0; font:400 34px/1.2 var(--font-serif); }
 .bg-findings small { display:block; color:var(--muted); font:400 10px/1.5 var(--font-sans); }
 .bg-result-figure { max-width:530px; }
-@media(max-width:1080px) { .project-broadcast .project-hero { column-gap:32px; } }
+@media(max-width:1080px) { .project-broadcast .project-hero { column-gap:32px; } .bg-counterexample { column-gap:32px; } }
 @media(max-width:760px) {
+  .bg-counterexample { grid-template-areas:"copy" "chart" "notes"; grid-template-rows:auto; gap:20px; margin-top:18px; }
   .project-broadcast .project-hero { grid-template-columns:1fr; grid-template-areas:"title" "copy" "results" "visual"; padding-top:28px; gap:24px; }
   .bg-hero-copy { padding-top:0; }
   .bg-demo-heading h2 { font-size:22px; }

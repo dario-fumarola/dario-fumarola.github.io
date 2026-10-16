@@ -42,7 +42,7 @@ last_modified_at: 2026-10-16
 <section class="research-section" id="failure">
   <h2>Counterexample</h2>
   <div class="figure-and-copy bg-counterexample">
-    <div class="prose">
+    <div class="prose bg-counterexample-copy">
       <p>Opposite approaches form an <strong>axis</strong>: north-south or east-west. One axis gets green at the shared crossing, called the <strong>gate</strong>. Switching closes both axes briefly; this is <strong>clearance</strong>.</p>
       <p>The original controller has two timing branches. With no cached reports, it switches after four reporting cycles. With a nonempty cache, it can hold for eight cycles while waiting for an evidence test to pass.</p>
       <p>One stationary agent keeps this cache alive under reliable delivery. Its report identifies the waiting axis, yet one sender cannot supply enough effective support for a switch. The short fallback disappears before the report can cause service.</p>
@@ -62,7 +62,7 @@ last_modified_at: 2026-10-16
     <figcaption>The slider changes delivery probability in the exact single-reporter calculation. Reports arrive every six steps; clearance follows the switch.</figcaption>
   </figure>
 
-  </div>
+  <div class="bg-counterexample-notes">
   <details class="bg-details"><summary>The exact calculation</summary>
     <div class="prose">
       <p>With one sender, the cache is empty when the current and previous reporting attempts are both lost. Let \(f_n(q)\) be the probability that \(n\) independent attempts contain no adjacent losses, with delivery probability \(q\):</p>
@@ -77,6 +77,8 @@ last_modified_at: 2026-10-16
     </div>
   </details>
   <p class="source-note"><a href="{{ page.paper }}#page=3" target="_blank" rel="noopener">Section 3.1; Figure 1; Appendix B ↗</a></p>
+  </div>
+  </div>
 </section>
 
 <section class="research-section" id="method">
