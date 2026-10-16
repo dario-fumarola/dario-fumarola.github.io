@@ -41,8 +41,8 @@
 .bg-cart-side-east { fill:var(--surface-2); }
 .bg-cart-load { fill:var(--surface-2); stroke:var(--text-2); stroke-width:.8; stroke-linejoin:round; }
 .bg-cart-nose { fill:none; stroke:var(--bg-ink); stroke-width:2.4; stroke-linecap:round; }
-.bg-empty-label path { fill:none; stroke:var(--border-strong); stroke-width:.8; }
-.bg-empty-label text, .bg-robot-label { fill:var(--muted); font:11px var(--font-sans); }
+.bg-cart[data-axis="x"] .bg-cart-nose { stroke:var(--bg-green); }
+.bg-cart-id { fill:var(--text-2); font:9px var(--font-sans); }
 .bg-rule-title { fill:var(--bg-original); font:12px var(--font-sans); }
 .bg-demo[data-rule="deadline"] .bg-rule-title { fill:var(--bg-ink); }
 .bg-receiver-title { fill:var(--text); font:400 21px var(--font-serif); }
