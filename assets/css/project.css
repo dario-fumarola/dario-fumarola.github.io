@@ -15,9 +15,9 @@
 .paper-links .outline-link:hover { background:var(--accent-hover); }
 .baseline-note { max-width:100ch; margin:16px 0 0; font-size:12px; line-height:1.75; color:var(--text-2); }
 .baseline-note strong { color:var(--text); font-weight:500; }
-.section-nav { display:flex; flex-wrap:wrap; gap:26px; padding:18px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); font-size:12px; }
+.section-nav { display:flex; flex-wrap:wrap; gap:26px; padding:18px 0; border-bottom:1px solid var(--border); font-size:12px; }
 .section-nav a { color:var(--text-2); }
-.research-section { padding:36px 0; border-bottom:1px solid var(--border); }
+.research-section { padding:36px 0; }
 .research-section h2 { font-size:33px; letter-spacing:-.02em; margin-bottom:22px; }
 .research-section h3 { font-size:26px; margin:30px 0 20px; }
 .prose { max-width:90ch; font-size:14px; line-height:1.85; }

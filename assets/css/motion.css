@@ -1,8 +1,8 @@
 /* Small, continuously playing studies beside the selected work. */
 .hero { position:relative; isolation:isolate; }
 .hero-copy, .portrait-gallery { position:relative; z-index:1; }
-.hero-contours { position:absolute; z-index:0; pointer-events:none; width:450px; height:380px; right:20px; top:20px; mask-image:radial-gradient(ellipse at 65% 45%,#000 5%,transparent 70%); }
-.hero-contours path { fill:none; stroke:var(--accent); stroke-width:.65; opacity:.065; }
+.hero-contours { position:absolute; z-index:0; pointer-events:none; width:500px; height:420px; right:90px; top:0; mask-image:radial-gradient(ellipse at 50% 45%,#000 5%,transparent 78%); }
+.hero-contours path { fill:none; stroke:var(--accent); stroke-width:.8; opacity:.18; }
 .project-card { padding-left:120px; }
 .project-mark { position:absolute; left:0; top:40px; width:92px; height:80px; color:var(--accent); stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
 .project-mark .mark-guide { stroke:var(--border-strong); stroke-dasharray:2 5; }
