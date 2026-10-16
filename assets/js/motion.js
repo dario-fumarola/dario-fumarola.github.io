@@ -50,21 +50,35 @@ import { proteinPose, proteinSegment } from './protein-shape.js?v=2';
         svg.querySelector('.mark-ghost').setAttribute('transform', `translate(106 ${44 + 4 * Math.sin(p * Math.PI * 2)})`);
       };
     } else if (svg.dataset.projectMark === 'memory') {
-      duration = 14000;
+      duration = 9000;
       const group = svg.querySelector('.mark-protein'), backbone = svg.querySelector('.mark-protein-base');
+      const target = svg.querySelector('.mark-protein-target'), anchors = [...svg.querySelectorAll('.mark-protein-anchors circle')];
       const segments = [...svg.querySelectorAll('.mark-protein-segment')].map((node, i) => ({node, i, path:node.querySelector('path')}));
+      const native = proteinPose(0, .35).map(([x,y,z]) => [60 + (x - 60) * 1.15, 48 + (y - 48) * 1.15, z]);
+      const localStart = 23, localEnd = 34;
+      const localPath = points => segments.filter(segment => segment.i >= localStart).map(segment => proteinSegment(points, segment.i)).join('');
+      target.setAttribute('d', localPath(native));
+      anchors.forEach((anchor, i) => place(anchor, ...native[i ? localEnd : localStart]));
+      segments.forEach(segment => { if (segment.i >= localStart) segment.node.classList.add('mark-protein-repair'); });
       render = p => {
-        const bend = .3 + .85 * (.5 - .5 * Math.cos(p * Math.PI * 2));
-        const points = proteinPose(bend, .35 + .55 * Math.sin(p * Math.PI * 2));
+        const correction = phase(p, .22, .58);
+        // Only the highlighted loop moves. The camera and the rest of the fold stay fixed.
+        const points = native.map((point, i) => {
+          const weight = i > localStart + 1 && i < localEnd - 1 ? Math.sin(Math.PI * (i - localStart - 1) / (localEnd - localStart - 2)) ** 2 : 0;
+          return [point[0] + 24 * weight * (1 - correction), point[1] - 10 * weight * (1 - correction), point[2]];
+        });
         const depths = points.map(point => point[2]), low = Math.min(...depths), span = Math.max(...depths) - low;
         segments.forEach(segment => {
           segment.depth = (points[segment.i][2] + points[segment.i + 1][2]) / 2;
           const path = proteinSegment(points, segment.i);
           segment.path.setAttribute('d', path);
-          segment.path.style.opacity = .4 + .6 * (segment.depth - low) / span;
+          segment.path.style.opacity = (segment.i >= localStart ? .8 : .45) + .2 * (segment.depth - low) / span;
         });
         backbone.setAttribute('d', segments.map(segment => segment.path.getAttribute('d')).join(''));
         [...segments].sort((a,b) => a.depth-b.depth).forEach(segment => group.append(segment.node));
+        target.style.opacity = .65 * (1 - phase(p, .48, .59));
+        svg.dataset.repairState = p < .59 ? 'refining' : 'retained';
+        svg.style.opacity = fade(p);
       };
     } else {
       duration = 9600;

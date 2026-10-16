@@ -9,7 +9,9 @@
   <circle class="mark-traveller" cx="106" cy="18" r="3.7"/>
 {% elsif include.kind == 'memory' %}
   <path class="mark-protein-base"/>
+  <path class="mark-protein-target"/>
   <g class="mark-protein">{% for n in (0..33) %}<g class="mark-protein-segment" data-segment="{{ n }}"><path class="mark-protein-backbone"/></g>{% endfor %}</g>
+  <g class="mark-protein-anchors"><circle r="1.9"/><circle r="1.9"/></g>
 {% elsif include.kind == 'broadcast' %}
   <path class="mark-guide" d="M12 42h96M12 54h96M54 10v76M66 10v76"/>
   <rect class="mark-crossing" x="38" y="28" width="44" height="40" rx="2"/>
