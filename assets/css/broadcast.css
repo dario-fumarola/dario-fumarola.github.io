@@ -80,7 +80,7 @@
 .bg-trace-deadline .bg-trace-end { stroke:var(--bg-ink); }
 .bg-trace-deadline .bg-trace-end.is-open { fill:var(--bg-ink); }
 .bg-trace-cursor { fill:none; stroke:var(--text); stroke-width:1; }
-.bg-demo-caption { font-size:12px; line-height:1.7; color:var(--text-2); text-align:center; margin:18px auto 0; max-width:90ch; }
+.bg-demo-caption { font-size:12px; line-height:1.7; color:var(--text-2); text-align:center; margin:12px auto 0; max-width:90ch; }
 .bg-demo-controls { display:flex; justify-content:space-between; align-items:center; gap:20px; margin-top:6px; color:var(--muted); font-size:10px; }
 .bg-motion-toggle { display:inline-flex; align-items:center; gap:7px; min-height:44px; padding:0; border:0; background:none; color:var(--muted); font-size:10px; white-space:nowrap; cursor:pointer; }
 .bg-motion-toggle[hidden] { display:none; }
@@ -98,7 +98,7 @@
 .bg-bound-line { stroke:var(--bg-ink); stroke-width:2; stroke-dasharray:5 5; }
 .bg-original-number strong { color:var(--bg-original); }
 .bg-deadline-number strong { color:var(--bg-ink); }
-.bg-details { margin:20px 0; }
+.bg-details { margin:16px 0 0; }
 .bg-details summary { width:fit-content; min-height:44px; padding:10px 0; cursor:pointer; color:var(--text-2); font-size:12px; text-decoration:underline; text-underline-offset:4px; }
 .bg-details .prose { margin-top:14px; }
 .bg-details .table-scroll { margin-bottom:0; }

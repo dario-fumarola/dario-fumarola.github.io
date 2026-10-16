@@ -31,7 +31,7 @@
 .mood-story li.is-current, .mood-story li.is-past { color:var(--mood-seeking); border-color:var(--mood-seeking); }
 .mood-story li:nth-child(2) { border-bottom-style:dashed; }
 .mood-story li:nth-child(2).is-current, .mood-story li:nth-child(2).is-past { color:var(--mood-cautious); border-color:var(--mood-cautious); }
-.mood-scene-map { display:block; width:100%; max-width:360px; height:auto; margin:12px auto 8px; overflow:visible; }
+.mood-scene-map { display:block; width:100%; max-width:360px; height:auto; margin:12px auto 12px; overflow:visible; }
 .mood-floor, .mood-rooms-floor { fill:var(--bg); }
 .mood-grid-line { stroke:var(--border); stroke-width:.75; }
 .mood-wall, .mood-rooms-background { fill:var(--surface-2); }
@@ -59,6 +59,7 @@
 .mood-scene-caption { font-size:12px; line-height:1.65; min-height:40px; max-width:56ch; margin:0; color:var(--text-2); }
 .mood-motion-toggle { display:inline-flex; align-items:center; gap:7px; min-height:44px; padding:0; border:0; background:none; color:var(--muted); font-size:10px; cursor:pointer; }
 .mood-motion-toggle svg { width:13px; height:13px; }
+.mood-motion-toggle[hidden] { display:none; }
 .mood-scene-controls { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 20px; color:var(--muted); font-size:10px; margin:12px 0 0; }
 .mood-legend { display:inline-flex; align-items:center; gap:8px; }
 .mood-legend i { position:relative; width:24px; height:2px; display:inline-block; }
@@ -73,7 +74,7 @@
 .mood-finding dt { grid-row:1; color:var(--muted); font-size:11px; }
 .mood-finding dd { grid-row:2; margin:4px 0 0; font:400 35px/1.2 var(--font-serif); color:var(--text); }
 .mood-finding dd:last-child { color:var(--mood-cautious); }
-.mood-results-detail { margin:20px 0; }
+.mood-results-detail { margin:16px 0 0; }
 .mood-results-detail summary { width:fit-content; min-height:44px; padding:10px 0; cursor:pointer; color:var(--text-2); font-size:12px; text-decoration:underline; text-underline-offset:4px; }
 .mood-results-detail .table-scroll { margin-bottom:0; }
 .mood-measure { font-size:11px; color:var(--muted); margin:0; }

@@ -52,7 +52,7 @@
 .memory-demo-key i { width:20px; border-top:3px solid #67758d; }
 [data-theme="dark"] .memory-demo-key i { border-top-color:#bdc7d8; }
 .memory-demo-key .fold-key-proposal { border-top:2px dashed var(--memory-ink); }
-.memory-demo-caption { font-size:12px; line-height:1.7; color:var(--text-2); text-align:center; margin:20px auto 0; }
+.memory-demo-caption { font-size:12px; line-height:1.7; color:var(--text-2); text-align:center; max-width:90ch; margin:12px auto 0; }
 .memory-demo-controls { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:4px; font-size:10px; line-height:1.8; color:var(--muted); }
 .memory-demo-controls .figure-source { margin:0; }
 .memory-motion-toggle { display:inline-flex; align-items:center; gap:7px; min-height:44px; padding:0; border:0; background:none; color:var(--muted); font-size:10px; white-space:nowrap; cursor:pointer; }
@@ -60,11 +60,16 @@
 .memory-motion-toggle svg { width:13px; height:13px; }
 .memory-evidence { margin:26px 0; }
 .memory-evidence .paper-figure { max-width:520px; }
+.memory-retention { grid-template-areas:"copy chart" "more chart"; grid-template-rows:min-content 1fr; row-gap:24px; }
+.memory-retention > .prose { grid-area:copy; }
+.memory-retention > .paper-figure { grid-area:chart; }
+.memory-evidence-followup { grid-area:more; min-width:0; }
+.project-memory .memory-evidence-followup h3 { margin:0 0 14px; }
 .memory-findings { display:grid; grid-template-columns:1fr 1fr; gap:40px; max-width:795px; margin:24px 0; }
 .memory-findings > div { border-top:1px solid var(--border); padding-top:14px; }
 .memory-findings dt { font-size:11px; color:var(--muted); }
 .memory-findings dd { margin:6px 0 0; font:400 34px/1.15 var(--font-serif); color:var(--memory-ink); }
-.memory-details { margin:20px 0; }
+.memory-details { margin:16px 0 0; }
 .memory-details summary { width:fit-content; min-height:44px; padding:10px 0; cursor:pointer; color:var(--text-2); font-size:12px; text-decoration:underline; text-underline-offset:4px; }
 .memory-details .prose { margin-top:14px; }
 .memory-details .table-scroll { margin-bottom:0; }
@@ -78,6 +83,7 @@
 .memory-rule li + li { margin-top:8px; }
 @media (max-width:1080px) { .project-memory .project-hero { column-gap:32px; } }
 @media (max-width:760px) {
+  .memory-retention { grid-template-areas:"copy" "chart" "more"; grid-template-rows:auto; }
   .project-memory .project-hero { grid-template-columns:1fr; grid-template-areas:"title" "copy"; padding-top:28px; gap:24px; }
   .memory-hero-copy { padding-top:0; }
   .project-memory .memory-demo-heading h3 { font-size:22px; }

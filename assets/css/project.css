@@ -27,21 +27,29 @@
 mjx-container { font-size:105% !important; }
 .paper-figure { margin:0; min-width:0; }
 .paper-figure > a { display:block; }
-.figure-source { display:inline-block; margin-top:6px; text-decoration:underline; text-underline-offset:3px; }
+.figure-source { text-decoration:underline; text-underline-offset:3px; }
+.figure-links { display:flex; flex-wrap:wrap; gap:4px 16px; margin-top:6px; }
 .paper-figure img { display:block; width:100%; height:auto; mix-blend-mode:multiply; }
 [data-theme="dark"] .paper-figure img { filter:invert(1); mix-blend-mode:screen; }
-.paper-figure figcaption, .calculation-figure figcaption { font-size:11px; color:var(--muted); line-height:1.7; margin-top:18px; }
+.paper-figure figcaption, .calculation-figure figcaption { font-size:11px; color:var(--muted); line-height:1.7; margin:12px 0 0; }
+.paper-figure figcaption p { margin:0; }
 .hero-figure { max-width:380px; width:100%; margin:0 auto; }
 .hero-figure img { max-width:330px; margin:0 auto; }
 .action-figure { max-width:520px; margin:32px 0 0; }
 .figure-pair { display:grid; grid-template-columns:1fr 1fr; gap:40px; margin:24px 0; max-width:1000px; }
 .figure-and-copy { display:grid; grid-template-columns:1.1fr 1fr; gap:48px; align-items:start; }
+.figure-and-copy + .prose { margin-top:24px; }
 .source-note, .archive-note { font-size:11px; color:var(--muted); line-height:1.75; margin:22px 0 0; max-width:100ch; }
 .source-note a { text-decoration:underline; text-underline-offset:3px; }
 .table-scroll { overflow-x:auto; margin:24px 0; }
 .table-scroll:focus-visible { outline:2px solid var(--ring); outline-offset:4px; }
 table { width:100%; border-collapse:collapse; font-size:12px; line-height:1.6; font-variant-numeric:tabular-nums; }
-caption { text-align:left; color:var(--muted); font-size:11px; margin-bottom:14px; max-width:100ch; }
+caption { text-align:left; color:var(--muted); font-size:11px; line-height:1.7; margin:0 0 12px; max-width:min(100ch, calc(100vw - var(--page-gutter)*2)); }
+.research-page details .table-scroll { margin-top:12px; }
+.research-page details .table-scroll + .prose { margin-top:16px; }
+.research-page details + .prose { margin-top:20px; }
+.research-page details + .source-note { margin-top:6px; }
+.research-page details[open] + .source-note { margin-top:16px; }
 th, td { padding:12px 20px 12px 0; border-bottom:1px solid var(--border); text-align:left; white-space:nowrap; }
 th { color:var(--text); font-weight:500; }
 thead th { border-top:1px solid var(--border); padding-top:14px; }
