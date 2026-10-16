@@ -4,14 +4,14 @@ title: Dario Fumarola
 description: >-
   Dario Fumarola is an AI researcher and Forward Deployed Engineer at AWS in New York,
   working on reinforcement learning, LLM agents and adaptive inference.
-last_modified_at: 2026-10-15
+last_modified_at: 2026-10-16
 ---
 
 <section class="page-section" aria-labelledby="about">
 <h2 id="about">About Me</h2>
 <div class="about-copy">
-<p>My work combines research engineering and forward deployed engineering. At Amazon Science, I study reinforcement learning, model training and adaptive inference, with a focus on how agents reason, cooperate and respond to changing conditions. I build training infrastructure and evaluations, run experiments, and develop methods around those questions.</p>
-<p>At AWS, I work directly with customers to build and deploy AI systems, including agents, evaluation tools and inference pipelines. I stay involved from defining the problem and testing an approach through integration, performance and reliability. I'm open to research and engineering collaborations; <a href="mailto:hello@dariofumarola.com">get in touch</a> if you'd like to work together.</p>
+<p>I split my time between research engineering and customer deployments. At Amazon Science, I study reinforcement learning, model training and adaptive inference. I'm interested in how agents reason and cooperate, and how their behavior holds up as conditions change.</p>
+<p>With AWS customers, the starting point is usually a problem in an existing workflow. I work through the experiments and stay involved as the system goes into use, where latency, integration and reliability matter as much as model quality. For research or engineering collaborations, <a href="mailto:hello@dariofumarola.com">get in touch</a>.</p>
 </div>
 </section>
 
@@ -26,7 +26,7 @@ last_modified_at: 2026-10-15
 <div class="project-card" data-category="conference">
 <svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 8h22M5 16h22M5 24h22"/><circle cx="11" cy="8" r="3"/><circle cx="22" cy="16" r="3"/><circle cx="14" cy="24" r="3"/></svg>
 <h3><a href="./projects/mood-swings.html">Mood Swings: Calibrated Reward-Cost Control</a> <span class="venue-badge icml">ICML 2025</span></h3>
-<p>One trained policy can become more or less cautious at deployment, without retraining.</p>
+<p>Change a trained policy's balance between reward and caution at deployment.</p>
 <p class="project-result">Retains 98% of an eight-policy library's reward-cost coverage with one-eighth of its policy-training interactions in a maze task.</p>
 <div class="card-links">
 <a href="./projects/mood-swings.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -37,8 +37,8 @@ last_modified_at: 2026-10-15
 <div class="project-card" data-category="conference">
 <svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="m16 4 12 7-12 7-12-7zM4 17l12 7 12-7M4 23l12 7 12-7"/></svg>
 <h3><a href="./projects/elastic-state-models.html">Who Needs Attention Anyway? Retaining State Corrections</a> <span class="venue-badge neurips">NeurIPS 2025</span></h3>
-<p>A controller can keep a planner's correction in its memory, so the next decision starts from the corrected state.</p>
-<p class="project-result">The paper reports navigation success rising from 82.7% to 85.4% when corrections are retained instead of discarded.</p>
+<p>After a planner improves a route, the controller can carry the correction forward in its memory.</p>
+<p class="project-result">Keeping the correction raises reported navigation success from 82.7% to 85.4%.</p>
 <div class="card-links">
 <a href="./projects/elastic-state-models.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
 <a href="https://neurips.cc/media/neurips-2025/Slides/128648_FEbZXh8.pdf" target="_blank" rel="noopener">Paper</a>
@@ -48,8 +48,8 @@ last_modified_at: 2026-10-15
 <div class="project-card" data-category="conference">
 <svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="m10 10 12 12M10 22l12-12M16 16v-9M16 16v9"/><circle cx="8" cy="8" r="3"/><circle cx="24" cy="8" r="3"/><circle cx="8" cy="24" r="3"/><circle cx="24" cy="24" r="3"/><circle cx="16" cy="5" r="2"/><circle cx="16" cy="27" r="2"/></svg>
 <h3><a href="./projects/broadcast-gain.html">Broadcast-Gain: Two-Byte Junction Control</a> <span class="venue-badge nyrl">NY-RL 2025</span></h3>
-<p>Incoming reports can keep postponing a junction controller's fallback. An unconditional deadline gives the waiting direction a turn.</p>
-<p class="project-result">A 24-step deadline reduces 95th-percentile waiting time from 173.4 to 164.9 steps in the stress workload.</p>
+<p>A junction controller can wait longer when it receives more reports. An unconditional deadline caps the delay.</p>
+<p class="project-result">In the stress workload, a 24-step deadline cuts 95th-percentile waiting time from 173.4 to 164.9 steps.</p>
 <div class="card-links">
 <a href="./projects/broadcast-gain.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
 <a href="./assets/broadcast-gain.pdf" target="_blank" rel="noopener">Paper</a>
@@ -66,13 +66,13 @@ last_modified_at: 2026-10-15
 <div class="xp-item">
 <h3>Amazon Web Services</h3>
 <p class="xp-org">Forward Deployed Engineer &middot; 2023 to present &middot; New York City</p>
-<p>I lead enterprise AI projects from discovery through deployment. I've worked on more than 20 engagements and led teams of five or more engineers. Recent work includes agents for pharmaceutical model deployment, evaluation frameworks, Bedrock inference optimization, and camera-to-radar data synthesis.</p>
+<p>I've worked on more than 20 enterprise AI engagements and led teams of five or more engineers. Recent projects: agents for pharmaceutical model deployment, evaluation frameworks, Bedrock inference optimization, and camera-to-radar data synthesis.</p>
 </div>
 
 <div class="xp-item">
 <h3>Amazon Science</h3>
 <p class="xp-org">AI Researcher &middot; 2023 to present</p>
-<p>Research on neuromodulated reinforcement learning, adaptive inference, and agent behavior. I also co-lead a Build on Trainium project on safe, social pretraining of LLM agents, including training infrastructure and evaluation across checkpoints.</p>
+<p>I co-lead a Build on Trainium project on safe, social pretraining of LLM agents. The work covers training infrastructure and evaluation across checkpoints.</p>
 </div>
 
 </section>

@@ -12,7 +12,7 @@ image:
   width: 1200
   height: 630
   alt: "Mood Swings: changing priorities after training. A junction diagram shows a short route near a ghost and a cautious detour."
-last_modified_at: 2026-10-15
+last_modified_at: 2026-10-16
 ---
 <header class="project-hero">
   <div class="mood-hero-title">
@@ -41,7 +41,7 @@ last_modified_at: 2026-10-15
   <h2>The idea</h2>
   <div class="prose">
     <p>A shortcut can be worth taking until a hazard appears. A trained agent should be able to choose the detour, then return to making progress once the danger has passed. Keeping caution active indefinitely can turn a useful response into waiting.</p>
-    <p>We train a policy with an input that changes how much it weighs reward against cost. At deployment, a separate risk estimate guides when to change that input. The policy's network weights stay fixed throughout.</p>
+    <p>During training, the policy learns to weigh reward against cost according to a control input. A separate risk estimate guides changes to that input at deployment, while the network weights stay fixed.</p>
     <p>The two navigation tasks make this trade-off visible. <strong>Pac-Mind++</strong> is a maze where the agent collects pellets while avoiding ghosts. <strong>MiniHack-HazardRooms</strong>, shortened here to HazardRooms, asks the agent to find an amulet through rooms with keys, doors and hazards. The animations above illustrate the control idea rather than replaying measured runs.</p>
   </div>
 </section>
@@ -99,11 +99,11 @@ last_modified_at: 2026-10-15
 <section class="research-section" id="method">
   <h2>How it works</h2>
   <div class="prose">
-    <p>The policy takes two control inputs. A <strong>cost weight</strong> changes which actions it prefers. <strong>Temperature</strong> changes how concentrated its action sampling is, while preserving the action ranking at the same observation and cost weight. Sharpening a preference is different from changing it.</p>
+    <p>Two inputs serve different purposes. The <strong>cost weight</strong> changes which actions the policy prefers; <strong>temperature</strong> controls how narrowly it samples them. At a fixed observation and cost weight, temperature preserves the action ranking. It can sharpen a preference, but cannot reverse it.</p>
   </div>
   <div class="mood-core">
     <h3>Learning the trade-off</h3>
-    <p>We use PPO, a policy-gradient training method. The advantage estimates how much better an action is than the policy's usual outcome. We estimate it separately for reward and cost, then combine the two using the cost weight \(w\):</p>
+    <p>PPO, the policy-gradient method used here, learns from an advantage estimate: how much better an action is than the policy's usual outcome. Reward and cost get separate estimates, combined using the weight \(w\):</p>
     <div class="math-block">\[
       \widehat A_t^{\,w}=\underbrace{(1-w)\widehat A_t^{\,R}}_{\text{reward}}-\underbrace{w\widehat A_t^{\,C}}_{\text{cost}}.
     \]</div>
@@ -130,8 +130,8 @@ last_modified_at: 2026-10-15
 <section class="research-section" id="scope">
   <h2>Outlook</h2>
   <div class="prose">
-    <p>Training gives an agent its capabilities. Deployment brings changing priorities, deadlines and risks. This work asks how much of that change a trained policy can handle through its inputs, and how to judge when a response is useful.</p>
-    <p>The navigation tasks are a starting point. The same question applies wherever an agent needs to adapt while it is already at work. Extending the approach means testing new controls, checking their behavior as conditions change, and identifying when further training is necessary.</p>
+    <p>An agent's priorities can change while it is already at work. A useful deployment control needs a response the policy can produce, a way to check its consequences, and a rule for deciding when to use it. The navigation tasks let us study all three together.</p>
+    <p>Beyond navigation, the challenge is to find controls that remain useful as tasks and conditions change. Recalibration may be enough in some cases. Others will need new behaviors and further training.</p>
   </div>
   <details class="mood-results-detail"><summary>Limits and calibration costs</summary>
     <div class="mood-technical">

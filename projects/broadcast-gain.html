@@ -6,7 +6,7 @@ description: "A two-byte report can postpone a junction controller's fallback. A
 authors: Dario Fumarola
 venue: NY-RL 2025
 paper: /assets/broadcast-gain.pdf
-last_modified_at: 2026-10-15
+last_modified_at: 2026-10-16
 ---
 <header class="project-hero">
   <div class="bg-hero-title">
@@ -17,7 +17,7 @@ last_modified_at: 2026-10-15
     <div class="paper-links bg-mobile-paper-links"><a class="outline-link" href="{{ page.paper | relative_url }}" target="_blank" rel="noopener">Read paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><a href="{{ page.paper | relative_url }}" download>Download PDF</a></div>
   </div>
   <div class="bg-hero-copy">
-    <p class="intro">At a red light, an agent reports that it is waiting. Original BG can receive that message and keep the empty green axis open longer. We protect the service deadline while allowing useful evidence to trigger an earlier switch.</p>
+    <p class="intro">Reporting a wait at a red light can make that wait longer: original BG may keep the empty green axis open after receiving the message. An unconditional service deadline caps the delay and still lets useful evidence trigger an earlier switch.</p>
     <div class="paper-links"><a class="outline-link" href="{{ page.paper | relative_url }}" target="_blank" rel="noopener">Read paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><a href="{{ page.paper | relative_url }}" download>Download PDF</a></div>
   </div>
   {% include broadcast-demo.html %}
@@ -66,8 +66,8 @@ last_modified_at: 2026-10-15
 <section class="research-section" id="method">
   <h2>Check the deadline every step</h2>
   <div class="prose">
-    <p>When a phase starts, assign it a deadline in physical time. At report boundaries, update the evidence as before. At every environment step, switch if either the deadline has arrived or eligible evidence calls for an earlier change.</p>
-    <p>This is BG-D. A received report can affect the evidence, but it cannot disable the deadline. The report format, cache handling and evidence thresholds stay the same.</p>
+    <p>BG-D assigns each phase a deadline in physical time. Evidence is updated at report boundaries, but the deadline is checked at every environment step. The controller switches when the deadline arrives or the evidence qualifies for an earlier change.</p>
+    <p>Receiving a report can no longer disable the fallback. The report format, cache handling and evidence thresholds stay the same.</p>
   </div>
   <div class="bg-core">
     <p>Let \(t_0\) be the phase start, \(H\) its deadline duration and \(E(t)\) the eligible evidence event. The next switch occurs at:</p>
@@ -101,7 +101,7 @@ last_modified_at: 2026-10-15
   <div class="figure-and-copy">
     <div class="prose">
       <p>In the high-load, high-loss workload, making the same 24-step fallback unconditional lowers p95 waiting from 173.4 to 164.9 steps. The paired reduction is 8.5 steps [7.2, 9.8]. Throughput rises from 678.9 to 682.8 crossings per thousand steps.</p>
-      <p>The phase traces show the mechanism. Original BG extends 46.0% of phases beyond its no-report fallback. BG-D removes those extensions and still permits earlier evidence-triggered switches.</p>
+      <p>Original BG extends 46.0% of phases beyond its no-report fallback, as the phase traces below show. BG-D removes those extensions while preserving earlier evidence-triggered switches.</p>
       <p>The single-reporter example exposes the defect, but it is not the typical crowded state. Most extended phases have more reports and inconclusive evidence. Changing only the strictly weak-cache branch lowers p95 by 0.7 steps, compared with 8.5 for the unconditional deadline.</p>
     </div>
     <figure class="paper-figure bg-result-figure"><a href="../assets/figures/broadcast-phase-durations.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/broadcast-phase-durations.svg" width="421" height="153" loading="lazy" alt="Original BG has phases at 30, 36, 42 and 48 steps. BG-D(24) has none beyond 24 and retains earlier switches."></a><figcaption>Figure 2. Completed phase durations in the stress workload, including clearance.<br><a class="figure-source" href="../assets/figures/broadcast-phase-durations.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
@@ -123,7 +123,7 @@ last_modified_at: 2026-10-15
   <h3>Choosing the duration</h3>
   <div class="prose">
     <p>A 12-step timer has lower waiting in the reference workload. When clearance lasts six steps, however, it spends half its phase closed. A 24-step timer then has substantially lower waiting. Under persistent 90:10 demand, original BG benefits from longer service on the busy axis, and the 24-step cap increases p95 by 49.2 steps.</p>
-    <p>Keeping a deadline active and choosing its duration are separate decisions. The first restores the service bound. The second trades service frequency against switching cost and sustained capacity.</p>
+    <p>The service bound comes from keeping the deadline active. Its duration determines how frequently service changes and how much capacity is lost to switching.</p>
   </div>
   <details class="bg-details"><summary>Workload sensitivity</summary>
   <div class="table-scroll" tabindex="0" aria-label="Workload sensitivity results, horizontally scrollable"><table><caption>p95 waiting, in steps. One-factor changes from the stress workload, with greedy movement and fixed controller settings. Table 5.</caption><thead><tr><th scope="col">Workload</th><th scope="col">Fixed 12</th><th scope="col">Fixed 24</th><th scope="col">Original BG</th><th scope="col">BG-D(24)</th></tr></thead><tbody>
@@ -148,7 +148,7 @@ last_modified_at: 2026-10-15
 <section class="research-section" id="outlook">
   <h2>Designing for partial information</h2>
   <div class="prose">
-    <p>A controller should be able to use new reports while keeping its fallback available. In this junction, the useful correction is where the deadline is checked. Its duration still needs to be chosen against switching costs, demand patterns and strong timing baselines.</p>
-    <p>For systems that act on sparse messages, the broader question is which decisions may adapt and which service promises must survive missing or inconclusive evidence. Making those promises explicit gives a clearer starting point for evaluating what communication and learning add.</p>
+    <p>In this junction, moving the deadline check fixes the fallback. Choosing its duration is harder: the trade-off changes with switching costs and traffic demand.</p>
+    <p>Controllers that rely on sparse reports need explicit service promises for cases where the evidence is missing or inconclusive. Those promises belong in the evaluation alongside average performance, so an improvement in one measure cannot hide a failure to serve.</p>
   </div>
 </section>
