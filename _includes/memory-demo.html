@@ -1,19 +1,19 @@
 <figure class="memory-demo" data-phase="next" data-playback="static">
-  <div class="memory-demo-heading"><h2>What the next prediction starts from</h2><span>Navigation sketch</span></div>
+  <div class="memory-demo-heading"><h3>Same action, different memory</h3><span>Navigation sketch</span></div>
   <div class="memory-usecase">
     <div class="memory-steps" role="group" aria-label="Animation steps">
       <button type="button" data-step="propose" aria-pressed="false">Propose a route</button>
       <button type="button" data-step="correct" aria-pressed="false">Edit the state</button>
-      <button type="button" data-step="next" aria-pressed="true">Next model call</button>
+      <button type="button" data-step="next" aria-pressed="true">Next decision</button>
     </div>
-    <p class="memory-step-explanation">On the next input, the saved state produces a new route before another solve.</p>
+    <p class="memory-step-explanation">At the next decision, the saved state produces a new route before another solve.</p>
     <div class="memory-route-panels">
       {% assign memory_branches = 'kept,discarded' | split: ',' %}{% for branch in memory_branches %}
       <div class="memory-route-panel memory-route-{{ branch }}">
         <h3>{% if branch == 'kept' %}Keep the corrected state{% else %}Restore the original state{% endif %}</h3>
         <svg class="memory-navigation" viewBox="0 0 300 180" role="img" aria-labelledby="memory-{{ branch }}-title memory-{{ branch }}-desc">
           <title id="memory-{{ branch }}-title">{% if branch == 'kept' %}Corrected memory gives the next route a useful starting point{% else %}Original memory proposes a blocked route again{% endif %}</title>
-          <desc id="memory-{{ branch }}-desc">Both controllers first propose the same blocked route. A local solver edits their hidden state to improve the decoded route. Both execute the same corrected first move. {% if branch == 'kept' %}This branch saves the edited state for the next model call.{% else %}This branch restores the original state before the next model call.{% endif %} Dashed paths show proposals before another solve, not actions executed through an obstacle. The geometry is schematic.</desc>
+          <desc id="memory-{{ branch }}-desc">Both controllers first propose the same blocked route. A local solver edits their hidden state to improve the decoded route. Both execute the same corrected first move. {% if branch == 'kept' %}This branch saves the edited state for the next decision.{% else %}This branch restores the original state before the next decision.{% endif %} Dashed paths show proposals before another solve, not executed actions.</desc>
           <defs><mask id="memory-move-mask-{{ branch }}" maskUnits="userSpaceOnUse" x="0" y="0" width="300" height="180"><path class="memory-move-reveal" d="M28 100C36 100 65 110.67 76 100C87 89.33 81.67 46.67 96 36C110.33 25.33 138.33 36 156 36C173.67 36 190.67 25.33 202 36C213.33 46.67 211.67 89.33 224 100C236.33 110.67 267.33 100 276 100" fill="none" stroke="white" stroke-width="9" pathLength="1" stroke-dasharray="1" stroke-dashoffset=".75"/></mask></defs>
           <path class="memory-safe-reference" d="M28 100C36 100 65 110.67 76 100C87 89.33 81.67 46.67 96 36C110.33 25.33 138.33 36 156 36C173.67 36 190.67 25.33 202 36C213.33 46.67 211.67 89.33 224 100C236.33 110.67 267.33 100 276 100"/>
           <rect class="memory-obstacle" x="130" y="64" width="50" height="76" rx="2"/>
@@ -34,6 +34,6 @@
     </div>
     <p class="memory-demo-key"><span><i class="memory-solid-key" aria-hidden="true"></i>Executed move</span><span><i class="memory-dashed-key" aria-hidden="true"></i>Proposed route</span></p>
   </div>
-  <figcaption class="memory-demo-caption">Hidden state is the controller's short-term memory. Its network weights stay fixed.</figcaption>
+  <figcaption class="memory-demo-caption">Both branches execute the same repaired first move. Only the memory saved for the next decision differs.</figcaption>
   <div class="memory-demo-controls"><a class="figure-source" href="../assets/figures/memory-intervention.svg" target="_blank" rel="noopener">Paper's intervention diagram</a><button class="memory-motion-toggle" type="button" aria-pressed="false" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg><span>Pause motion</span></button></div>
 </figure>

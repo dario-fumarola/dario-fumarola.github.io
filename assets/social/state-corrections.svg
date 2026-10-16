@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Who Needs Attention Anyway?</title>
+  <desc id="description">Keeping a corrected recurrent state gives the next route a useful starting point. Restoring the original state proposes the blocked route again.</desc>
+  <defs>
+    <pattern id="hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V10" stroke="#dddfe6" stroke-width="1"/></pattern>
+    <g id="world">
+      <rect x="130" y="64" width="50" height="76" rx="2" fill="#f0f1f5" stroke="#b7bcc9"/>
+      <rect x="130" y="64" width="50" height="76" rx="2" fill="url(#hatch)"/>
+      <path d="M28 100C36 100 65 111 76 100C87 89 82 68 91 58" fill="none" stroke="#171827" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="91" cy="58" r="6" fill="#171827" stroke="#fcfcfe" stroke-width="1.5"/>
+      <circle cx="276" cy="100" r="8" fill="none" stroke="#71788b"/>
+      <circle cx="276" cy="100" r="2" fill="#71788b"/>
+      <text x="155" y="164" text-anchor="middle" fill="#71788b" font-family="Arial, sans-serif" font-size="11">Obstacle</text>
+    </g>
+  </defs>
+  <rect width="1200" height="630" fill="#fcfcfe"/>
+  <g font-family="Arial, sans-serif">
+    <text x="56" y="52" fill="#626b80" font-size="14" letter-spacing="2">NEURIPS 2025 · RECURRENT CONTROL</text>
+    <text x="56" y="125" fill="#141522" font-family="Georgia, serif" font-size="54">Who Needs Attention Anyway?</text>
+    <text x="56" y="170" fill="#626b80" font-size="23">Retaining corrections in a fixed-size state</text>
+    <path d="M56 207H1144M600 235V540" stroke="#dedfe6"/>
+    <text x="313" y="255" fill="#141522" font-family="Georgia, serif" font-size="25" text-anchor="middle">Keep the corrected state</text>
+    <text x="887" y="255" fill="#141522" font-family="Georgia, serif" font-size="25" text-anchor="middle">Restore the original state</text>
+    <g transform="translate(94 274) scale(1.38)">
+      <use href="#world"/>
+      <path d="M91 58Q110 29 156 36T202 36Q212 98 276 100" fill="none" stroke="#315da8" stroke-width="2.5" stroke-dasharray="5 5" stroke-linecap="round"/>
+    </g>
+    <g transform="translate(668 274) scale(1.38)">
+      <use href="#world"/>
+      <path d="M91 58L276 100" fill="none" stroke="#95620d" stroke-width="2.5" stroke-dasharray="5 5" stroke-linecap="round"/>
+      <g transform="translate(155 73)"><circle r="10" fill="#fcfcfe" stroke="#975d54" stroke-width="1.3"/><path d="m-3-3 6 6m0-6-6 6" fill="none" stroke="#975d54" stroke-width="1.3" stroke-linecap="round"/></g>
+    </g>
+    <text x="313" y="532" fill="#315da8" font-size="17" text-anchor="middle">Builds on the correction</text>
+    <text x="887" y="532" fill="#95620d" font-size="17" text-anchor="middle">Needs another repair</text>
+    <path d="M56 563H1144" stroke="#dedfe6"/>
+    <text x="56" y="603" fill="#626b80" font-size="16">Dario Fumarola</text>
+    <text x="1144" y="603" fill="#626b80" font-size="16" text-anchor="end">dariofumarola.com</text>
+  </g>
+</svg>

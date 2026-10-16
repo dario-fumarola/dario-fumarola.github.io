@@ -75,8 +75,8 @@
     const copy={
       propose:["The model's hidden state produces a route that hits the obstacle.",'Original state','Original state','Route hits the obstacle','Route hits the obstacle'],
       correct:['The solver edits that state. Both branches take the same corrected first move.','Corrected state','Corrected state','Same corrected move','Same corrected move'],
-      store:['After the same move, only the state saved for the next input differs.','Corrected state saved','Original state restored','Keep the local work','Discard the state edit'],
-      next:['On the next input, the saved state produces a new route before another solve.','Corrected state','Original state','Useful next proposal','Needs another repair']
+      store:['After the same move, only the state saved for the next decision differs.','Corrected state saved','Original state restored','Keep the local work','Discard the state edit'],
+      next:['At the next decision, the saved state produces a new route before another solve.','Corrected state','Original state','Useful next proposal','Needs another repair']
     }[phase];
     explanation.textContent=copy[0];
     panels.forEach((p,i)=>{
