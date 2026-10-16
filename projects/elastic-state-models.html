@@ -41,7 +41,7 @@ last_modified_at: 2026-10-16
 
 <section class="research-section" id="retention">
   <h2>Evidence</h2>
-  <div class="prose"><p>When the optimizer resumes after a shared correction, retaining the state reduces the work it repeats over the next eight decisions. We count residual-Jacobian evaluations: computing the task errors and their derivatives for an optimization update.</p></div>
+  <div class="prose"><p>We apply the same correction to two copies of the controller, keeping the corrected state in one and restoring the original state in the other. Over the next eight decisions, keeping the correction reduces repeated optimizer work. We count residual-Jacobian evaluations: computing the task errors and their derivatives for an optimization update.</p></div>
   <dl class="memory-findings"><div><dt>Navigation: fewer evaluations</dt><dd>23.1%</dd></div><div><dt>Chain control: fewer evaluations</dt><dd>23.9%</dd></div></dl>
   <p class="memory-measure">Navigation uses 9.3 evaluations after retention versus 12.1 after discard; chain control uses 10.8 versus 14.2. Paired 95% intervals for the reductions are [17.0, 29.0]% and [17.5, 30.0]%.</p>
   <div class="figure-and-copy memory-evidence memory-retention">
@@ -49,7 +49,7 @@ last_modified_at: 2026-10-16
       <p>To measure the memory effect alone, we also disable further optimization and replay identical observations into both branches. Retaining the state lowers the next proposed plan's task loss by <strong>3.2% in navigation and 4.4% in chain control</strong>.</p>
       <p>After four decisions, those reductions fall to 1.1% and 1.7%. By the eighth decision, both estimates are close to zero.</p>
     </div>
-    <figure class="paper-figure"><a href="../assets/figures/memory-decay.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/memory-decay.svg" width="242" height="151" loading="lazy" alt="The reduction in proposal loss from retention declines between one and eight decisions in navigation and chain control, with paired 95% intervals."></a><figcaption><p>Paper Figure 2. Both branches receive identical observations with further correction disabled. Each input on the axis is one decision; error bars are paired 95% intervals.</p><span class="figure-links"><a class="figure-source" href="../assets/figures/memory-decay.svg" target="_blank" rel="noopener">View figure ↗</a></span></figcaption></figure>
+    <figure class="paper-figure"><a href="../assets/figures/memory-decay.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/memory-decay.svg" width="242" height="151" loading="lazy" alt="The reduction in proposal loss from retention declines between one and eight decisions in navigation and chain control, with paired 95% intervals."></a><figcaption>Paper Figure 2. Both branches receive identical observations with further correction disabled. Each input on the axis is one decision; error bars are paired 95% intervals. <span class="figure-links"><a class="figure-source" href="../assets/figures/memory-decay.svg" target="_blank" rel="noopener">View figure ↗</a></span></figcaption></figure>
     <div class="memory-evidence-followup">
       <h3>Beyond a cached plan</h3>
       <div class="prose"><p>Reusing a corrected action sequence already saves work. We gave both branches the same corrected plan in their cache and resumed the same action-space solver. Keeping the state as well lowers physical cost over the next eight decisions by a further <strong>0.7% in navigation [0.2, 1.2] and 1.1% in chain control [0.3, 1.9]</strong>, with paired 95% intervals.</p><p>Physical cost measures the movement that actually occurs, with contact and terminal-distance penalties. The state is corrected once in this experiment; the plan cache is refreshed after every solve.</p></div>
@@ -73,7 +73,7 @@ last_modified_at: 2026-10-16
       <p>At about <strong>3 ms mean controller time</strong>, retained state reaches <strong>81.8% navigation success</strong> versus <strong>80.8%</strong> for warm-started <strong>model predictive control (MPC)</strong>, which reuses its previous plan to initialize the next optimization. At about 8 ms, MPC reaches 89.0% versus retention's 87.0%.</p>
       <p>Within the 4 ms envelope, MPC and retention have similar success, <strong>85.8% versus 85.4%</strong>, but MPC has fewer contacts: <strong>6.0 versus 14.2 per 1,000 decisions</strong>. A contact is a decision with a physical collision against a wall or obstacle. Our objective penalizes small clearance; MPC and the filters also impose predicted-clearance constraints.</p>
     </div>
-    <figure class="paper-figure"><a href="../assets/figures/memory-latency.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/memory-latency.svg" width="240" height="156" loading="lazy" alt="Navigation success across mean controller time budgets. Retained state correction has a higher estimate near 3 ms; warm-started MPC has the higher estimate near 8 ms."></a><figcaption><p>Paper Figure 3. Each point is a separately validation-selected configuration on the same CPU/GPU workstation.</p><span class="figure-links"><a class="figure-source" href="../assets/figures/memory-latency.svg" target="_blank" rel="noopener">View figure ↗</a></span></figcaption></figure>
+    <figure class="paper-figure"><a href="../assets/figures/memory-latency.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/memory-latency.svg" width="240" height="156" loading="lazy" alt="Navigation success across mean controller time budgets. Retained state correction has a higher estimate near 3 ms; warm-started MPC has the higher estimate near 8 ms."></a><figcaption>Paper Figure 3. Each point shows a configuration selected on validation data and timed on the same CPU/GPU workstation. <span class="figure-links"><a class="figure-source" href="../assets/figures/memory-latency.svg" target="_blank" rel="noopener">View figure ↗</a></span></figcaption></figure>
   </div>
   <div class="prose"><p>The filters prioritize avoiding contact. The <strong>control barrier function (CBF) filter</strong> adjusts the next action using a local clearance condition; the <strong>predictive filter</strong> checks a sequence of actions ahead.</p></div>
   <details class="memory-details"><summary>Controller comparisons and timing</summary>
@@ -104,7 +104,7 @@ last_modified_at: 2026-10-16
       z'&=z+\alpha v.
       \end{aligned}
     \]</div>
-    <p>Damping \(\lambda\) stabilizes the direction. The step size \(\alpha\) controls how far the candidate moves. An evaluated loss decrease and cumulative state and action bounds decide whether it is accepted.</p>
+    <p>Damping \(\lambda\) stabilizes the direction. The step size \(\alpha\) controls how far the candidate moves. We accept a candidate only if its evaluated loss decreases and its state and action changes stay within the cumulative bounds.</p>
   </div>
   <div class="memory-rule">
     <ol>

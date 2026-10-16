@@ -28,11 +28,11 @@ mjx-container { font-size:105% !important; }
 .paper-figure { margin:0; min-width:0; }
 .paper-figure > a { display:block; }
 .figure-source { text-decoration:underline; text-underline-offset:3px; }
-.figure-links { display:flex; flex-wrap:wrap; gap:4px 16px; margin-top:6px; }
+.figure-links .figure-source { white-space:nowrap; }
+.figure-links .figure-source + .figure-source { margin-left:10px; }
 .paper-figure img { display:block; width:100%; height:auto; mix-blend-mode:multiply; }
 [data-theme="dark"] .paper-figure img { filter:invert(1); mix-blend-mode:screen; }
 .paper-figure figcaption, .calculation-figure figcaption { font-size:11px; color:var(--muted); line-height:1.7; margin:12px 0 0; }
-.paper-figure figcaption p { margin:0; }
 .hero-figure { max-width:380px; width:100%; margin:0 auto; }
 .hero-figure img { max-width:330px; margin:0 auto; }
 .action-figure { max-width:520px; margin:32px 0 0; }
