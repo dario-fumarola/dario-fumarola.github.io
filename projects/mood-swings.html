@@ -22,27 +22,27 @@ last_modified_at: 2026-10-16
     <p class="byline">Dario Fumarola and Jin Tan Ruan · Amazon Web Services</p>
   </div>
   <div class="mood-hero-copy">
-    <p class="intro">Train one policy, then make it more or less cautious at deployment without retraining. In a maze task, it keeps about 98% of an eight-policy library's reward-cost coverage using one-eighth of the policy-training interactions.</p>
+    <p class="intro">Train one policy, then make it more or less cautious at deployment without retraining. A control input selects its mood, from reward-seeking to cautious, while the network weights stay fixed.</p>
     <div class="paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><a href="{{ page.paper }}" download>Download PDF</a></div>
   </div>
   <div class="mood-key-results">
     <dl aria-label="Key results in Pac-Mind++">
-      <div><dt>Coverage with one policy</dt><dd>98% <span>at ⅛ training</span></dd><dd class="mood-key-explanation">Of an eight-policy library's range of reward and cost trade-offs.</dd></div>
-      <div><dt>Failure after a risk alarm</dt><dd>12.6% <span aria-label="to">→</span> 5.0%</dd><dd class="mood-key-explanation">Over the next 100 actions, from the same saved states.</dd></div>
-      <div><dt>Mean cost on unseen layouts</dt><dd>0.168 <span>vs 0.20 requested</span></dd><dd class="mood-key-explanation">The average passes the request; individual layouts can exceed it.</dd></div>
+      <div><dt>Reward-cost coverage</dt><dd>98%</dd><dd class="mood-key-explanation">One policy retains 98% of an eight-policy library's coverage, at one-eighth the training.</dd></div>
+      <div><dt>Failure after a risk alarm</dt><dd>12.6% <span aria-label="to">→</span> 5.0%</dd><dd class="mood-key-explanation">Entering caution reduces failure over the next 100 actions.</dd></div>
+      <div><dt>Mean cost on unseen layouts</dt><dd>0.168</dd><dd class="mood-key-explanation">Mean cost stays below the requested limit of 0.20.</dd></div>
     </dl>
-    <p class="mood-key-note">Pac-Mind++, a maze with pellets and moving ghosts. Training comparison excludes calibration rollouts. These are three separate evaluations.</p>
+    <p class="mood-key-note">All three results come from Pac-Mind++, a pellet maze with moving ghosts. The training comparison excludes calibration.</p>
   </div>
   {% include mood-scenes.html %}
 </header>
-<nav class="section-nav" aria-label="On this page"><a href="#idea">The idea</a><a href="#results">Results</a><a href="#method">How it works</a><a href="#scope">Outlook</a></nav>
+<nav class="section-nav" aria-label="On this page"><a href="#idea">The idea</a><a href="#results">Results</a><a href="#method">How it works</a><a href="#limits">Limits</a><a href="#scope">Outlook</a></nav>
 
 <section class="research-section" id="idea">
   <h2>The idea</h2>
   <div class="prose">
-    <p>A shortcut can be worth taking until a hazard appears. A trained agent should be able to choose the detour, then return to making progress once the danger has passed. Keeping caution active indefinitely can turn a useful response into waiting.</p>
-    <p>During training, the policy learns to weigh reward against cost according to a control input. A separate risk estimate guides changes to that input at deployment, while the network weights stay fixed.</p>
-    <p>The two navigation tasks make this trade-off visible. <strong>Pac-Mind++</strong> is a maze where the agent collects pellets while avoiding ghosts. <strong>MiniHack-HazardRooms</strong>, shortened here to HazardRooms, asks the agent to find an amulet through rooms with keys, doors and hazards. The animations above illustrate the control idea rather than replaying measured runs.</p>
+    <p>A shortcut can be worth taking until a hazard appears. The agent then needs to choose a detour, but also recognize when it can safely resume its original route. We study both decisions: entering caution and releasing it.</p>
+    <p>During training, the policy learns to weigh reward against cost according to a control input. Its reward-seeking mood favors progress; a cautious mood gives hazard avoidance more weight. At deployment, a separate risk estimate guides when to switch between them.</p>
+    <p>The two navigation tasks make this trade-off visible. <strong>Pac-Mind++</strong> is a maze where the agent collects pellets while avoiding ghosts. <strong>MiniHack-HazardRooms</strong>, shortened here to HazardRooms, asks the agent to find an amulet through rooms with keys, doors and hazards. The animations above are illustrations of the control idea, not measured runs.</p>
   </div>
 </section>
 
@@ -50,56 +50,68 @@ last_modified_at: 2026-10-16
   <h2>Results</h2>
   <h3>One policy, many trade-offs</h3>
   <div class="prose">
-    <p>One policy retains <strong>98.0% of the eight-policy library's reward-cost coverage in Pac-Mind++ and 97.2% in HazardRooms</strong>, using one-eighth of its policy-training interactions. Coverage measures the range of reward and cost combinations the controller can reach, rather than reward at one setting. Calibration rollouts are counted separately.</p>
-    <p>The comparison library mixes the actions proposed by eight separately trained policies. Dividing the same training budget among those eight policies gives lower coverage than training one policy across settings.</p>
+    <p>Our mood-conditioned PPO policy, <strong>MC-PPO</strong>, retains <strong>98.0% of an eight-policy library's reward-cost coverage in Pac-Mind++ and 97.2% in HazardRooms</strong>, using one-eighth of its policy-training interactions. Coverage measures the area of reward and cost trade-offs the controller can reach.</p>
+    <p>At equal total training budgets, one policy covers more of that area than eight policies trained separately. The comparison below includes the stronger of the two eight-policy mixing rules at each budget.</p>
+  </div>
+  <div class="table-scroll mood-coverage" tabindex="0" aria-label="Training budget and coverage comparison, horizontally scrollable">
+    <table><caption>Mean reward-cost coverage (hypervolume). Higher is better; 1× is the training budget for one policy.</caption><thead><tr><th scope="col">Controller</th><th scope="col">Training</th><th scope="col">Pac-Mind++</th><th scope="col">HazardRooms</th></tr></thead><tbody>
+      <tr class="result-emphasis"><th scope="row">One policy (MC-PPO)</th><td>1×</td><td>0.768</td><td>0.699</td></tr>
+      <tr><th scope="row">One policy (CCPO)</th><td>1×</td><td>0.747</td><td>0.698</td></tr>
+      <tr><th scope="row">Eight policies, score mixture</th><td>1× total</td><td>0.711</td><td>0.643</td></tr>
+      <tr><th scope="row">Eight policies, action mixture</th><td>8× total</td><td>0.784</td><td>0.719</td></tr>
+    </tbody></table>
+  </div>
+  <div class="prose">
+    <p>MC-PPO suits a PPO workflow that needs separate controls for reward-cost preference and action sampling. <strong>CCPO</strong>, short for Constraint-Conditioned Policy Optimization, takes a cost threshold as input and gives comparable results here, especially in HazardRooms.</p>
   </div>
   <div class="figure-pair">
     <figure class="paper-figure"><a href="../assets/figures/mood-frontier-pac.svg" target="_blank" rel="noopener" title="Open Pac-Mind++ chart at full size"><img src="../assets/figures/mood-frontier-pac.svg" width="247" height="148" loading="lazy" alt="Reward versus cost in Pac-Mind++. The single conditioned policy approaches the full-budget eight-policy library's frontier."></a><figcaption>Reward and cost in the pellet maze.<br><a class="figure-source" href="../assets/figures/mood-frontier-pac.svg" target="_blank" rel="noopener">View chart ↗</a></figcaption></figure>
     <figure class="paper-figure"><a href="../assets/figures/mood-frontier-hack.svg" target="_blank" rel="noopener" title="Open HazardRooms chart at full size"><img src="../assets/figures/mood-frontier-hack.svg" width="247" height="148" loading="lazy" alt="Reward versus cost in HazardRooms. The single conditioned policy and the cost-limit baseline are close to the full-budget eight-policy library."></a><figcaption>Reward and cost in the rooms task.<br><a class="figure-source" href="../assets/figures/mood-frontier-hack.svg" target="_blank" rel="noopener">View chart ↗</a></figcaption></figure>
   </div>
-  <p class="source-note">Chart labels: MC-PPO is our policy trained with a reward-cost input. CCPO is a baseline trained to accept a cost limit; it remains competitive here. Both libraries in these plots mix policy logits, the scores used to select actions. Curves show the best observed reward within each cost ceiling. <a href="{{ page.paper_url }}#page=5" target="_blank" rel="noopener">Source: paper Figure 4 and Table 4 ↗</a></p>
+  <p class="source-note">Both libraries in the charts mix action scores, called logits. An action mixture combines action probabilities instead. The curves show the best observed reward within each cost ceiling. <a href="{{ page.paper_url }}#page=7" target="_blank" rel="noopener">Charts: paper Figure 4 ↗</a> · <a href="{{ page.paper_url }}#page=16" target="_blank" rel="noopener">Coverage and 95% intervals: Table 13 ↗</a></p>
 
   <h3>Caution reduces immediate failure</h3>
-  <div class="prose"><p>From the same saved states where a risk alarm fires, we compare continuing to pursue reward with entering caution. The cautious response reduces failure over the next 100 actions. Each continuation keeps the original task deadline.</p></div>
+  <div class="prose"><p>From the same saved states where a risk alarm fires, entering caution reduces failure over the next 100 actions. Both responses use the same trained policy; each continuation keeps the original task deadline.</p></div>
   <div class="mood-findings" aria-label="Failure within 100 actions from common alarm states">
     <div class="mood-finding"><h3>Pac-Mind++</h3><dl><dt>Pursue reward</dt><dd>12.6%</dd><dt>Enter caution</dt><dd>5.0%</dd></dl></div>
     <div class="mood-finding"><h3>HazardRooms</h3><dl><dt>Pursue reward</dt><dd>18.4%</dd><dt>Enter caution</dt><dd>7.9%</dd></dl></div>
   </div>
-  <p class="mood-measure">Short-window failure, rather than failure over a whole episode. Both responses use the same trained policy.</p>
+  <div class="prose"><p>A lower temperature concentrates action selection on the choices the agent already prefers. Keeping the reward-seeking mood and matching caution's action concentration lowers maze failure to <strong>8.4%</strong>; changing the mood reaches <strong>5.0%</strong>.</p></div>
   <details class="mood-results-detail"><summary>Comparison settings and 95% intervals</summary>
-    <p class="mood-measure">The concentration-matched control changes only how narrowly the agent samples actions, while keeping its reward preference.</p>
     <div class="table-scroll" tabindex="0" aria-label="Failure results, horizontally scrollable">
       <table><caption>Failure within 100 actions (%). Source: paper Table 11.</caption><thead><tr><th scope="col">Response</th><th scope="col">Pac-Mind++</th><th scope="col">HazardRooms</th></tr></thead><tbody>
         <tr><th scope="row">Pursue reward</th><td>12.6 [11.4, 13.9]</td><td>18.4 [16.7, 20.1]</td></tr>
-        <tr><th scope="row">Match action concentration</th><td>8.4 [7.4, 9.5]</td><td>13.1 [11.7, 14.6]</td></tr>
+        <tr><th scope="row">Reward-seeking, matched concentration</th><td>8.4 [7.4, 9.5]</td><td>13.1 [11.7, 14.6]</td></tr>
         <tr class="result-emphasis"><th scope="row">Caution</th><td>5.0 [4.3, 5.8]</td><td>7.9 [6.7, 9.2]</td></tr>
         <tr><th scope="row">Stronger caution</th><td>3.9 [3.2, 4.7]</td><td>6.2 [5.1, 7.5]</td></tr>
       </tbody></table>
     </div>
   </details>
   <div class="prose">
-    <p>More caution can also stall progress. A stronger response lowers short-window failure further, but maze completion falls from 63.4% to 49.2% as timeouts rise. Releasing caution matters too: in full maze episodes, completion rises from 62.1% to 64.6% compared with leaving caution active after the first alarm, while failure rises from 4.7% to 5.0%.</p>
+    <p>Among continuations from alarm states, stronger caution lowers short-window failure further, but maze completion falls from <strong>63.4% under caution to 49.2% under stronger caution</strong> as timeouts rise.</p>
+    <p>In a separate evaluation of whole episodes from reset, releasing caution when risk subsides raises maze completion from <strong>62.1% to 64.6%</strong> compared with leaving it active after the first alarm. The paired gain is <strong>2.5 percentage points, with a 95% interval of [0.8, 4.2]</strong>. Failure changes from 4.7% to 5.0%, a paired increase of 0.3 points [−0.2, 0.8].</p>
   </div>
-  <p class="source-note"><a href="{{ page.paper_url }}#page=15" target="_blank" rel="noopener">Source: paper Tables 11–13; full-episode comparison in Table 6 ↗</a></p>
+  <p class="source-note"><a href="{{ page.paper_url }}#page=15" target="_blank" rel="noopener">Alarm-state comparisons: paper Tables 11 and 12 ↗</a> · <a href="{{ page.paper_url }}#page=5" target="_blank" rel="noopener">Whole episodes and paired 95% intervals: Table 3 ↗</a></p>
 
   <h3>A cost request needs calibration</h3>
   <div class="prose">
-    <p>Turning up caution does not specify a cost budget in task units. We use validation runs to select the highest-reward setting whose upper estimate of mean episode cost passes the requested limit, then test it on unseen layouts.</p>
-    <p>For a requested mean cost of <strong>0.20</strong>, test cost is <strong>0.168</strong> in the maze and <strong>0.167</strong> in the rooms task. This is an average across layouts, not a guarantee for each one: about 19% of estimated layout-level means still exceed the request.</p>
+    <p>A mood setting does not directly specify a cost budget in task units. Validation runs let us select the highest-reward setting whose upper estimate of mean episode cost stays at or below the requested limit, then test it on unseen layouts.</p>
+    <p>For a requested mean cost of <strong>0.20</strong>, test cost is <strong>0.168</strong> in the maze and <strong>0.167</strong> in the rooms task. These averages meet the request, although about 19% of estimated layout-level means exceed it.</p>
+    <p><strong>Calibration cost.</strong> Selecting settings uses <strong>28,928 episodes per trained replicate</strong>; fitting and checking the risk alarm adds <strong>1,024 episodes</strong>. The data are reused across all reported cost requests and alarm thresholds. Both collections are additional to policy training, and their interaction counts depend on episode length.</p>
   </div>
   <details class="mood-results-detail"><summary>Uncertainty and changed hazards</summary>
     <div class="mood-technical">
       <p>The 95% intervals are [0.158, 0.178] for Pac-Mind++ and [0.157, 0.177] for HazardRooms. Estimated layout-level means exceed the request in 18.8% and 19.8% of seed-layout cells.</p>
-      <p>When ghosts pursue the agent more often, maze cost rises to 0.248 under the original calibration. Recalibrating on the changed task brings it to 0.181 without retraining the policy, while reward falls from 134.2 to 128.3. Calibration has to be checked when conditions change.</p>
+      <p>When ghosts pursue the agent more often, maze cost rises to 0.248 under the original calibration. Recalibrating on the changed task brings it to 0.181 without retraining the policy, while reward falls from 134.2 to 128.3. This repeats the calibration collections under the changed hazards.</p>
     </div>
   </details>
-  <p class="source-note"><a href="{{ page.paper_url }}#page=12" target="_blank" rel="noopener">Source: paper Tables 5 and 10 ↗</a></p>
+  <p class="source-note"><a href="{{ page.paper_url }}#page=12" target="_blank" rel="noopener">Cost requests: paper Table 5 ↗</a> · <a href="{{ page.paper_url }}#page=14" target="_blank" rel="noopener">Changed hazards and calibration costs: Table 10 and Appendix D.6 ↗</a></p>
 </section>
 
 <section class="research-section" id="method">
   <h2>How it works</h2>
   <div class="prose">
-    <p>Two inputs serve different purposes. The <strong>cost weight</strong> changes which actions the policy prefers; <strong>temperature</strong> controls how narrowly it samples them. At a fixed observation and cost weight, temperature preserves the action ranking. It can sharpen a preference, but cannot reverse it.</p>
+    <p>The <strong>cost weight</strong> sets the mood by changing which actions the policy prefers. <strong>Temperature</strong> controls how narrowly it samples those actions: reducing it concentrates probability on the preferred actions, without changing their ranking at a fixed observation and cost weight.</p>
   </div>
   <div class="mood-core">
     <h3>Learning the trade-off</h3>
@@ -109,7 +121,7 @@ last_modified_at: 2026-10-16
     \]</div>
     <p>A larger \(w\) gives cost avoidance more influence during training. After training, \(w\) remains an input to the policy. Changing it selects a behavior without updating the network.</p>
   </div>
-  <figure class="paper-figure action-figure"><a href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener" title="Open action comparison at full size"><img src="../assets/figures/mood-actions.svg" width="300" height="184" loading="lazy" alt="At the same junction, the reward preference favors east and caution favors west. Matching action concentration alone still favors east."></a><figcaption>At the same junction, caution changes the preferred direction. The chart calls the reward-focused setting “seeking.” Matching action concentration alone preserves its preference for east.<br><a class="figure-source" href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener">View chart ↗</a> · <a class="figure-source" href="{{ page.paper_url }}#page=4" target="_blank" rel="noopener">Source: paper Figure 3 ↗</a></figcaption></figure>
+  <figure class="paper-figure action-figure"><a href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener" title="Open action comparison at full size"><img src="../assets/figures/mood-actions.svg" width="300" height="184" loading="lazy" alt="At the same junction, the reward-seeking mood favors east and caution favors west. Matching action concentration alone still favors east."></a><figcaption>At the same junction, caution favors west. The reward-seeking mood still favors east after matching caution's action concentration.<br><a class="figure-source" href="../assets/figures/mood-actions.svg" target="_blank" rel="noopener">View chart ↗</a> · <a class="figure-source" href="{{ page.paper_url }}#page=7" target="_blank" rel="noopener">Source: paper Figure 3 ↗</a></figcaption></figure>
   <div class="mood-switching">
     <h3>When to change priorities</h3>
     <p>A supervisor estimates the chance of failure over the next 100 actions if the agent continues to pursue reward.</p>
@@ -127,16 +139,18 @@ last_modified_at: 2026-10-16
   </details>
 </section>
 
+<section class="research-section" id="limits">
+  <h2>Limits</h2>
+  <div class="prose">
+    <p><strong>Discounted cost can hide a worse episode.</strong> Increasing the cost weight sometimes lowers discounted training cost while raising total episode cost. Discounting gives later hazards less weight; the deployment measure counts the whole episode. The validation step therefore checks observed total cost.</p>
+    <p>The risk alarm underpredicts failure during caution and after release. Its original calibration uses reward-seeking trajectories, while switching changes which states the agent visits. Separately tuned raw-score thresholds also perform similarly: calibration provides a common probability scale, but does not itself account for the intervention gains.</p>
+  </div>
+  <p class="source-note"><a href="{{ page.paper_url }}#page=7" target="_blank" rel="noopener">Cost reversals: paper Section 5.7 ↗</a> · <a href="{{ page.paper_url }}#page=14" target="_blank" rel="noopener">Risk audit: Table 9 ↗</a></p>
+</section>
+
 <section class="research-section" id="scope">
   <h2>Outlook</h2>
   <div class="prose">
-    <p>An agent's priorities can change while it is already at work. A useful deployment control needs a response the policy can produce, a way to check its consequences, and a rule for deciding when to use it. The navigation tasks let us study all three together.</p>
-    <p>Beyond navigation, the challenge is to find controls that remain useful as tasks and conditions change. Recalibration may be enough in some cases. Others will need new behaviors and further training.</p>
+    <p>The experiments use discrete actions and explicit hazard costs. Continuous control would test whether a preference input can select gentler movements as well as different routes. With learned hazard costs, the supervisor would also need to distinguish uncertainty about a hazard from a genuine reduction in risk.</p>
   </div>
-  <details class="mood-results-detail"><summary>Limits and calibration costs</summary>
-    <div class="mood-technical">
-      <p>The evaluation covers discrete navigation tasks with partial observations and explicit hazard costs. Increasing the cost weight can raise total episode cost even when discounted training cost falls, so deployment settings must be checked against measured outcomes.</p>
-      <p>The risk audit finds underprediction during caution and after release. Calibration gives the score a probability scale, but separately tuned raw scores perform similarly. Calibration and risk-checking require additional environment interactions, which are outside the one-eighth policy-training comparison.</p>
-    </div>
-  </details>
 </section>
