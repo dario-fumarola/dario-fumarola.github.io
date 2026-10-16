@@ -1,52 +1,50 @@
 <figure class="memory-demo" data-phase="next" data-playback="static">
-  <div class="memory-demo-heading"><h3>Two ways to remember a detour</h3><span>Navigation</span></div>
-  <div class="memory-usecase">
-    <div class="memory-steps" role="group" aria-label="Animation steps" hidden>
-      <button type="button" data-step="observe" aria-pressed="false">See the obstacle</button>
-      <button type="button" data-step="correct" aria-pressed="false">Find a detour</button>
-      <button type="button" data-step="next" aria-pressed="true">Next decision</button>
-    </div>
-    <p class="memory-step-explanation">Attention reads the saved sequence. The recurrent controller starts from the state it already corrected.</p>
-    <p class="memory-demo-key"><span><i class="memory-solid-key" aria-hidden="true"></i>Executed move</span><span><i class="memory-dashed-key" aria-hidden="true"></i>Proposed route</span></p>
-    <div class="memory-route-panels">
-      {% assign memory_branches = 'attention,state' | split: ',' %}{% for branch in memory_branches %}
-      <div class="memory-route-panel memory-route-{{ branch }}">
-        <h3>{% if branch == 'attention' %}Attention over history{% else %}Corrected recurrent state{% endif %}</h3>
-        <p class="memory-architecture">{% if branch == 'attention' %}Observations and plans as records{% else %}Carry the correction in one state{% endif %}</p>
-        <svg class="memory-navigation" viewBox="0 0 300 180" role="img" aria-labelledby="memory-{{ branch }}-title memory-{{ branch }}-desc">
-          <title id="memory-{{ branch }}-title">{% if branch == 'attention' %}An attention-based controller follows the detour{% else %}A recurrent controller follows the same detour{% endif %}</title>
-          <desc id="memory-{{ branch }}-desc">A new obstacle blocks the straight route. Both illustrative controllers find a detour, take the same first move and continue toward the goal. {% if branch == 'attention' %}The attention illustration reads relevant records from a saved sequence.{% else %}The recurrent illustration carries a local correction forward in its fixed-size hidden state.{% endif %} This is a comparison of memory mechanisms, not measured task performance.</desc>
-          <defs><mask id="memory-move-mask-{{ branch }}" maskUnits="userSpaceOnUse" x="0" y="0" width="300" height="180"><path class="memory-move-reveal" d="M28 100C36 100 65 111 76 100C87 89 82 47 96 36C110 25 138 36 156 36C174 36 191 25 202 36C213 47 212 89 224 100C236 111 267 100 276 100" fill="none" stroke="white" stroke-width="9" pathLength="1" stroke-dasharray="1" stroke-dashoffset=".75"/></mask></defs>
-          <path class="memory-safe-reference" d="M28 100C36 100 65 111 76 100C87 89 82 47 96 36C110 25 138 36 156 36C174 36 191 25 202 36C213 47 212 89 224 100C236 111 267 100 276 100"/>
-          <g class="memory-obstacle-group"><rect class="memory-obstacle" x="130" y="64" width="50" height="76" rx="2"/><path class="memory-obstacle-lines" d="m130 82 18-18m-18 36 36-36m-36 54 50-50m-50 68 50-50m-36 54 36-36m-18 36 18-18"/><text class="memory-world-label memory-obstacle-label" x="155" y="166" text-anchor="middle">Obstacle</text></g>
-          <path class="memory-current-proposal" d="M91 58Q110 29 156 36T202 36Q212 98 276 100"/>
-          <path class="memory-executed-move" d="M28 100C36 100 65 111 76 100C87 89 82 47 96 36C110 25 138 36 156 36C174 36 191 25 202 36C213 47 212 89 224 100C236 111 267 100 276 100" mask="url(#memory-move-mask-{{ branch }})"/>
-          <g class="memory-robot" transform="translate(91 58)"><circle r="6"/><path d="M-2 0h4M0-2v4"/></g>
-          <g class="memory-target" transform="translate(276 100)"><circle r="8"/><circle r="2"/></g><text class="memory-world-label" x="272" y="78" text-anchor="middle">Goal</text>
-          <g class="memory-blocked-mark" transform="translate(155 100)" opacity="0"><circle r="10"/><path d="m-3-3 6 6m0-6-6 6"/></g>
-        </svg>
-        <div class="memory-readout">
-          <p class="memory-store-label">{% if branch == 'attention' %}Saved sequence{% else %}Fixed-size state{% endif %}</p>
-          <svg class="memory-storage" viewBox="0 0 300 112" aria-hidden="true">
-            {% if branch == 'attention' %}
-              <g class="memory-history-links">{% for i in (0..7) %}{% assign hx = i | times: 36 | plus: 24 %}<path data-record="{{ i }}" d="M{{ hx }} 38Q{{ hx }} 65 150 84"/>{% endfor %}</g>
-              <g class="memory-history">{% for i in (0..7) %}{% assign hx = i | times: 36 | plus: 10 %}<g class="memory-record" data-record="{{ i }}" style="opacity:{% if i < 6 %}1{% else %}.18{% endif %}"><rect x="{{ hx }}" y="14" width="28" height="24" rx="2"/><path d="M{{ hx | plus: 7 }} 23h14m-14 6h9"/></g>{% endfor %}</g>
-              <circle class="memory-read-node" cx="150" cy="84" r="9"/><path class="memory-read-arrow" d="M150 94v12m-4-4 4 4 4-4"/>
-            {% else %}
-              <rect class="memory-input-record" x="18" y="20" width="18" height="18" rx="2"/>
-              <path class="memory-input-arrow" d="M43 29H96m-5-4 5 4-5 4"/>
-              <rect class="memory-state-frame" x="104" y="8" width="92" height="46" rx="3"/>
-              <g class="memory-state-cells">{% for i in (0..5) %}{% assign cx = i | modulo: 3 | times: 24 | plus: 116 %}{% assign cy = i | divided_by: 3 | times: 16 | plus: 18 %}<rect x="{{ cx }}" y="{{ cy }}" width="20" height="10" rx="1"/>{% endfor %}</g>
-              <path class="memory-state-loop" d="M164 84H238V30H204m5-4-5 4 5 4"/>
-              <path class="memory-state-output" d="M150 54V74"/><circle class="memory-read-node" cx="150" cy="84" r="9"/><path class="memory-read-arrow" d="M150 94v12m-4-4 4 4 4-4"/>
-            {% endif %}
-          </svg>
-          <p class="memory-route-status">{% if branch == 'attention' %}Read relevant records again{% else %}Reuse the corrected state{% endif %}</p>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
-  <figcaption class="memory-demo-caption">Conceptual comparison, not a measured attention baseline. The experiments below compare keeping and discarding state corrections.</figcaption>
+  <div class="memory-demo-heading"><h3>Correcting a reach</h3><span>12-link chain</span></div>
+  <p class="memory-demo-lede">Correct a proposed reach. Keep that change in the state that proposes the next one.</p>
+  <ol class="memory-progress" aria-label="Animation sequence">
+    <li data-stage="propose">Propose</li><li data-stage="correct">Correct</li><li data-stage="move">Move</li><li data-stage="next" aria-current="step">Next decision</li>
+  </ol>
+  <svg class="memory-arm-experiment" viewBox="0 0 1040 430" role="img" aria-labelledby="memory-arm-title memory-arm-desc">
+    <title id="memory-arm-title">A reach corrected in memory</title>
+    <desc id="memory-arm-desc">A twelve-link arm proposes a reach through an obstacle. A local correction bends the proposal around it and is written into the recurrent state. After one safe move, the next proposal starts from that edited state. Beside it, an attention illustration saves the corrected proposal as a record and reads relevant records at the next decision. Both memory paths feed the same illustrative arm; this is not an attention benchmark.</desc>
+    <defs>
+      <marker id="memory-blue-arrow" viewBox="0 0 7 6" markerWidth="7" markerHeight="6" refX="5" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path class="arm-blue-arrow" d="m1 1 4 2-4 2"/></marker>
+      <marker id="memory-amber-arrow" viewBox="0 0 7 6" markerWidth="7" markerHeight="6" refX="5" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path class="arm-amber-arrow" d="m1 1 4 2-4 2"/></marker>
+      <pattern id="memory-obstacle-hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><line x1="0" y1="0" x2="0" y2="7" class="arm-hatch"/></pattern>
+    </defs>
+    <g class="arm-connections" aria-hidden="true"><path class="arm-connection arm-write"/><path class="arm-connection arm-attention-read"/><path class="arm-connection arm-state-read"/><circle class="arm-signal arm-write-signal" r="3"/><circle class="arm-signal arm-attention-signal" r="3"/><circle class="arm-signal arm-state-signal" r="3"/></g>
+    <g class="arm-world" transform="translate(480 45)">
+      <g class="arm-obstacles"><g><circle class="arm-obstacle" cx="235" cy="200" r="30"/><circle class="arm-obstacle-pattern" cx="235" cy="200" r="30" fill="url(#memory-obstacle-hatch)"/></g><g><circle class="arm-obstacle" cx="70" cy="115" r="18"/><circle class="arm-obstacle-pattern" cx="70" cy="115" r="18" fill="url(#memory-obstacle-hatch)"/></g><g><circle class="arm-obstacle" cx="372" cy="282" r="23"/><circle class="arm-obstacle-pattern" cx="372" cy="282" r="23" fill="url(#memory-obstacle-hatch)"/></g><g><circle class="arm-obstacle" cx="424" cy="83" r="18"/><circle class="arm-obstacle-pattern" cx="424" cy="83" r="18" fill="url(#memory-obstacle-hatch)"/></g></g>
+      <path class="arm-floor" d="M45 306H95"/>
+      <polyline class="arm-ghost-original" opacity="0"/>
+      <polyline class="arm-ghost-corrected" points="70.00,292.00 86.21,266.76 104.22,242.77 123.73,219.98 144.66,198.48 167.08,178.54 190.89,160.29 216.21,144.20 242.93,130.56 271.61,121.76 301.41,118.31 331.24,121.46 360.00,130.00"/>
+      <polyline class="arm-physical" points="70.00,292.00 82.67,264.81 96.93,238.41 112.63,212.85 130.14,188.49 149.87,165.89 171.30,144.89 194.39,125.75 218.88,108.41 246.00,95.59 275.06,88.16 305.06,87.67 334.69,92.39"/>
+      <g class="arm-joints"><circle cx="70.00" cy="292.00" r="2.8"/><circle cx="82.67" cy="264.81" r="2.8"/><circle cx="96.93" cy="238.41" r="2.8"/><circle cx="112.63" cy="212.85" r="2.8"/><circle cx="130.14" cy="188.49" r="2.8"/><circle cx="149.87" cy="165.89" r="2.8"/><circle cx="171.30" cy="144.89" r="2.8"/><circle cx="194.39" cy="125.75" r="2.8"/><circle cx="218.88" cy="108.41" r="2.8"/><circle cx="246.00" cy="95.59" r="2.8"/><circle cx="275.06" cy="88.16" r="2.8"/><circle cx="305.06" cy="87.67" r="2.8"/><circle cx="334.69" cy="92.39" r="2.8"/></g>
+      <g class="arm-base" transform="translate(70 292)"><path d="m-11 12 6-12h10l6 12Z"/><circle r="5"/></g>
+      <g class="arm-goal" transform="translate(360 130)"><circle r="10"/><path d="M-4 0h8M0-4v8"/></g>
+      <text class="arm-world-label arm-goal-label" x="378" y="134">Goal</text>
+      <g class="arm-collision" transform="translate(224 203)" opacity="0"><circle r="11"/><path d="m-3-3 6 6m0-6-6 6"/></g>
+    </g>
+    <text class="arm-scene-title" x="750" y="28" text-anchor="middle">Plan from the corrected state</text>
+    <g class="arm-attention" transform="translate(12 50)">
+      <text class="arm-lane-title">Attention over history</text>
+      <text class="arm-lane-subtitle" y="23">Keep observations and plans as records</text>
+      <g class="arm-history-links">{% for i in (0..7) %}<path data-record="{{ i }}"/>{% endfor %}</g>
+      <g class="arm-history">{% for i in (0..7) %}<g class="arm-record" data-record="{{ i }}" transform="translate({{ i | times: 40 }} 43)"><rect width="32" height="38" rx="3"/><polyline points="5,31 7,24 11,18 17,13 23,12 27,14"/></g>{% endfor %}</g>
+      <circle class="arm-history-port" cx="167" cy="112" r="5"/>
+      <text class="arm-lane-status" x="0" y="146">Read relevant records</text>
+    </g>
+    <g class="arm-state" transform="translate(12 256)">
+      <text class="arm-lane-title">Corrected recurrent state</text>
+      <text class="arm-lane-subtitle" y="23">Keep the correction inside the state</text>
+      <g class="arm-observation" transform="translate(4 61)"><rect width="22" height="22" rx="3"/><path d="m5 15 4-5 4 2 4-7"/></g>
+      <path class="arm-state-input" d="M36 72H82m-5-4 5 4-5 4"/>
+      <g class="arm-state-capsule" transform="translate(90 49)"><rect class="arm-state-frame" width="132" height="46" rx="5"/><g class="arm-state-cells">{% for i in (0..5) %}<rect x="{{ i | times: 16 | plus: 13 }}" y="14" width="9" height="18" rx="2"/>{% endfor %}</g><path class="arm-state-edit" d="M13 38H119"/></g>
+      <path class="arm-state-loop" d="M228 72H260V113H156V101m-4 5 4-5 4 5"/>
+      <text class="arm-lane-status" x="0" y="146">Reuse the edited state</text>
+    </g>
+  </svg>
+  <p class="memory-demo-key"><span><i class="arm-key-physical" aria-hidden="true"></i>Arm</span><span><i class="arm-key-original" aria-hidden="true"></i>Original proposal</span><span><i class="arm-key-corrected" aria-hidden="true"></i>Corrected proposal</span></p>
+  <figcaption class="memory-demo-caption">Illustration of memory mechanisms. Attention was not evaluated in the paper.</figcaption>
   <div class="memory-demo-controls"><a class="figure-source" href="../assets/figures/memory-intervention.svg" target="_blank" rel="noopener">Paper's intervention diagram</a><button class="memory-motion-toggle" type="button" aria-pressed="false" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg><span>Pause motion</span></button></div>
 </figure>

@@ -12,59 +12,65 @@
 .project-memory .research-section h2 { font-size:28px; margin-bottom:18px; }
 .project-memory .research-section h3 { font-size:22px; }
 .project-memory .related-work { border-top:0; }
+/* The arm and both memory paths share one responsive SVG coordinate system. */
 .memory-demo { margin:0 0 26px; min-width:0; }
 .memory-tasks { margin-top:24px; }
-.memory-demo-heading { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:14px; }
+.memory-demo-heading { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:10px; }
 .project-memory .memory-demo-heading h3 { font-size:23px; margin:0; }
-.memory-demo-heading > span { flex:0 0 auto; white-space:nowrap; font-size:10px; color:var(--muted); }
-.memory-usecase { max-width:800px; margin:0 auto; }
-.memory-steps { display:flex; justify-content:center; gap:28px; margin:0 0 16px; }
-.memory-steps button { color:var(--muted); font:400 12px/1.4 var(--font-sans); min-height:44px; padding:10px 0; border:0; border-bottom:1px solid transparent; background:none; cursor:pointer; }
-.memory-steps button[aria-pressed="true"] { color:var(--text); border-bottom-color:var(--memory-ink); }
-.memory-step-explanation { text-align:center; font-size:13px; line-height:1.7; min-height:22px; margin:0 auto 12px; color:var(--text-2); }
-.memory-route-panels { display:grid; grid-template-columns:1fr 1fr; }
-.memory-route-panel { min-width:0; text-align:center; padding:0 26px; }
-.memory-route-panel + .memory-route-panel { border-left:1px solid var(--border); }
-.project-memory .memory-route-panel h3 { font:400 19px/1.25 var(--font-serif); margin:0 0 10px; }
-.memory-navigation { display:block; width:100%; max-width:300px; margin:0 auto; height:auto; overflow:visible; }
-.memory-safe-reference { fill:none; stroke:none; }
-.memory-obstacle { fill:var(--surface-2); stroke:var(--border-strong); stroke-width:1; }
-.memory-obstacle-lines { fill:none; stroke:var(--border); stroke-width:.7; }
-.memory-world-label { fill:var(--muted); font:11px var(--font-sans); }
-.memory-current-proposal { fill:none; stroke:var(--memory-ink); stroke-width:2.5; stroke-dasharray:5 5; stroke-linecap:round; }
-.memory-route-attention .memory-current-proposal { stroke:var(--memory-repair); }
-.memory-demo[data-phase="observe"] .memory-current-proposal { stroke:var(--text-2); }
-.memory-executed-move { fill:none; stroke:var(--text); stroke-width:2.5; stroke-linecap:round; }
-.memory-robot { fill:var(--text); stroke:var(--bg); stroke-width:1.5; }
-.memory-target { fill:none; stroke:var(--text-2); stroke-width:1; }
-.memory-target circle:last-child { fill:var(--text-2); stroke:none; }
-.memory-blocked-mark { fill:var(--bg); stroke:var(--memory-blocked); stroke-width:1.3; }
-.memory-blocked-mark path { fill:none; stroke-linecap:round; }
-.memory-architecture { color:var(--muted); font-size:11px; line-height:1.65; min-height:18px; margin:0 auto 8px; max-width:29ch; }
-.memory-readout { max-width:300px; margin:12px auto 0; border-top:1px solid var(--border); padding-top:15px; }
-.memory-store-label { color:var(--text); font-size:11px; line-height:1.6; margin:0 0 5px; }
-.memory-storage { display:block; width:100%; height:auto; overflow:visible; }
-.memory-record rect, .memory-input-record { fill:var(--bg); stroke:var(--border-strong); stroke-width:1; }
-.memory-record path { fill:none; stroke:var(--muted); stroke-width:1; }
-.memory-record.is-correction rect { fill:var(--surface-2); stroke:var(--memory-repair); stroke-width:1.8; }
-.memory-record.is-correction path { stroke:var(--memory-repair); }
-.memory-history-links path { fill:none; stroke:var(--memory-repair); stroke-linecap:round; }
-.memory-read-node { fill:var(--bg); stroke:var(--memory-ink); stroke-width:1.4; }
-.memory-route-attention .memory-read-node { stroke:var(--memory-repair); }
-.memory-read-arrow, .memory-input-arrow, .memory-state-loop, .memory-state-output { fill:none; stroke:var(--memory-ink); stroke-width:1.2; stroke-linecap:round; stroke-linejoin:round; }
-.memory-route-attention .memory-read-arrow { stroke:var(--memory-repair); }
-.memory-state-frame { fill:var(--bg); stroke:var(--border-strong); stroke-width:1.1; }
-.memory-state-frame.is-corrected { stroke:var(--memory-ink); }
-.memory-state-cells rect { fill:var(--memory-ink); }
-.memory-state-cells .is-edited { fill:var(--memory-repair); }
-.memory-route-status { font-size:11px; line-height:1.6; min-height:18px; margin:8px 0 0; color:var(--text-2); }
-.memory-demo[data-phase="next"] .memory-route-state .memory-route-status, .memory-demo[data-phase="arrive"] .memory-route-state .memory-route-status { color:var(--memory-ink); }
-.memory-demo[data-phase="next"] .memory-route-attention .memory-route-status, .memory-demo[data-phase="arrive"] .memory-route-attention .memory-route-status { color:var(--memory-repair); }
-.memory-demo-key { display:flex; justify-content:center; gap:24px; font-size:10px; color:var(--muted); margin:4px 0 0; }
+.memory-demo-heading > span { flex:0 0 auto; white-space:nowrap; font-size:11px; color:var(--muted); }
+.memory-demo-lede { font-size:14px; color:var(--text-2); line-height:1.7; margin:0 0 22px; }
+.memory-progress { display:flex; justify-content:center; gap:32px; list-style:none; padding:0; margin:0 0 22px; color:var(--muted); font-size:11px; }
+.memory-progress li { padding:0 0 8px; border-bottom:1px solid transparent; }
+.memory-progress [aria-current] { color:var(--text); border-bottom-color:var(--memory-ink); }
+.memory-arm-experiment { width:100%; height:auto; display:block; overflow:hidden; }
+.arm-lane-title { fill:var(--text); font:400 20px var(--font-serif); }
+.arm-lane-subtitle { fill:var(--muted); font:11px var(--font-sans); }
+.arm-lane-status { fill:var(--text-2); font:12px var(--font-sans); }
+.arm-scene-title { fill:var(--text-2); font:12px var(--font-sans); }
+.arm-obstacle { fill:var(--surface-2); stroke:var(--border-strong); stroke-width:1; }
+.arm-hatch { stroke:var(--border); stroke-width:1.2; }
+.arm-obstacle-pattern { stroke:none; }
+.arm-floor { fill:none; stroke:var(--border-strong); stroke-width:1.5; }
+.arm-physical { fill:none; stroke:var(--text); stroke-width:4; stroke-linecap:round; stroke-linejoin:round; }
+.arm-joints circle { fill:var(--bg); stroke:var(--text); stroke-width:1.8; }
+.arm-joints circle:last-child { fill:var(--text); }
+.arm-base path { fill:var(--surface-2); stroke:var(--text); stroke-width:1.5; }
+.arm-base circle { fill:var(--bg); stroke:var(--text); stroke-width:2; }
+.arm-ghost-original, .arm-ghost-corrected { fill:none; stroke-width:2; stroke-dasharray:5 5; stroke-linecap:round; stroke-linejoin:round; }
+.arm-ghost-original { stroke:var(--muted); }
+.arm-ghost-corrected { stroke:var(--memory-ink); stroke-width:2.8; }
+.arm-goal { fill:none; stroke:var(--text-2); stroke-width:1.2; }
+.arm-world-label { fill:var(--muted); font:11px var(--font-sans); }
+.arm-collision { fill:var(--bg); stroke:var(--memory-blocked); stroke-width:1.4; }
+.arm-collision path { fill:none; stroke-linecap:round; }
+.arm-record rect, .arm-observation rect, .arm-state-frame { fill:var(--bg); stroke:var(--border-strong); stroke-width:1; }
+.arm-record polyline { fill:none; stroke:var(--muted); stroke-width:1; stroke-linecap:round; stroke-linejoin:round; }
+.arm-record.is-correction rect { stroke:var(--memory-ink); stroke-width:1.5; }
+.arm-record.is-correction polyline { stroke:var(--memory-ink); }
+.arm-record.is-read rect { stroke:var(--memory-repair); stroke-width:1.5; }
+.arm-record.is-read polyline { stroke:var(--memory-repair); }
+.arm-history-links path { fill:none; stroke:var(--memory-repair); }
+.arm-history-port { fill:var(--bg); stroke:var(--memory-repair); stroke-width:1.5; }
+.arm-observation path { fill:none; stroke:var(--muted); stroke-width:1; }
+.arm-state-cells rect { fill:var(--memory-ink); }
+.arm-state-edit { fill:none; stroke:var(--memory-ink); stroke-width:2.4; stroke-linecap:round; }
+.arm-state-frame.is-corrected { stroke:var(--memory-ink); stroke-width:1.5; }
+.arm-state-loop, .arm-state-input { fill:none; stroke:var(--memory-ink); stroke-width:1; stroke-linecap:round; stroke-linejoin:round; }
+.arm-connection { fill:none; stroke:var(--memory-ink); stroke-width:1.2; stroke-linecap:round; stroke-dasharray:3 4; opacity:0; }
+.arm-write, .arm-state-read { marker-end:url(#memory-blue-arrow); }
+.arm-attention-read { stroke:var(--memory-repair); marker-end:url(#memory-amber-arrow); }
+.arm-blue-arrow, .arm-amber-arrow { fill:none; stroke:var(--memory-ink); stroke-width:1; stroke-linecap:round; stroke-linejoin:round; }
+.arm-amber-arrow { stroke:var(--memory-repair); }
+.arm-signal { fill:var(--memory-ink); opacity:0; }
+.arm-attention-signal { fill:var(--memory-repair); }
+.memory-demo[data-phase="correct"] .arm-state .arm-lane-status, .memory-demo[data-phase="next"] .arm-state .arm-lane-status, .memory-demo[data-phase="continue"] .arm-state .arm-lane-status { fill:var(--memory-ink); }
+.memory-demo[data-phase="next"] .arm-attention .arm-lane-status { fill:var(--memory-repair); }
+.memory-demo-key { display:flex; justify-content:center; flex-wrap:wrap; gap:10px 24px; font-size:10px; color:var(--muted); margin:0; }
 .memory-demo-key span { display:flex; align-items:center; gap:7px; }
-.memory-demo-key i { width:20px; border-top:2px solid var(--text-2); }
-.memory-demo-key .memory-dashed-key { border-top-style:dashed; }
-.memory-demo-caption { font-size:12px; line-height:1.7; color:var(--text-2); text-align:center; margin:16px auto 0; }
+.memory-demo-key i { width:20px; border-top:2px solid var(--text); }
+.memory-demo-key .arm-key-original { border-top:2px dashed var(--muted); }
+.memory-demo-key .arm-key-corrected { border-top:2px dashed var(--memory-ink); }
+.memory-demo-caption { font-size:12px; line-height:1.7; color:var(--text-2); text-align:center; margin:20px auto 0; }
 .memory-demo-controls { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:4px; font-size:10px; line-height:1.8; color:var(--muted); }
 .memory-demo-controls .figure-source { margin:0; }
 .memory-motion-toggle { display:inline-flex; align-items:center; gap:7px; min-height:44px; padding:0; border:0; background:none; color:var(--muted); font-size:10px; white-space:nowrap; cursor:pointer; }
@@ -92,22 +98,13 @@
   .project-memory .project-hero { grid-template-columns:1fr; grid-template-areas:"title" "copy"; padding-top:28px; gap:24px; }
   .memory-hero-copy { padding-top:0; }
   .project-memory .memory-demo-heading h3 { font-size:22px; }
-  .memory-route-panel { padding:0 8px; }
-  .project-memory .memory-route-panel h3 { font-size:17px; min-height:2.5em; }
-  .memory-steps { gap:18px; }
-  .memory-step-explanation { min-height:67px; text-align:left; }
+  .memory-demo-lede { font-size:13px; }
+  .memory-progress { gap:22px; margin-bottom:14px; }
   .memory-demo-caption { text-align:left; }
-  .memory-architecture { font-size:10px; min-height:3.3em; }
-  .memory-readout { padding-top:12px; }
-  .memory-route-status { min-height:36px; }
-  .memory-world-label { font-size:20px; }
   .memory-findings { gap:24px; }
 }
 @media (max-width:360px) {
-  .memory-steps { gap:12px; }
-  .memory-steps button { font-size:10px; }
-  .memory-route-panel { padding:0 5px; }
-  .memory-architecture { min-height:5em; }
-  .memory-store-label, .memory-route-status { font-size:10px; }
+  .memory-progress { gap:18px; font-size:10px; }
+  .memory-demo-key { gap:10px 14px; }
   .memory-demo-controls { gap:12px; }
 }
