@@ -1,9 +1,9 @@
 .project-mood { --mood-seeking:#315da8; --mood-cautious:#95620d; --mood-hazard:#a56d65; --mood-hazard-wash:#f3e8e5; }
 [data-theme="dark"] .project-mood { --mood-seeking:#92baff; --mood-cautious:#e1b65f; --mood-hazard:#d39a8e; --mood-hazard-wash:#382b2b; }
-.project-mood .project-hero { grid-template-columns:1.15fr 1fr; grid-template-areas:"title copy" "results results" "visual visual"; gap:24px 64px; padding-top:32px; }
+.project-mood .project-hero { grid-template-columns:1.15fr 1fr; grid-template-areas:"title copy" "visual visual"; gap:24px 64px; padding-top:32px; }
 .mood-hero-title { grid-area:title; align-self:start; }
 .mood-hero-copy { grid-area:copy; align-self:start; padding-top:32px; }
-.mood-key-results { grid-area:results; margin-top:8px; }
+.mood-key-results { margin:0 0 32px; }
 .mood-key-results dl { display:grid; grid-template-columns:1fr 1.12fr 1fr; gap:32px; margin:0; padding:24px 0 20px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
 .mood-key-results dl > div + div { padding-left:28px; border-left:1px solid var(--border); }
 .mood-key-results dt { font-size:11px; color:var(--muted); margin-bottom:10px; }
@@ -93,7 +93,7 @@
 .project-mood .related-work { border-top:0; }
 @media (max-width:1080px) { .project-mood .project-hero { column-gap:32px; } .mood-scenes { column-gap:32px; } }
 @media (max-width:760px) {
-  .project-mood .project-hero { grid-template-columns:1fr; grid-template-areas:"title" "copy" "results" "visual"; gap:24px; padding-top:28px; }
+  .project-mood .project-hero { grid-template-columns:1fr; grid-template-areas:"title" "copy" "visual"; gap:24px; padding-top:28px; }
   .mood-scenes { grid-template-columns:1fr; gap:24px; }
   .mood-hero-copy { padding-top:0; }
   .mood-key-results dl { grid-template-columns:1fr; gap:18px; padding:20px 0; }

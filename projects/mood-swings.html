@@ -25,21 +25,12 @@ last_modified_at: 2026-10-16
     <p class="intro">Train one policy, then make it more or less cautious at deployment without retraining. A control input selects its mood, from reward-seeking to cautious, while the network weights stay fixed.</p>
     {% include paper-link.html %}
   </div>
-  <div class="mood-key-results">
-    <dl aria-label="Key results in Pac-Mind++">
-      <div><dt>Reward-cost coverage</dt><dd>98%</dd><dd class="mood-key-explanation">One policy retains 98% of an eight-policy library's coverage, at one-eighth the training.</dd></div>
-      <div><dt>Failure after a risk alarm</dt><dd>12.6% <span aria-label="to">→</span> 5.0%</dd><dd class="mood-key-explanation">Entering caution reduces failure over the next 100 actions.</dd></div>
-      <div><dt>Mean cost on unseen layouts</dt><dd>0.168</dd><dd class="mood-key-explanation">Mean cost stays below the requested limit of 0.20.</dd></div>
-    </dl>
-    <p class="baseline-note"><strong>A cost-limit policy, CCPO, is competitive at the same training budget.</strong> Its coverage is 0.747 versus our 0.768 in Pac-Mind++, and 0.698 versus 0.699 in HazardRooms.</p>
-    <p class="mood-key-note">All three headline results come from Pac-Mind++, a pellet maze with moving ghosts. The training comparison excludes calibration.</p>
-  </div>
   {% include mood-scenes.html %}
 </header>
-<nav class="section-nav" aria-label="On this page"><a href="#idea">The idea</a><a href="#results">Results</a><a href="#method">How it works</a><a href="#limits">Limits</a><a href="#scope">Outlook</a></nav>
+<nav class="section-nav" aria-label="On this page"><a href="#idea">Idea</a><a href="#results">Results</a><a href="#method">Method</a><a href="#limits">Limits</a><a href="#outlook">Outlook</a></nav>
 
 <section class="research-section" id="idea">
-  <h2>The idea</h2>
+  <h2>Idea</h2>
   <div class="prose">
     <p>A shortcut can be worth taking until a hazard appears. The agent then needs to choose a detour, but also recognize when it can safely resume its original route. We study both decisions: entering caution and releasing it.</p>
     <p>During training, the policy learns to weigh reward against cost according to a control input. Its reward-seeking mood favors progress; a cautious mood gives hazard avoidance more weight. At deployment, a separate risk estimate guides when to switch between them.</p>
@@ -49,6 +40,15 @@ last_modified_at: 2026-10-16
 
 <section class="research-section" id="results">
   <h2>Results</h2>
+  <div class="mood-key-results">
+    <dl aria-label="Key results in Pac-Mind++">
+      <div><dt>Reward-cost coverage</dt><dd>98%</dd><dd class="mood-key-explanation">One policy retains 98% of an eight-policy library's coverage, at one-eighth the training.</dd></div>
+      <div><dt>Failure after a risk alarm</dt><dd>12.6% <span aria-label="to">→</span> 5.0%</dd><dd class="mood-key-explanation">Entering caution reduces failure over the next 100 actions.</dd></div>
+      <div><dt>Mean cost on unseen layouts</dt><dd>0.168</dd><dd class="mood-key-explanation">Mean cost stays below the requested limit of 0.20.</dd></div>
+    </dl>
+    <p class="baseline-note"><strong>A cost-limit policy, CCPO, is competitive at the same training budget.</strong> Its coverage is 0.747 versus our 0.768 in Pac-Mind++, and 0.698 versus 0.699 in HazardRooms.</p>
+    <p class="mood-key-note">The three results come from separate evaluations in Pac-Mind++, a pellet maze with moving ghosts. The training comparison excludes calibration.</p>
+  </div>
   <h3>One policy, many trade-offs</h3>
   <div class="prose">
     <p>Our mood-conditioned PPO policy, <strong>MC-PPO</strong>, retains <strong>98.0% of an eight-policy library's reward-cost coverage in Pac-Mind++ and 97.2% in HazardRooms</strong>, using one-eighth of its policy-training interactions. Coverage measures the area of reward and cost trade-offs the controller can reach.</p>
@@ -74,8 +74,8 @@ last_modified_at: 2026-10-16
   <h3>Caution reduces immediate failure</h3>
   <div class="prose"><p>From the same saved states where a risk alarm fires, entering caution reduces failure over the next 100 actions. Both responses use the same trained policy; each continuation keeps the original task deadline.</p></div>
   <div class="mood-findings" aria-label="Failure within 100 actions from common alarm states">
-    <div class="mood-finding"><h3>Pac-Mind++</h3><dl><dt>Pursue reward</dt><dd>12.6%</dd><dt>Enter caution</dt><dd>5.0%</dd></dl></div>
-    <div class="mood-finding"><h3>HazardRooms</h3><dl><dt>Pursue reward</dt><dd>18.4%</dd><dt>Enter caution</dt><dd>7.9%</dd></dl></div>
+    <div class="mood-finding"><h3>Short-window failure: Pac-Mind++</h3><dl><dt>Pursue reward</dt><dd>12.6%</dd><dt>Enter caution</dt><dd>5.0%</dd></dl></div>
+    <div class="mood-finding"><h3>Short-window failure: HazardRooms</h3><dl><dt>Pursue reward</dt><dd>18.4%</dd><dt>Enter caution</dt><dd>7.9%</dd></dl></div>
   </div>
   <div class="prose"><p>A lower temperature concentrates action selection on the choices the agent already prefers. Keeping the reward-seeking mood and matching caution's action concentration lowers maze failure to <strong>8.4%</strong>; changing the mood reaches <strong>5.0%</strong>.</p></div>
   <details class="mood-results-detail"><summary>Comparison settings and 95% intervals</summary>
@@ -110,7 +110,7 @@ last_modified_at: 2026-10-16
 </section>
 
 <section class="research-section" id="method">
-  <h2>How it works</h2>
+  <h2>Method</h2>
   <div class="prose">
     <p>The <strong>cost weight</strong> sets the mood by changing which actions the policy prefers. <strong>Temperature</strong> controls how narrowly it samples those actions: reducing it concentrates probability on the preferred actions, without changing their ranking at a fixed observation and cost weight.</p>
   </div>
@@ -149,8 +149,8 @@ last_modified_at: 2026-10-16
   <p class="source-note"><a href="{{ page.paper_url }}#page=7" target="_blank" rel="noopener">Cost reversals: paper Section 5.7 ↗</a> · <a href="{{ page.paper_url }}#page=14" target="_blank" rel="noopener">Risk audit: Table 9 ↗</a></p>
 </section>
 
-<section class="research-section" id="scope">
-  <h2>Outlook</h2>
+<section class="research-section" id="outlook">
+  <h2 id="scope">Outlook</h2>
   <div class="prose">
     <p>The experiments use discrete actions and explicit hazard costs. Continuous control would test whether a preference input can select gentler movements as well as different routes. With learned hazard costs, the supervisor would also need to distinguish uncertainty about a hazard from a genuine reduction in risk.</p>
   </div>

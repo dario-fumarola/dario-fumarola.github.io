@@ -4,14 +4,13 @@
   display: grid; grid-template-columns: minmax(0, 1fr) 290px;
   align-items: center; gap: 48px; padding: 32px 0 28px; border-bottom: 1px solid var(--border);
 }
-.hero .eyebrow { margin-bottom: 18px; }
 .site-name {
   font-size: clamp(42px, 4vw, 60px); font-weight: 600; line-height: 1.02;
   letter-spacing: -0.035em; margin: 0 0 10px;
 }
 .site-role { font: 400 clamp(22px, 1.9vw, 25px)/1.3 var(--font-serif); margin-bottom: 18px; }
 .hero .lede { font-size: 14px; line-height: 1.65; margin-bottom: 22px; }
-.hero .place-link { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.place-link { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 .contact-links { display: flex; flex-wrap: wrap; gap: 12px; }
 .contact-links .outline-link { padding-left: 17px; padding-right: 17px; }
 .portrait-gallery { min-width: 0; width: 100%; }
@@ -28,8 +27,6 @@
 .portrait-controls button:hover { background: var(--surface-2); color: var(--text); }
 .portrait-controls svg { width: 15px; height: 15px; }
 .photo-count { font-size: 10px; color: var(--muted); min-width: 29px; text-align: center; font-variant-numeric: tabular-nums; }
-.site-tagline { margin: 14px 0 0; font: italic 400 15px/1.45 var(--font-serif); color: var(--muted); }
-.quote-attribution { white-space: nowrap; }
 .content { min-width: 0; }
 .page-section { padding: 28px 0 30px; border-bottom: 1px solid var(--border); }
 .section-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
@@ -38,6 +35,14 @@
 .content h3 { font-size: 23px; }
 .about-copy { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; }
 .about-copy p { margin: 0; font-size: 14px; }
+.about-note { font-size:13px; margin:18px 0 0; max-width:100ch; }
+.document-links { display:flex; flex-wrap:wrap; gap:10px 24px; font-size:12px; }
+.document-links a { display:inline-flex; align-items:center; gap:8px; min-height:44px; text-decoration:underline; text-underline-offset:3px; }
+.document-links svg { width:15px; height:15px; }
+.interest-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:32px; }
+.interest-grid > div + div { border-left:1px solid var(--border); padding-left:28px; }
+.interest-grid h3 { font-size:21px; line-height:1.3; margin:0 0 14px; }
+.interest-grid p { font-size:13px; line-height:1.75; margin:0; }
 .work-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
 .project-card { position: relative; display: flex; flex-direction: column; padding: 24px 0 24px 52px; border-bottom: 1px solid var(--border); }
 .work-icon { position: absolute; left: 0; top: 47px; width: 27px; height: 27px; fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
@@ -59,6 +64,7 @@
 .xp-item::before { content: ""; position: absolute; left: -4px; top: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--text); }
 .xp-item h3 { font-size: 23px; margin: 0 0 6px; }
 .xp-item p { font-size: 13px; margin: 0; line-height: 1.7; max-width: 110ch; }
+.xp-item p + p:not(.xp-org) { margin-top:10px; }
 .xp-item .xp-org { color: var(--muted); margin-bottom: 10px; }
 .header-updated { margin: 24px 0 0; font-size: 11px; color: var(--faint); }
 @media (max-width: 1080px) {
@@ -73,12 +79,13 @@
   .contact-links .outline-link { padding: 9px 12px; min-height: 42px; font-size: 12px; gap: 8px; }
   .about-copy { gap: 24px; }
   .background-grid { gap: 28px; }
+  .interest-grid { grid-template-columns:1fr; gap:22px; }
+  .interest-grid > div + div { border-left:0; border-top:1px solid var(--border); padding:22px 0 0; }
 }
 @media (max-width: 560px) {
   .hero { grid-template-columns: minmax(0, 1fr); gap: 22px; padding: 28px 0; }
   .hero-copy { grid-row: auto; }
   .site-name { font-size: clamp(39px, 10.5vw, 52px); }
-  .hero .eyebrow { font-size: 10px; margin-bottom: 20px; }
   .site-role { font-size: clamp(20px, 5.9vw, 23px); }
   .portrait-gallery { max-width: 290px; margin-inline: auto; }
   .portrait-controls button { width: 44px; height: 44px; }

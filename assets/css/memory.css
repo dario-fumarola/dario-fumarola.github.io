@@ -3,6 +3,13 @@
 .project-memory .project-hero { grid-template-columns:1.15fr 1fr; grid-template-areas:"title copy"; gap:28px 64px; align-items:start; padding-top:32px; }
 .memory-hero-title { grid-area:title; }
 .memory-hero-copy { grid-area:copy; padding-top:32px; }
+.memory-key-results { margin:0 0 28px; }
+.memory-highlights { display:grid; grid-template-columns:1fr 1.2fr 1fr; gap:32px; margin:0; padding:24px 0 20px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.memory-highlights > div + div { padding-left:28px; border-left:1px solid var(--border); }
+.memory-highlights dt { font-size:11px; color:var(--muted); }
+.memory-highlights dd { font:400 34px/1.2 var(--font-serif); color:var(--text); margin:8px 0 0; }
+.memory-highlights small { display:block; color:var(--muted); font:400 11px/1.6 var(--font-sans); margin-top:8px; }
+.memory-key-note { margin:10px 0 0; font-size:10px; line-height:1.7; color:var(--muted); max-width:110ch; }
 .memory-hero-meta { display:flex; align-items:center; flex-wrap:wrap; gap:10px 20px; }
 .memory-hero-meta span:last-child { color:var(--muted); letter-spacing:.08em; }
 .project-memory .project-hero h1 { font-size:clamp(40px,4vw,54px); margin-bottom:16px; }
@@ -15,9 +22,6 @@
 /* One folding chain and the state that carries its correction forward. */
 .memory-demo { margin:0 0 26px; min-width:0; }
 .memory-tasks { margin-top:24px; }
-.memory-demo-heading { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:10px; }
-.project-memory .memory-demo-heading h3 { font-size:23px; margin:0; }
-.memory-demo-heading > span { flex:0 0 auto; white-space:nowrap; font-size:11px; color:var(--muted); }
 .memory-demo-lede { font-size:14px; color:var(--text-2); line-height:1.7; margin:0 0 22px; }
 .memory-progress { display:flex; justify-content:center; gap:32px; list-style:none; padding:0; margin:0 0 22px; color:var(--muted); font-size:11px; }
 .memory-progress li { padding:0 0 8px; border-bottom:1px solid transparent; }
@@ -85,8 +89,10 @@
 @media (max-width:760px) {
   .memory-retention { grid-template-areas:"copy" "chart" "more"; grid-template-rows:auto; }
   .project-memory .project-hero { grid-template-columns:1fr; grid-template-areas:"title" "copy"; padding-top:28px; gap:24px; }
+  .memory-highlights { grid-template-columns:1fr; gap:18px; padding:20px 0; }
+  .memory-highlights > div + div { padding:18px 0 0; border-left:0; border-top:1px solid var(--border); }
+  .memory-highlights dd { font-size:30px; }
   .memory-hero-copy { padding-top:0; }
-  .project-memory .memory-demo-heading h3 { font-size:22px; }
   .memory-demo-lede { font-size:13px; }
   .memory-progress { gap:22px; margin-bottom:14px; }
   .memory-demo-caption { text-align:left; }

@@ -10,10 +10,6 @@ baseurl: ""
 lang: en
 logo: /assets/img/dario-fumarola-logo.svg
 
-# Shown in the sidebar under the name (not used for SEO).
-motto: The true mystery of the world is the visible, not the invisible.
-motto_author: Oscar Wilde
-
 # Google Search Console ownership (emitted by jekyll-seo-tag as a meta tag)
 webmaster_verifications:
   google: gYf0JwqnopAyyvVCwSaC1xrJ6i4hk3MUqVJySe15_8o

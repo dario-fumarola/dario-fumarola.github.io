@@ -1,9 +1,9 @@
 ---
 layout: project
 project: broadcast
-title: "When a Report Delays Service: Broadcast-Gain"
+title: "Broadcast-Gain: Coordinating Agents with Small Messages"
 paper_title: "Broadcast-Gain: Two-Byte Junction Control under Partial Information"
-description: "More reliable reports can double a junction controller's switch time. A deadline fixes the fallback, but a tuned timer wins the main workload."
+description: "Broadcast-Gain explores how agents can coordinate through small demand reports. A junction example combines local information with deadlines for shared access."
 authors: Dario Fumarola
 venue: NY-RL 2025
 paper: /assets/broadcast-gain.pdf
@@ -11,29 +11,19 @@ image:
   path: /assets/social/broadcast-gain.png
   width: 1200
   height: 630
-  alt: "When a report delays service. Original Broadcast-Gain holds an empty direction open while a deadline restores green to the waiting agent."
+  alt: "Broadcast-Gain. Original Broadcast-Gain holds an empty direction open while a deadline restores green to the waiting agent."
 last_modified_at: 2026-10-16
 ---
 <header class="project-hero">
   <div class="bg-hero-title">
     <p class="eyebrow bg-hero-meta"><span>Sparse communication</span><span>NY-RL 2025</span></p>
-    <h1>When a report<br>delays service</h1>
-    <p class="subtitle">Broadcast-Gain and service deadlines</p>
+    <h1>Broadcast-Gain</h1>
+    <p class="subtitle">Coordinating agents with small messages</p>
     <p class="byline">Dario Fumarola · Amazon Web Services</p>
   </div>
   <div class="bg-hero-copy">
-    <p class="intro">An agent at a red light reports that it is waiting. Under the original controller, that report can delay the next switch from <strong>24 to 48 steps</strong>. The more reliably reports arrive, the longer it waits.</p>
-    <p class="bg-study-context">Broadcast-Gain (BG) coordinates agents at a shared junction using small demand reports. Its deadline variant, <span class="bg-name">BG-D</span>, fixes the fallback, but a tuned timer still wins the main workload.</p>
+    <p class="intro">Agents often share space and resources without seeing the whole system. Broadcast-Gain gives them a small channel for reporting what they need, so a shared controller can coordinate their next moves.</p>
     {% include paper-link.html %}
-  </div>
-  <div class="bg-headline-results">
-    <dl class="bg-findings" aria-label="p95 waiting in the main workload, in steps">
-      <div><dt>Original BG</dt><dd>173.4<small>p95 waiting · steps</small></dd></div>
-      <div><dt>BG-D · 24-step deadline</dt><dd>164.9<small>8.5 fewer steps [7.2, 9.8]</small></dd></div>
-      <div><dt>Fixed 12-step timer</dt><dd>156.8<small>Lowest waiting in this comparison</small></dd></div>
-    </dl>
-    <p class="baseline-note"><strong>The timer also has the highest throughput:</strong> 683.6 crossings per 1,000 steps, versus 682.8 for BG-D(24) and 678.9 for original BG.</p>
-    <p class="bg-headline-note">Main workload: 140 agents, 70% report loss, reports every six steps and two-step clearance. The reduction has a paired 95% interval.</p>
   </div>
   {% include broadcast-demo.html %}
 </header>
@@ -41,28 +31,11 @@ last_modified_at: 2026-10-16
 
 <section class="research-section" id="failure">
   <h2>Counterexample</h2>
-  <div class="figure-and-copy bg-counterexample">
-    <div class="prose bg-counterexample-copy">
-      <p>Opposite approaches form an <strong>axis</strong>: north-south or east-west. One axis gets green at the shared crossing, called the <strong>gate</strong>. Switching closes both axes briefly; this is <strong>clearance</strong>.</p>
-      <p>The original controller has two timing branches. With no cached reports, it switches after four reporting cycles. With a nonempty cache, it can hold for eight cycles while waiting for an evidence test to pass.</p>
-      <p>One stationary agent keeps this cache alive under reliable delivery. Its report identifies the waiting axis, yet one sender cannot supply enough effective support for a switch. The short fallback disappears before the report can cause service.</p>
-      <p>The single sender isolates the bug. In busy traffic, the same branch holds phases with many reports whose combined evidence is inconclusive. A patch limited to weak caches saves only 0.7 waiting steps [0.2, 1.2], against 8.5 for the unconditional deadline.</p>
-      <p>The curve evaluates this one-sender case exactly. More reliable delivery keeps the cache alive for longer, removing opportunities to use the early fallback.</p>
-    </div>
-  <figure class="calculation-figure" aria-label="Exact single-reporter calculation">
-    <svg class="plot deadline-chart" viewBox="0 0 440 255" role="img" aria-labelledby="deadline-title deadline-desc"><title id="deadline-title">Expected next-switch time</title><desc id="deadline-desc">With one waiting reporter, original BG rises from 24 to 48 steps as delivery probability increases. A 24-step unconditional deadline stays fixed.</desc><g class="plot-grid"><path d="M45 45H420M45 95H420M45 145H420M45 195H420"/></g><path d="M45 25V195H420" fill="none" class="plot-axis"/><text x="36" y="49" text-anchor="end">48</text><text x="36" y="99" text-anchor="end">40</text><text x="36" y="149" text-anchor="end">32</text><text x="36" y="199" text-anchor="end">24</text><text x="45" y="215" text-anchor="middle">0</text><text x="232" y="215" text-anchor="middle">0.5</text><text x="420" y="215" text-anchor="middle">1</text><text x="45" y="15">Expected next switch · steps</text><text x="240" y="242">Delivery probability q</text><path id="deadline-curve" d="M45.000 195.000L48.750 193.860L52.500 192.690L56.250 191.490L60.000 190.260L63.750 189.001L67.500 187.712L71.250 186.394L75.000 185.046L78.750 183.670L82.500 182.265L86.250 180.831L90.000 179.370L93.750 177.881L97.500 176.366L101.250 174.823L105.000 173.254L108.750 171.660L112.500 170.040L116.250 168.396L120.000 166.728L123.750 165.036L127.500 163.322L131.250 161.586L135.000 159.828L138.750 158.049L142.500 156.251L146.250 154.433L150.000 152.597L153.750 150.744L157.500 148.874L161.250 146.988L165.000 145.087L168.750 143.172L172.500 141.244L176.250 139.304L180.000 137.353L183.750 135.391L187.500 133.421L191.250 131.442L195.000 129.456L198.750 127.464L202.500 125.467L206.250 123.467L210.000 121.464L213.750 119.459L217.500 117.454L221.250 115.449L225.000 113.447L228.750 111.448L232.500 109.453L236.250 107.464L240.000 105.482L243.750 103.507L247.500 101.543L251.250 99.589L255.000 97.646L258.750 95.718L262.500 93.803L266.250 91.905L270.000 90.024L273.750 88.162L277.500 86.319L281.250 84.498L285.000 82.699L288.750 80.925L292.500 79.176L296.250 77.454L300.000 75.760L303.750 74.096L307.500 72.462L311.250 70.862L315.000 69.295L318.750 67.763L322.500 66.269L326.250 64.812L330.000 63.395L333.750 62.019L337.500 60.686L341.250 59.396L345.000 58.152L348.750 56.955L352.500 55.806L356.250 54.706L360.000 53.658L363.750 52.662L367.500 51.720L371.250 50.834L375.000 50.004L378.750 49.233L382.500 48.522L386.250 47.871L390.000 47.283L393.750 46.759L397.500 46.301L401.250 45.909L405.000 45.586L408.750 45.331L412.500 45.148L416.250 45.037L420.000 45.000" class="ink" stroke-width="2.5" fill="none"/><path d="M45 195H420" class="bg-bound-line"/><text x="315" y="33">Original BG</text><text x="274" y="185">BG-D · H = 24</text><path id="delivery-marker-line" d="M157.5 195V148.9" class="neutral-stroke" stroke-dasharray="3 4"/><circle id="delivery-marker" cx="157.5" cy="148.9" r="5" class="ink-fill"/></svg>
-    <label class="range-label" for="delivery"><span>Report delivery probability</span><output id="delivery-value" for="delivery">30%</output></label><input id="delivery" type="range" min="0" max="1" step="0.01" value="0.30">
-    <div class="calculation-values" aria-live="polite"><span class="bg-original-number">Original: <strong id="original-switch">31.38 steps</strong></span><span class="bg-deadline-number">BG-D: <strong>24 steps</strong></span></div>
-    <details class="bg-details"><summary>Possible original switch times</summary>
-    <p class="distribution-label">Probability of each original switch time</p>
-    <div class="switch-distribution" id="switch-distribution" aria-live="off">
-      <div><output>49.0%</output><span class="distribution-track"><i style="height:49%"></i></span><span>24</span></div><div><output>14.7%</output><span class="distribution-track"><i style="height:14.7%"></i></span><span>30</span></div><div><output>14.7%</output><span class="distribution-track"><i style="height:14.7%"></i></span><span>36</span></div><div><output>7.5%</output><span class="distribution-track"><i style="height:7.5%"></i></span><span>42</span></div><div><output>14.1%</output><span class="distribution-track"><i style="height:14.1%"></i></span><span>48 steps</span></div>
-    </div>
-    </details>
-    <figcaption>The slider changes delivery probability in the exact single-reporter calculation. Reports arrive every six steps; clearance follows the switch.</figcaption>
-  </figure>
-
-  <div class="bg-counterexample-notes">
+  <div class="prose">
+    <p>Opposite approaches form an <strong>axis</strong>: north-south or east-west. One axis gets green at the shared crossing, called the <strong>gate</strong>. Switching closes both axes briefly; this is <strong>clearance</strong>.</p>
+    <p>With no cached reports, the original controller switches after 24 steps. A waiting agent's report can keep the cache alive without supplying enough evidence to trigger a switch, stretching the phase to 48 steps. More reliable delivery makes this delay more likely.</p>
+    <p>The single sender isolates the bug. In busy traffic, the same branch holds phases with many reports whose combined evidence is inconclusive. A patch limited to weak caches saves only 0.7 waiting steps [0.2, 1.2], against 8.5 for the unconditional deadline.</p>
+  </div>
   <details class="bg-details"><summary>The exact calculation</summary>
     <div class="prose">
       <p>With one sender, the cache is empty when the current and previous reporting attempts are both lost. Let \(f_n(q)\) be the probability that \(n\) independent attempts contain no adjacent losses, with delivery probability \(q\):</p>
@@ -73,18 +46,16 @@ last_modified_at: 2026-10-16
         \mathbb E[\tau]&=C\left(4+\sum_{n=2}^{5}f_n(q)\right).
         \end{aligned}
       \]</div>
-      <p>Here \(C\) is the reporting interval. Turning a loss into a delivery can only remove an early fallback opportunity, so expected switch time is nondecreasing in \(q\).</p>
+      <p>Here \(C\) is the reporting interval. Turning a loss into a delivery can only remove an early fallback opportunity, so expected switch time is nondecreasing in \(q\). With reports every six steps and 30% delivery, the expectation is 31.38 steps; BG-D switches by step 24.</p>
     </div>
   </details>
   <p class="source-note"><a href="{{ page.paper }}#page=3" target="_blank" rel="noopener">Section 3.1; Figure 1; Appendix B ↗</a></p>
-  </div>
-  </div>
 </section>
 
 <section class="research-section" id="method">
   <h2>Deadline</h2>
   <div class="prose">
-    <p>BG-D assigns each phase a deadline in physical time. Evidence is updated at report boundaries, but the deadline is checked at every environment step. The controller switches when the deadline arrives or the evidence qualifies for an earlier change.</p>
+    <p>The deadline version, <strong>BG-D</strong>, assigns each phase a deadline in physical time. Evidence is updated at report boundaries, but the deadline is checked at every environment step. The controller switches when the deadline arrives or the evidence qualifies for an earlier change.</p>
     <p>The 24-step deadline matches the original no-report fallback, so this comparison isolates the timing rule. Reports can no longer disable it; the payload, cache handling and evidence thresholds stay the same.</p>
   </div>
   <div class="bg-core">
@@ -123,6 +94,7 @@ last_modified_at: 2026-10-16
 
 <section class="research-section" id="results">
   <h2>Evidence</h2>
+  <h3>How it compares to plain timers</h3>
   <div class="figure-and-copy">
     <div class="prose">
       <p>In the main workload, BG-D(24) lowers p95 waiting from <strong>173.4 to 164.9 steps</strong>. Fixed 12 is better at <strong>156.8</strong>, and also has higher throughput.</p>
