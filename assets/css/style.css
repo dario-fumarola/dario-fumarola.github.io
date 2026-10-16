@@ -29,6 +29,7 @@
 .photo-count { font-size: 10px; color: var(--muted); min-width: 29px; text-align: center; font-variant-numeric: tabular-nums; }
 .content { min-width: 0; }
 .page-section { padding: 28px 0 30px; }
+.page-section#work { border-top:1px solid var(--border); }
 .section-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
 .content h2 { font-size: clamp(29px, 2.6vw, 34px); letter-spacing: -0.025em; margin-bottom: 20px; }
 .section-heading h2 { margin: 0; }
@@ -58,7 +59,7 @@
 .card-links a { display: inline-flex; align-items: center; gap: 12px; min-height: 36px; }
 .card-links svg { width: 17px; height: 17px; stroke: currentColor; }
 .project-card:last-child { border-bottom: 0; }
-.background-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: 34px; }
+.background-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: 34px; border-top:1px solid var(--border); }
 .background-grid .page-section { border-bottom: 0; padding: 0; }
 .background-grid .education-section { padding-top: 28px; }
 .xp-item { position: relative; margin: 0 0 24px 7px; padding: 0 0 2px 26px; border-left: 1px solid var(--border-strong); }

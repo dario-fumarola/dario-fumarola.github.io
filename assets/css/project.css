@@ -18,6 +18,7 @@
 .section-nav { display:flex; flex-wrap:wrap; gap:26px; padding:18px 0; border-bottom:1px solid var(--border); font-size:12px; }
 .section-nav a { color:var(--text-2); }
 .research-section { padding:36px 0; }
+.research-section#method, .research-section#limits { border-top:1px solid var(--border); }
 .research-section h2 { font-size:33px; letter-spacing:-.02em; margin-bottom:22px; }
 .research-section h3 { font-size:26px; margin:30px 0 20px; }
 .prose { max-width:90ch; font-size:14px; line-height:1.85; }
