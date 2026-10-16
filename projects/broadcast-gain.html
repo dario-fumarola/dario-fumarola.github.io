@@ -83,7 +83,7 @@ last_modified_at: 2026-10-16
   <h2>Deadline</h2>
   <div class="prose">
     <p>BG-D assigns each phase a deadline in physical time. Evidence is updated at report boundaries, but the deadline is checked at every environment step. The controller switches when the deadline arrives or the evidence qualifies for an earlier change.</p>
-    <p>Receiving a report can no longer disable the fallback. The report format, cache handling and evidence thresholds stay the same.</p>
+    <p>The 24-step deadline matches the original no-report fallback, so this comparison isolates the timing rule. Reports can no longer disable it; the payload, cache handling and evidence thresholds stay the same.</p>
   </div>
   <div class="bg-core">
     <p>Let \(t_0\) be the phase start, \(H\) its deadline duration and \(E(t)\) the eligible evidence event. The next switch occurs at:</p>
