@@ -42,6 +42,7 @@
   {% if page.project == 'mood' %}<link rel="stylesheet" href="{{ '/assets/css/mood.css?v=' | append: site.github.build_revision | relative_url }}">{% endif %}
   {% if page.project == 'broadcast' %}<link rel="stylesheet" href="{{ '/assets/css/broadcast.css?v=' | append: site.github.build_revision | relative_url }}">{% endif %}
   {% if page.project == 'memory' %}<link rel="stylesheet" href="{{ '/assets/css/memory.css?v=' | append: site.github.build_revision | relative_url }}">{% endif %}
+  <link rel="stylesheet" href="{{ '/assets/css/motion.css?v=' | append: site.github.build_revision | relative_url }}">
 </head>
 <body class="research-page project-{{ page.project }}" data-project="{{ page.project }}">
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -60,5 +61,6 @@
   {% if page.project == 'mood' %}<script src="{{ '/assets/js/mood.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>{% endif %}
   {% if page.project == 'memory' %}<script src="{{ '/assets/js/memory.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>{% endif %}
   {% if page.project == 'broadcast' %}<script src="{{ '/assets/js/broadcast.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>{% endif %}
+  <script src="{{ '/assets/js/motion.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>
 </body>
 </html>

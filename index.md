@@ -25,7 +25,7 @@ last_modified_at: 2026-10-16
 <div class="work-grid">
 
 <div class="project-card" data-category="conference">
-<svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 8h22M5 16h22M5 24h22"/><circle cx="11" cy="8" r="3"/><circle cx="22" cy="16" r="3"/><circle cx="14" cy="24" r="3"/></svg>
+{% include motion/project-mark.html kind="mood" %}
 <h3><a href="./projects/mood-swings.html">Mood Swings: Calibrated Reward-Cost Control</a> <span class="venue-badge icml">ICML 2025</span></h3>
 <p>Make a trained agent more or less cautious at deployment, without retraining.</p>
 <p class="project-result">In a maze task, one policy covers 98% of the reward-cost range of eight separately trained policies, using one-eighth as many policy-training interactions.</p>
@@ -36,7 +36,7 @@ last_modified_at: 2026-10-16
 </div>
 
 <div class="project-card" data-category="conference">
-<svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="m16 4 12 7-12 7-12-7zM4 17l12 7 12-7M4 23l12 7 12-7"/></svg>
+{% include motion/project-mark.html kind="memory" %}
 <h3><a href="./projects/who-needs-attention-anyway.html">Who Needs Attention Anyway?</a> <span class="venue-badge neurips">NeurIPS 2025</span></h3>
 <p>A controller remembers a planner's corrections so the next decision can reuse them.</p>
 <p class="project-result">About 23% fewer repeated derivative evaluations over the following eight decisions.</p>
@@ -47,7 +47,7 @@ last_modified_at: 2026-10-16
 </div>
 
 <div class="project-card" data-category="conference">
-<svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="m10 10 12 12M10 22l12-12M16 16v-9M16 16v9"/><circle cx="8" cy="8" r="3"/><circle cx="24" cy="8" r="3"/><circle cx="8" cy="24" r="3"/><circle cx="24" cy="24" r="3"/><circle cx="16" cy="5" r="2"/><circle cx="16" cy="27" r="2"/></svg>
+{% include motion/project-mark.html kind="broadcast" %}
 <h3><a href="./projects/broadcast-gain.html">Broadcast-Gain: Coordinating Agents with Small Messages</a> <span class="venue-badge nyrl">NY-RL 2025</span></h3>
 <p>Let agents report what they need so a shared controller can coordinate their next moves.</p>
 <p class="project-result">Two-byte demand reports guide junction access. A deadline keeps inconclusive reports from postponing a turn.</p>

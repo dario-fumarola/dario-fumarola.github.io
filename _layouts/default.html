@@ -76,6 +76,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
     {% include head-custom.html %}
+    <link rel="stylesheet" href="{{ '/assets/css/motion.css?v=' | append: site.github.build_revision | relative_url }}">
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -83,6 +84,7 @@
     <div class="wrapper">
       <main id="main-content">
         <section class="hero" aria-labelledby="hero-name">
+          {% include motion/contours.html %}
           <div class="hero-copy">
             <h1 class="site-name" id="hero-name">{{ site.title }}</h1>
             <p class="site-role">Forward Deployed Engineer, AWS<br>AI Researcher</p>
@@ -99,5 +101,6 @@
     </div>
     <script src="{{ "/assets/js/theme.js?v=editorial-1" | relative_url }}" defer></script>
     <script src="{{ "/assets/js/main.js?v=editorial-3" | relative_url }}" defer></script>
-  </body>
+    <script src="{{ '/assets/js/motion.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>
+</body>
 </html>
