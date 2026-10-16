@@ -1,4 +1,4 @@
-@import url("design.css?v=polish-1");
+@import url("design.css?v=polish-2");
 .research-page { --project-ink:#4c665d; --project-wash:#e9f0ed; }
 [data-theme="dark"] .research-page { --project-ink:#a7c6b6; --project-wash:#25362e; }
 .project-content { max-width:calc(var(--page-width) + var(--page-gutter)*2); padding:0 var(--page-gutter); margin:0 auto; }

@@ -1,0 +1,51 @@
+---
+layout: null
+title: Page not found
+description: "The page could not be found. Visit Dario Fumarola's homepage or browse his work."
+sitemap: false
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <script>
+    (function () {
+      var theme = 'light';
+      try { if (localStorage.getItem('theme') === 'dark') theme = 'dark'; } catch (e) {}
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  {% seo %}
+  {% include favicons.html %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+  <style>
+    .error-content { min-height: 55vh; padding: clamp(48px, 9vw, 112px) 0; }
+    .error-content h1 { font-size: clamp(38px, 5vw, 58px); letter-spacing: -.025em; }
+    .error-content > p:not(.eyebrow) { max-width: 48ch; margin-bottom: 28px; }
+    .error-links { display: flex; flex-wrap: wrap; gap: 12px; }
+    @media (max-width: 560px) { .error-links { display: grid; grid-template-columns: 1fr; max-width: 360px; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  {% include topbar.html %}
+  <div class="wrapper">
+    <main class="error-content" id="main-content">
+      <p class="eyebrow">404</p>
+      <h1>Page not found</h1>
+      <p>The address may have changed, or the link may be incomplete.</p>
+      <div class="error-links">
+        <a class="outline-link" href="{{ '/' | relative_url }}">Go to homepage</a>
+        <a class="outline-link" href="{{ '/' | relative_url }}#presented-work">Browse the work {% include arrow-right.html %}</a>
+      </div>
+    </main>
+    {% include footer.html %}
+  </div>
+  <script src="{{ '/assets/js/theme.js?v=editorial-1' | relative_url }}" defer></script>
+</body>
+</html>

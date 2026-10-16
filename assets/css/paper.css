@@ -1,4 +1,4 @@
-@import url("design.css?v=polish-1");
+@import url("design.css?v=polish-2");
 
 .paper-content, .paper-footer {
   max-width: calc(var(--page-width) + var(--page-gutter) * 2);

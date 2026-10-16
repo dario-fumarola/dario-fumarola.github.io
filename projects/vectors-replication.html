@@ -1,5 +1,6 @@
 ---
 layout: null
+sitemap: false
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -365,7 +366,7 @@ Output: Replication set T
 </style>
 
 <figure>
-    <img src="images/vectors/com.png" alt="Comparison with alternative methods">
+    <img src="images/vectors/com.png" alt="Comparison with alternative methods" width="2379" height="1180" loading="lazy" decoding="async">
     <figcaption>Figure 1: Comparison of recall vs. vectors accessed for different methods</figcaption>
 </figure>
 
@@ -377,14 +378,14 @@ Output: Replication set T
 <p>Figures 2 and 3 illustrate how boundary vector coverage impacts the number of vectors accessed to achieve target recall levels. Coverage, ranging from 0.1 to 0.7, represents the fraction of boundary vectors whose k' nearest neighbors are replicated to their respective clusters.</p>
 
 <figure>
-    <img src="images/vectors/cohe5.png" alt="COHERE5M Coverage Analysis">
+    <img src="images/vectors/cohe5.png" alt="COHERE5M Coverage Analysis" width="2123" height="1222" loading="lazy" decoding="async">
     <figcaption>Figure 2: Performance for different coverages (COHERE5M)</figcaption>
 </figure>
 
 <p>For COHERE5M, to achieve a fixed recall target of 0.95, increasing coverage from 0.1 to 0.5 reduces vectors accessed from approximately 120K to 60K. Coverage beyond 0.5 yields diminishing efficiency gains - a pattern consistent with our theoretical analysis of set cover optimization.</p>
 
 <figure>
-    <img src="images/vectors/lion10.png" alt="LAION10M Coverage Analysis">
+    <img src="images/vectors/lion10.png" alt="LAION10M Coverage Analysis" width="2123" height="1222" loading="lazy" decoding="async">
     <figcaption>Figure 3: Performance for different coverages (LAION10M)</figcaption>
 </figure>
 
@@ -393,7 +394,7 @@ Output: Replication set T
 <p>Figure 4 illustrates the marginal improvement behavior of our replication strategy as coverage increases on the GIST dataset, revealing distinct operating regions. In the initial region (0-10% replication), we observe major improvements where both recall improves sharply and the number of vectors accessed decreases.</p>
 
 <figure>
-    <img src="images/vectors/marginal.png" alt="Marginal Improvement Analysis">
+    <img src="images/vectors/marginal.png" alt="Marginal Improvement Analysis" width="1979" height="1180" loading="lazy" decoding="async">
     <figcaption>Figure 4: Marginal improvement of increasing coverage</figcaption>
 </figure>
 
@@ -406,7 +407,7 @@ Output: Replication set T
 <p>Figure 5 demonstrates the Pareto frontier achieved by our selective replication method across different operating points. Each point on the curve represents a different configuration of replication factor and number of probes, with the frontier line showing the optimal trade-off between recall and vectors accessed.</p>
 
 <figure>
-    <img src="images/vectors/PARETOF.png" alt="Pareto Frontier">
+    <img src="images/vectors/PARETOF.png" alt="Pareto Frontier" width="2766" height="1780" loading="lazy" decoding="async">
     <figcaption>Figure 5: Pareto frontier of recall and vectors accessed</figcaption>
 </figure>
 

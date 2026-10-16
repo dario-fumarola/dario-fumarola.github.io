@@ -38,7 +38,7 @@ last_modified_at: 2026-10-16
 <svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="m16 4 12 7-12 7-12-7zM4 17l12 7 12-7M4 23l12 7 12-7"/></svg>
 <h3><a href="./projects/elastic-state-models.html">Who Needs Attention Anyway? Retaining State Corrections</a> <span class="venue-badge neurips">NeurIPS 2025</span></h3>
 <p>After a planner improves a route, the controller can carry the correction forward in its memory.</p>
-<p class="project-result">Keeping the correction raises reported navigation success from 82.7% to 85.4%.</p>
+<p class="project-result">Keeping corrections reduces repeated derivative evaluations by about 23% over the next eight decisions.</p>
 <div class="card-links">
 <a href="./projects/elastic-state-models.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
 <a href="https://neurips.cc/media/neurips-2025/Slides/128648_FEbZXh8.pdf" target="_blank" rel="noopener">Paper</a>
