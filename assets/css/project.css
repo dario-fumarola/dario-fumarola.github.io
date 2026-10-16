@@ -13,6 +13,8 @@
 .paper-links > a:not(.outline-link) { display:inline-flex; align-items:center; min-height:44px; }
 .paper-links .outline-link { background:var(--text); color:var(--bg); border-color:var(--text); }
 .paper-links .outline-link:hover { background:var(--accent-hover); }
+.baseline-note { max-width:100ch; margin:16px 0 0; font-size:12px; line-height:1.75; color:var(--text-2); }
+.baseline-note strong { color:var(--text); font-weight:500; }
 .section-nav { display:flex; flex-wrap:wrap; gap:26px; padding:18px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); font-size:12px; }
 .section-nav a { color:var(--text-2); }
 .research-section { padding:36px 0; border-bottom:1px solid var(--border); }

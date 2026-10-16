@@ -47,9 +47,9 @@ last_modified_at: 2026-10-16
 
 <div class="project-card" data-category="conference">
 <svg class="work-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="m10 10 12 12M10 22l12-12M16 16v-9M16 16v9"/><circle cx="8" cy="8" r="3"/><circle cx="24" cy="8" r="3"/><circle cx="8" cy="24" r="3"/><circle cx="24" cy="24" r="3"/><circle cx="16" cy="5" r="2"/><circle cx="16" cy="27" r="2"/></svg>
-<h3><a href="./projects/broadcast-gain.html">Broadcast-Gain: Two-Byte Junction Control</a> <span class="venue-badge nyrl">NY-RL 2025</span></h3>
+<h3><a href="./projects/broadcast-gain.html">When a report delays service: Broadcast-Gain</a> <span class="venue-badge nyrl">NY-RL 2025</span></h3>
 <p>A junction controller can wait longer when it receives more reports. An unconditional deadline caps the delay.</p>
-<p class="project-result">In the stress workload, a 24-step deadline cuts 95th-percentile waiting time from 173.4 to 164.9 steps.</p>
+<p class="project-result">A deadline cuts p95 waiting from 173.4 to 164.9 steps in the main workload. A tuned timer does better at 156.8.</p>
 <div class="card-links">
 <a href="./projects/broadcast-gain.html">Project page <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
 <a href="./assets/broadcast-gain.pdf" target="_blank" rel="noopener">Paper</a>

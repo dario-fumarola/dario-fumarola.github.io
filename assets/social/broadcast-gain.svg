@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">When a report delays service</title>
+  <desc id="description">In the single-reporter counterexample, original Broadcast-Gain keeps the empty direction green until step 48. An unconditional deadline switches at step 24.</desc>
+  <defs>
+    <g id="junction">
+      <path d="M0 72H102V10H158V72H260V128H158V195H102V128H0Z" fill="#f0f1f5" stroke="#b7bdca"/>
+      <path d="M0 100H102M158 100H260M130 10V72M130 128V195" fill="none" stroke="#b7bdca" stroke-dasharray="5 7"/>
+      <circle cx="130" cy="100" r="10" fill="#fcfcfe" stroke="#b7bdca"/>
+      <path d="M127 97v6m6-6v6" fill="none" stroke="#71788b"/>
+    </g>
+    <g id="agent"><rect x="-7" y="-11" width="14" height="22" rx="1.5" fill="#171827"/><path d="M-4-5h8M-4 6h8" stroke="#fcfcfe" fill="none"/></g>
+  </defs>
+  <rect width="1200" height="630" fill="#fcfcfe"/>
+  <g font-family="Arial, sans-serif">
+    <text x="56" y="52" fill="#626b80" font-size="14" letter-spacing="2">NY-RL 2025 · PARTIAL INFORMATION</text>
+    <text x="56" y="125" fill="#141522" font-family="Georgia, serif" font-size="54">When a report delays service</text>
+    <text x="56" y="170" fill="#626b80" font-size="23">Broadcast-Gain · A single-reporter counterexample</text>
+    <path d="M56 207H1144M600 235V540" stroke="#dedfe6"/>
+    <text x="313" y="253" fill="#141522" font-family="Georgia, serif" font-size="25" text-anchor="middle">Original BG</text>
+    <text x="887" y="253" fill="#141522" font-family="Georgia, serif" font-size="25" text-anchor="middle">With an unconditional deadline</text>
+    <g transform="translate(183 267)">
+      <use href="#junction"/>
+      <path d="M96 79V120M164 79V120" fill="none" stroke="#52745f" stroke-width="3" stroke-linecap="round"/>
+      <path d="M110 66H150M110 134H150" fill="none" stroke="#975d54" stroke-width="3" stroke-linecap="round"/>
+      <use href="#agent" transform="translate(144 150)"/>
+      <path d="M150 145Q178 114 138 103" fill="none" stroke="#95620d" stroke-dasharray="3 4"/>
+      <rect x="153" y="118" width="10" height="7" rx="1" fill="#fcfcfe" stroke="#95620d"/>
+    </g>
+    <g transform="translate(757 267)">
+      <use href="#junction"/>
+      <path d="M96 79V120M164 79V120" fill="none" stroke="#975d54" stroke-width="3" stroke-linecap="round"/>
+      <path d="M110 66H150M110 134H150" fill="none" stroke="#52745f" stroke-width="3" stroke-linecap="round"/>
+      <use href="#agent" transform="translate(144 46)"/>
+    </g>
+    <text x="313" y="500" fill="#95620d" font-size="19" text-anchor="middle">Switch 48 · Green returns 50</text>
+    <text x="887" y="500" fill="#315da8" font-size="19" text-anchor="middle">Switch 24 · Green returns 26</text>
+    <text x="313" y="532" fill="#626b80" font-size="15" text-anchor="middle">A report keeps the shorter fallback inactive</text>
+    <text x="887" y="532" fill="#626b80" font-size="15" text-anchor="middle">Reports cannot postpone the deadline</text>
+    <path d="M56 563H1144" stroke="#dedfe6"/>
+    <text x="56" y="603" fill="#626b80" font-size="16">Dario Fumarola · NY-RL 2025</text>
+    <text x="1144" y="603" fill="#626b80" font-size="16" text-anchor="end">dariofumarola.com</text>
+  </g>
+</svg>

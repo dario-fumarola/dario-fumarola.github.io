@@ -23,7 +23,7 @@ last_modified_at: 2026-10-16
   </div>
   <div class="mood-hero-copy">
     <p class="intro">Train one policy, then make it more or less cautious at deployment without retraining. A control input selects its mood, from reward-seeking to cautious, while the network weights stay fixed.</p>
-    <div class="paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><a href="{{ page.paper }}" download>Download PDF</a></div>
+    {% include paper-link.html %}
   </div>
   <div class="mood-key-results">
     <dl aria-label="Key results in Pac-Mind++">
@@ -31,7 +31,8 @@ last_modified_at: 2026-10-16
       <div><dt>Failure after a risk alarm</dt><dd>12.6% <span aria-label="to">→</span> 5.0%</dd><dd class="mood-key-explanation">Entering caution reduces failure over the next 100 actions.</dd></div>
       <div><dt>Mean cost on unseen layouts</dt><dd>0.168</dd><dd class="mood-key-explanation">Mean cost stays below the requested limit of 0.20.</dd></div>
     </dl>
-    <p class="mood-key-note">All three results come from Pac-Mind++, a pellet maze with moving ghosts. The training comparison excludes calibration.</p>
+    <p class="baseline-note"><strong>A cost-limit policy, CCPO, is competitive at the same training budget.</strong> Its coverage is 0.747 versus our 0.768 in Pac-Mind++, and 0.698 versus 0.699 in HazardRooms.</p>
+    <p class="mood-key-note">All three headline results come from Pac-Mind++, a pellet maze with moving ghosts. The training comparison excludes calibration.</p>
   </div>
   {% include mood-scenes.html %}
 </header>

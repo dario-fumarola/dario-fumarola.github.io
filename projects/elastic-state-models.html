@@ -23,7 +23,8 @@ last_modified_at: 2026-10-16
   </div>
   <div class="memory-hero-copy">
     <p class="intro">Keeping a correction in memory saves work at later decisions. In paired tests, the optimizer needs <strong>23.1% fewer derivative evaluations in navigation and 23.9% fewer in chain control</strong> over the next eight decisions, with the network weights fixed.</p>
-    <div class="paper-links"><a class="outline-link" href="{{ page.paper_url }}" target="_blank" rel="noopener">Read paper <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></a><a href="{{ page.paper }}" download>Download PDF</a></div>
+    {% include paper-link.html %}
+    <p class="baseline-note"><strong>At the 4 ms budget, model predictive control (MPC) has similar success with fewer contacts:</strong> 85.8% versus 85.4% success, and 6.0 versus 14.2 contacts per 1,000 decisions.</p>
   </div>
 </header>
 <nav class="section-nav" aria-label="On this page"><a href="#idea">Idea</a><a href="#retention">Evidence</a><a href="#method">Method</a><a href="#context">Rollback</a><a href="#limits">Limits</a><a href="#outlook">Outlook</a></nav>
@@ -66,7 +67,7 @@ last_modified_at: 2026-10-16
   <div class="figure-and-copy memory-evidence">
     <div class="prose">
       <p>Across full episodes, keeping state corrections raises navigation success from <strong>82.7% to 85.4%</strong> and chain control from <strong>74.2% to 78.6%</strong>, using the same solver and settings as discarding them.</p>
-      <p>The correction can come from an action-space solver too. Fitting its solution back into memory reaches <strong>85.2% navigation success</strong>, close to direct state correction's 85.4%. The shared result is useful carryover in memory, through either route.</p>
+      <p>The correction can come from an action-space solver too. Fitting its solution back into memory reaches <strong>85.2% navigation success</strong>, close to direct state correction's 85.4%.</p>
       <p>At about <strong>3 ms mean controller time</strong>, retained state reaches <strong>81.8% navigation success</strong> versus <strong>80.8%</strong> for warm-started <strong>model predictive control (MPC)</strong>, which reuses its previous plan to initialize the next optimization. At about 8 ms, MPC reaches 89.0% versus retention's 87.0%.</p>
     </div>
     <figure class="paper-figure"><a href="../assets/figures/memory-latency.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/memory-latency.svg" width="240" height="156" loading="lazy" alt="Navigation success across mean controller time budgets. Retained state correction has a higher estimate near 3 ms; warm-started MPC has the higher estimate near 8 ms."></a><figcaption>Paper Figure 3. Each point is a separately validation-selected configuration on the same CPU/GPU workstation.<br><a class="figure-source" href="../assets/figures/memory-latency.svg" target="_blank" rel="noopener">View figure ↗</a></figcaption></figure>
@@ -187,7 +188,7 @@ last_modified_at: 2026-10-16
   <h2>Limits</h2>
   <div class="prose">
     <p>The study covers <strong>one gated recurrent architecture and two simulators with differentiable geometry</strong>. It measures what retaining a correction adds within that controller; there is no attention-based baseline.</p>
-    <p>With stale sensing, the optimizer can improve its supplied objective while physical control deteriorates. Under continuous two-decision observation delay, navigation success falls to 70.4% with retention and 70.9% with discard. A successful local solve can still be working from the wrong geometry.</p>
+    <p>With stale sensing, the optimizer works from outdated geometry: its supplied objective can improve while physical control deteriorates. Under continuous two-decision observation delay, navigation success falls to 70.4% with retention and 70.9% with discard.</p>
     <p>Contact avoidance is a separate limitation: MPC and the filters have much lower contact rates. Rollback also relies on explicit context metadata and only withdraws the latest correction, leaving older changes in recurrent memory.</p>
   </div>
 </section>
