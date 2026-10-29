@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    if (location.hostname === 'fumadari.github.io') location.replace('https://dariofumarola.com' + location.pathname + location.search + location.hash);
+    (function () {
+      var theme = 'light';
+      try { if (localStorage.getItem('theme') === 'dark') theme = 'dark'; } catch (e) {}
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+  {% seo %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "@id": "{{ page.url | absolute_url }}#paper",
+    "headline": {{ page.paper_title | default: page.title | jsonify }},
+    "description": {{ page.description | jsonify }},
+    "url": "{{ page.url | absolute_url }}",
+    "mainEntityOfPage": "{{ page.url | absolute_url }}",
+    "dateModified": "{{ page.last_modified_at | default: site.time | date: '%Y-%m-%d' }}",
+    "author": [{% assign names = page.authors | split: ' and ' %}{% for name in names %}{"@type":"Person","name":{{ name | jsonify }}{% if name == 'Dario Fumarola' %},"url":"{{ site.url }}/"{% endif %}}{% unless forloop.last %},{% endunless %}{% endfor %}],
+    "encoding": {"@type":"MediaObject","encodingFormat":"application/pdf","contentUrl":"{% if page.paper_url %}{{ page.paper_url }}{% else %}{{ page.paper | absolute_url }}{% endif %}"}
+  }
+  </script>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+      chtml: { matchFontHeight: false },
+      options: { renderActions: { addMenu: [] } }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+  {% include favicons.html %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/project.css?v=' | append: site.github.build_revision | relative_url }}">
+  {% if page.project == 'mood' %}<link rel="stylesheet" href="{{ '/assets/css/mood.css?v=' | append: site.github.build_revision | relative_url }}">{% endif %}
+  {% if page.project == 'broadcast' %}<link rel="stylesheet" href="{{ '/assets/css/broadcast.css?v=' | append: site.github.build_revision | relative_url }}">{% endif %}
+  {% if page.project == 'memory' %}<link rel="stylesheet" href="{{ '/assets/css/memory.css?v=' | append: site.github.build_revision | relative_url }}">{% endif %}
+  <link rel="stylesheet" href="{{ '/assets/css/motion.css?v=' | append: site.github.build_revision | relative_url }}">
+</head>
+<body class="research-page project-{{ page.project }}" data-project="{{ page.project }}">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  {% include topbar.html %}
+  <main class="project-content" id="main-content">
+    {% unless page.project == 'mood' or page.project == 'memory' or page.project == 'broadcast' %}<div class="project-breadcrumb"><a href="{{ '/' | relative_url }}#work">Selected Work</a><span>{{ page.venue }}</span></div>{% endunless %}
+    {{ content }}
+    <nav class="related-work" aria-label="Other project pages">
+      {% unless page.project == 'mood' %}<a href="{{ '/projects/mood-swings.html' | relative_url }}"><span class="eyebrow">ICML 2025</span><span class="related-work-title">Mood Swings {% include arrow-right.html %}</span></a>{% endunless %}
+      {% unless page.project == 'memory' %}<a href="{{ '/projects/who-needs-attention-anyway.html' | relative_url }}"><span class="eyebrow">NeurIPS 2025</span><span class="related-work-title">Who Needs Attention Anyway? {% include arrow-right.html %}</span></a>{% endunless %}
+      {% unless page.project == 'broadcast' %}<a href="{{ '/projects/broadcast-gain.html' | relative_url }}"><span class="eyebrow">NY-RL 2025</span><span class="related-work-title">Broadcast-Gain {% include arrow-right.html %}</span></a>{% endunless %}
+    </nav>
+    {% include footer.html %}
+  </main>
+  <script src="{{ '/assets/js/theme.js?v=editorial-1' | relative_url }}" defer></script>
+  {% if page.project == 'mood' %}<script src="{{ '/assets/js/mood.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>{% endif %}
+  {% if page.project == 'memory' %}<script src="{{ '/assets/js/memory.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>{% endif %}
+  {% if page.project == 'broadcast' %}<script src="{{ '/assets/js/broadcast.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>{% endif %}
+  <script type="module" src="{{ '/assets/js/motion.js?v=' | append: site.github.build_revision | relative_url }}" defer></script>
+  <script data-goatcounter="https://dariofumarola.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

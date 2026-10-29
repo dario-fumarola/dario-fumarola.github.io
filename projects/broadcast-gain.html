@@ -1,0 +1,163 @@
+---
+layout: project
+project: broadcast
+title: "Broadcast-Gain: Coordinating Agents with Small Messages"
+paper_title: "Broadcast-Gain: Two-Byte Junction Control under Partial Information"
+description: "Broadcast-Gain explores how agents can coordinate through small demand reports. A junction example combines local information with deadlines for shared access."
+authors: Dario Fumarola
+venue: NY-RL 2025
+paper: /assets/broadcast-gain.pdf
+image:
+  path: /assets/social/broadcast-gain.png
+  width: 1200
+  height: 630
+  alt: "Broadcast-Gain. Original Broadcast-Gain holds an empty direction open while a deadline restores green to the waiting agent."
+last_modified_at: 2026-10-16
+---
+<header class="project-hero">
+  <div class="bg-hero-title">
+    <p class="eyebrow bg-hero-meta"><span>Sparse communication</span><span>NY-RL 2025</span></p>
+    <h1>Broadcast-Gain</h1>
+    <p class="subtitle">Coordinating agents with small messages</p>
+    <p class="byline">Dario Fumarola · Amazon Web Services</p>
+  </div>
+  <div class="bg-hero-copy">
+    <p class="intro">Agents often share space and resources without seeing the whole system. Broadcast-Gain gives them a small channel for reporting what they need, so a shared controller can coordinate their next moves.</p>
+    {% include paper-link.html %}
+  </div>
+  {% include broadcast-demo.html %}
+</header>
+<nav class="section-nav" aria-label="On this page"><a href="#failure">Counterexample</a><a href="#method">Deadline</a><a href="#results">Evidence</a><a href="#limits">Limits</a><a href="#outlook">Outlook</a></nav>
+
+<section class="research-section" id="failure">
+  <h2>Counterexample</h2>
+  <div class="prose">
+    <p>Opposite approaches form an <strong>axis</strong>: north-south or east-west. One axis gets green at the shared crossing, called the <strong>gate</strong>. Switching closes both axes briefly; this is <strong>clearance</strong>.</p>
+    <p>With no cached reports, the original controller switches after 24 steps. A waiting agent's report can keep the cache alive without supplying enough evidence to trigger a switch, stretching the phase to 48 steps. More reliable delivery makes this delay more likely.</p>
+    <p>The single sender isolates the bug. In busy traffic, the same branch holds phases with many reports whose combined evidence is inconclusive. A patch limited to weak caches saves only 0.7 waiting steps [0.2, 1.2], against 8.5 for the unconditional deadline.</p>
+  </div>
+  <details class="bg-details"><summary>The exact calculation</summary>
+    <div class="prose">
+      <p>With one sender, the cache is empty when the current and previous reporting attempts are both lost. Let \(f_n(q)\) be the probability that \(n\) independent attempts contain no adjacent losses, with delivery probability \(q\):</p>
+      <div class="math-block">\[
+        \begin{aligned}
+        f_0=f_1&=1,\\
+        f_n&=qf_{n-1}+q(1-q)f_{n-2},\\
+        \mathbb E[\tau]&=C\left(4+\sum_{n=2}^{5}f_n(q)\right).
+        \end{aligned}
+      \]</div>
+      <p>Here \(C\) is the reporting interval. Turning a loss into a delivery can only remove an early fallback opportunity, so expected switch time is nondecreasing in \(q\). With reports every six steps and 30% delivery, the expectation is 31.38 steps; BG-D switches by step 24.</p>
+    </div>
+  </details>
+  <p class="source-note"><a href="{{ page.paper }}#page=3" target="_blank" rel="noopener">Section 3.1; Figure 1; Appendix B ↗</a></p>
+</section>
+
+<section class="research-section" id="method">
+  <h2>Deadline</h2>
+  <div class="prose">
+    <p>The deadline version, <strong>BG-D</strong>, assigns each phase a deadline in physical time. Evidence is updated at report boundaries, but the deadline is checked at every environment step. The controller switches when the deadline arrives or the evidence qualifies for an earlier change.</p>
+    <p>The 24-step deadline matches the original no-report fallback, so this comparison isolates the timing rule. Reports can no longer disable it; the payload, cache handling and evidence thresholds stay the same.</p>
+  </div>
+  <div class="bg-core">
+    <p>Let \(t_0\) be the phase start, \(H\) its deadline duration and \(E(t)\) the eligible evidence event. The next switch occurs at:</p>
+    <div class="math-block">\[
+      \begin{aligned}
+      \tau&=\min\{t_0+H,\ \tau_E\},\\
+      \tau_E&=\inf\{t>t_0:E(t)\}.
+      \end{aligned}
+    \]</div>
+    <p>Every report pattern therefore returns an axis to green within \(H+c\) steps, where \(c\) is clearance and \(H>c\). With \(H=24\) and \(c=2\), that is 26 steps. This bounds uninterrupted loss of green; an agent can still wait behind a queue.</p>
+  </div>
+  <h3>What the two bytes carry</h3>
+  <div class="prose"><p>Agents near the gate send a signed waiting-progress residual in one byte, then their axis and distance in a second. Sender identity and sequence number are transport fields outside this payload. Old reports lose weight and expire after two reporting cycles.</p></div>
+  <h3>Where the learning and gain enter</h3>
+  <div class="prose">
+    <p>In full <strong>Broadcast-Gain</strong>, agents broadcast demand reports and those reports also provide a small gain to a learned movement policy. A policy trained with <strong>proximal policy optimization (PPO)</strong> chooses move or wait. After training, the gain increases its score for moving near an open gate; the network weights stay fixed.</p>
+    <p>The scheduler decides which axis gets green. We use greedy legal movement for the timing comparisons, then test learned movement separately. With stochastic PPO, report-conditioned gain lowers p95 waiting from 183.1 to 180.0 steps; a fixed movement bias reaches 179.3. The gain-versus-bias difference is +0.7 steps [−0.3, 1.7].</p>
+  </div>
+  <p class="source-note"><a href="{{ page.paper }}#page=2" target="_blank" rel="noopener">Starting controller: paper Section 2 ↗</a> · <a href="{{ page.paper }}#page=11" target="_blank" rel="noopener">Learned movement: Appendix A.3 ↗</a> · <a href="{{ page.paper }}#page=12" target="_blank" rel="noopener">Gain controls: Table 6 ↗</a></p>
+  <details class="bg-details"><summary>Scores and the evidence threshold</summary>
+    <div class="prose">
+      <p>Write report age as \(\Delta t_j\), so freshness is \(\eta_j=e^{-\Delta t_j/C}\). With decoded residual \(\widehat x_j\), reported distance \(d_j\), and sender axis \(s_j\), the demand score and effective support are:</p>
+      <div class="math-block">\[
+        \begin{aligned}
+        Q_s&=\sum_{j:s_j=s}\eta_j e^{-d_j/8}\frac{1+\widehat x_j}{2},\\
+        n_{\mathrm{eff}}&=\sum_j\eta_j,\qquad u=\min(1,n_{\mathrm{eff}}/8),\\
+        A_S&=\frac{Q_{-S}-Q_S}{Q_{+1}+Q_{-1}+1}.
+        \end{aligned}
+      \]</div>
+      <p>The normalized advantage \(A_S\) is less than one. The original evidence test \(uA_S>0.12+0.20(1-u)\) therefore requires \(u>4/15\), or \(n_{\mathrm{eff}}>32/15\). That is necessary, not sufficient. One or two effective reports cannot pass it.</p>
+    </div>
+  </details>
+  <p class="source-note"><a href="{{ page.paper }}#page=4" target="_blank" rel="noopener">Equations 2, 6 and 8; Algorithm 1; Proposition 1 ↗</a></p>
+</section>
+
+<section class="research-section" id="results">
+  <h2>Evidence</h2>
+  <h3>How it compares to plain timers</h3>
+  <div class="figure-and-copy">
+    <div class="prose">
+      <p>In the main workload, BG-D(24) lowers p95 waiting from <strong>173.4 to 164.9 steps</strong>. Fixed 12 is better at <strong>156.8</strong>, and also has higher throughput.</p>
+      <p>The phase traces show where the timing changes. Original BG keeps 46.0% of phases open beyond its shorter fallback. With a 24-step deadline, zero phases can exceed that duration by construction. Evidence still triggers 31.0% of BG-D's switches before the deadline.</p>
+    </div>
+    <figure class="paper-figure bg-result-figure"><a href="../assets/figures/broadcast-phase-durations.svg" target="_blank" rel="noopener" title="Open figure at full size"><img src="../assets/figures/broadcast-phase-durations.svg" width="421" height="153" loading="lazy" alt="Original BG has phases at 30, 36, 42 and 48 steps. BG-D(24) has none beyond 24, as required by its deadline, and retains earlier switches."></a><figcaption>Paper Figure 2. Completed phase durations in the main workload, including clearance. The cutoff at 24 steps is the deadline guarantee. <span class="figure-links"><a class="figure-source" href="../assets/figures/broadcast-phase-durations.svg" target="_blank" rel="noopener">View figure ↗</a></span></figcaption></figure>
+  </div>
+  <div class="prose"><p><strong>Packet-pressure</strong> is the report-based baseline: it switches using the difference between the two axes' received demand scores, with fixed hold times and a fixed threshold.</p></div>
+  <details class="bg-details"><summary>Controller comparison</summary>
+    <div class="table-scroll" tabindex="0" aria-label="Main-workload controller results, horizontally scrollable"><table><caption>Paper Table 1. Main workload with greedy movement. Throughput is crossings per 1,000 steps; differences are p95 steps versus Fixed 12, with paired 95% intervals.</caption><thead><tr><th scope="col">Controller</th><th scope="col">p95 waiting</th><th scope="col">Throughput</th><th scope="col">Difference vs Fixed 12</th></tr></thead><tbody>
+      <tr class="result-emphasis"><th scope="row">Fixed 12 / BG-D(12)</th><td>156.8</td><td>683.6</td><td>Reference</td></tr>
+      <tr><th scope="row">Fixed 24</th><td>184.6</td><td>653.8</td><td>+27.8 [26.5, 29.1]</td></tr>
+      <tr><th scope="row">Packet-pressure</th><td>171.2</td><td>682.1</td><td>+14.4 [12.4, 16.3]</td></tr>
+      <tr><th scope="row">Original BG</th><td>173.4</td><td>678.9</td><td>+16.6 [15.5, 17.7]</td></tr>
+      <tr><th scope="row">Weak-cache patch</th><td>172.7</td><td>679.3</td><td>+15.9 [14.9, 16.9]</td></tr>
+      <tr><th scope="row">BG-D(24)</th><td>164.9</td><td>682.8</td><td>+8.1 [6.7, 9.4]</td></tr>
+    </tbody></table></div>
+    <div class="prose"><p>BG-D(24) still adds 8.1 waiting steps [6.7, 9.4] relative to the separately selected 12-step timer. At this reporting interval, BG-D(12) is exactly that timer because its minimum evidence-triggered hold is at least 12 steps.</p></div>
+  </details>
+  <p class="source-note"><a href="{{ page.paper }}#page=6" target="_blank" rel="noopener">Controller comparison: paper Table 1 ↗</a> · <a href="{{ page.paper }}#page=7" target="_blank" rel="noopener">Phase diagnostics: Table 3 ↗</a></p>
+
+  <h3>The deadline has a capacity cost</h3>
+  <div class="prose">
+    <p>Under persistent <strong>90:10 demand</strong>, the 24-step cap increases p95 waiting from <strong>214.5 to 263.7 steps</strong>: a penalty of <strong>49.2 [45.6, 53.6]</strong> with a paired 95% interval. Throughput falls from 632.0 to 546.2 crossings per 1,000 steps. More frequent returns to the quiet axis reduce capacity for the dominant queue.</p>
+    <p>This test reports aggregate waiting. It supplies neither a per-axis waiting breakdown nor a longer-deadline comparison, so it does not show how much the bound helps the 10% axis or whether a larger deadline recovers the lost capacity.</p>
+    <p>Clearance changes the ranking too. With six steps closed at every switch, Fixed 12 spends half its phase clearing; its p95 reaches 280.4, compared with 181.6 for Fixed 24. BG-D(24) reaches 192.7, still 11.1 steps [9.0, 13.3] behind the longer timer.</p>
+    <p>Across these eight settings, <strong>Fixed 12 has the lowest reported p95 in five; BG-D(24) in one</strong>. BG-D(24) improves on original BG in seven of eight.</p>
+    <p>Table 5 reports point estimates without intervals for each workload. In particular, the 1.6-step lead at 50:50 has no reported interval.</p>
+  </div>
+  <div class="table-scroll" tabindex="0" aria-label="Workload sensitivity results, horizontally scrollable"><table><caption>Paper Table 5. P95 waiting in steps, with one factor changed from the main workload. Bold marks the lowest point estimate in each row.</caption><thead><tr><th scope="col">Workload</th><th scope="col">Fixed 12</th><th scope="col">Fixed 24</th><th scope="col">Original BG</th><th scope="col">BG-D(24)</th></tr></thead><tbody>
+    <tr><th scope="row">Main workload</th><td><strong>156.8</strong></td><td>184.6</td><td>173.4</td><td>164.9</td></tr>
+    <tr><th scope="row">Steady 50:50 demand</th><td>143.5</td><td>164.7</td><td>149.8</td><td><strong>141.9</strong></td></tr>
+    <tr><th scope="row">Steady 90:10 demand</th><td>307.2</td><td>283.0</td><td><strong>214.5</strong></td><td>263.7</td></tr>
+    <tr><th scope="row">64-step alternation</th><td><strong>171.6</strong></td><td>203.7</td><td>190.2</td><td>178.4</td></tr>
+    <tr><th scope="row">One-step clearance</th><td><strong>139.7</strong></td><td>167.8</td><td>154.6</td><td>146.8</td></tr>
+    <tr><th scope="row">Six-step clearance</th><td>280.4</td><td><strong>181.6</strong></td><td>202.3</td><td>192.7</td></tr>
+    <tr><th scope="row">80 agents</th><td><strong>77.6</strong></td><td>91.4</td><td>96.3</td><td>82.9</td></tr>
+    <tr><th scope="row">180 agents</th><td><strong>211.6</strong></td><td>244.8</td><td>237.9</td><td>222.4</td></tr>
+  </tbody></table></div>
+  <h3>When the channels are unequal</h3>
+  <div class="prose"><p>With 60% and 80% report loss on the two axes, BG-D(24) narrows the p95 gap from 37.3 to 17.8 steps. <strong>Fixed 12 has an exact zero paired channel gap in this test</strong>, since its schedule ignores reports. The deadline reduces the channel bias in BG but leaves evidence-triggered switches sensitive to delivery quality.</p></div>
+  <div class="table-scroll" tabindex="0" aria-label="Unequal-channel waiting results, horizontally scrollable"><table><caption>Paper Table 4. Waiting in steps; the gap is higher-loss minus lower-loss p95, with paired 95% intervals.</caption><thead><tr><th scope="col">Controller</th><th scope="col">Lower-loss axis</th><th scope="col">Higher-loss axis</th><th scope="col">Gap</th></tr></thead><tbody>
+    <tr class="result-emphasis"><th scope="row">Fixed 12 / BG-D(12)</th><td>156.8</td><td>156.8</td><td>0.0 (exact)</td></tr>
+    <tr><th scope="row">Original BG</th><td>166.1</td><td>203.4</td><td>37.3 [34.7, 39.9]</td></tr>
+    <tr><th scope="row">BG-D(24)</th><td>160.8</td><td>178.6</td><td>17.8 [15.3, 20.5]</td></tr>
+  </tbody></table></div>
+  <details class="bg-details"><summary>Evaluation and measurement</summary>
+    <div class="prose"><p>Each condition uses 20 blocks of four realizations. Reported p95 is the mean of realization-level quantiles, not a pooled percentile. Intervals use paired bootstrap resampling of blocks. Waiting subtracts the 48-step free-flow traversal from each visit's ready-to-completion time.</p><p>In the unequal-channel test, loss labels are exchanged within each paired realization. A timer's trajectory is independent of those labels, so its paired axis means match exactly. Controller settings are selected on separate development workloads and held fixed in the reported tests.</p></div>
+  </details>
+  <p class="source-note"><a href="{{ page.paper }}#page=7" target="_blank" rel="noopener">Unequal channels: paper Table 4 ↗</a> · <a href="{{ page.paper }}#page=8" target="_blank" rel="noopener">Workload sensitivity: Table 5 ↗</a></p>
+</section>
+
+<section class="research-section" id="limits">
+  <h2>Limits</h2>
+  <div class="prose">
+    <p>The bound limits how long an axis loses green. An agent can still wait behind a queue; it is not a bound on individual waiting time. The 90:10 result shows the capacity cost of enforcing frequent service returns.</p>
+    <p>The tests cover one fixed-route junction with a reliable phase-status interface. Road networks, downstream spillback, report transport delay and status-interface failures are not evaluated. The movement task has no energy or risk penalty for a legal move, which favors the greedy movement baseline.</p>
+  </div>
+</section>
+
+<section class="research-section" id="outlook">
+  <h2>Outlook</h2>
+  <div class="prose">
+    <p>For sustained 90:10 demand, the next test should compare schedules that satisfy the same service bound and measure each axis’s waiting distribution. That would show how much the quiet queue benefits and how much capacity the busy queue loses.</p>
+  </div>
+</section>

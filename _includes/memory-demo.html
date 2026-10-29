@@ -1,0 +1,33 @@
+<figure class="memory-demo" data-phase="next" data-playback="static">
+  <p class="memory-demo-lede">The next proposal starts from the state you corrected.</p>
+  <ol class="memory-progress" aria-label="Animation sequence">
+    <li data-stage="propose">Propose</li><li data-stage="correct">Correct</li><li data-stage="move">Move</li><li data-stage="next" aria-current="step">Next decision</li>
+  </ol>
+  <svg class="memory-fold-experiment" viewBox="0 0 1040 400" role="img" aria-labelledby="memory-fold-title memory-fold-desc">
+    <title id="memory-fold-title">A folding correction carried into the next decision</title>
+    <desc id="memory-fold-desc">A protein backbone illustrates the idea of retaining a runtime state correction. A proposed fold brings two parts of the chain into a clash. Editing the controller state changes the proposal, and the edit remains after the chain moves. The next proposal starts from that corrected state.</desc>
+    <defs>
+      <marker id="memory-blue-arrow" viewBox="0 0 7 6" markerWidth="7" markerHeight="6" refX="5" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path class="fold-blue-arrow" d="m1 1 4 2-4 2"/></marker>
+    </defs>
+    <g class="fold-connections" aria-hidden="true"><path class="fold-connection fold-write"/><path class="fold-connection fold-read"/><circle class="fold-signal fold-write-signal" r="3"/><circle class="fold-signal fold-read-signal" r="3"/></g>
+    <g class="fold-world" transform="translate(480 20)">
+      <path class="fold-static" d="M200.52 145.04C195.21 147.39 174.43 151.29 168.67 159.18M168.67 159.18C162.92 167.06 169.57 188.62 166.00 192.35M166.00 192.35C162.43 196.08 146.29 187.16 147.25 181.58M147.25 181.58C148.21 176.01 163.50 158.68 171.76 158.90M171.76 158.90C180.01 159.11 195.37 175.17 196.77 182.86M196.77 182.86C198.18 190.54 183.69 205.55 180.20 205.02M180.20 205.02C176.71 204.50 170.92 185.51 175.85 179.72M175.85 179.72C180.79 173.92 201.73 166.53 209.81 170.25M209.81 170.25C217.90 173.96 225.90 193.47 224.35 202.02M224.35 202.02C222.80 210.57 205.14 214.40 200.51 221.54M200.51 221.54C195.88 228.68 198.67 240.85 196.56 244.88M196.56 244.88C194.46 248.92 185.63 246.49 187.90 245.73M187.90 245.73C190.18 244.98 206.91 235.66 210.23 240.36M210.23 240.36C213.54 245.06 206.56 266.85 207.78 273.93M207.78 273.93C209.00 281.01 211.57 285.19 217.53 282.83M217.53 282.83C223.49 280.47 237.18 261.64 243.55 259.78M243.55 259.78C249.93 257.93 252.60 264.57 255.78 271.69M255.78 271.69C258.96 278.80 257.69 299.76 262.64 302.48M262.64 302.48C267.59 305.19 275.91 290.38 285.48 287.97M285.48 287.97C295.04 285.56 312.97 292.19 320.02 288.02M320.02 288.02C327.08 283.85 322.85 269.84 327.79 262.97M327.79 262.97C332.74 256.10 350.26 249.48 349.70 246.81M349.70 246.81C349.15 244.15 332.56 249.30 324.44 246.98M324.44 246.98C316.33 244.66 300.99 239.44 300.99 232.89M300.99 232.89C301.00 226.33 319.57 212.61 324.49 207.64M324.49 207.64C329.42 202.67 335.11 204.06 330.54 203.07M330.54 203.07C325.97 202.07 303.84 205.74 297.07 201.68M297.07 201.68C290.30 197.61 286.53 185.93 289.91 178.68M289.91 178.68C293.29 171.43 314.16 161.42 317.35 158.18M317.35 158.18C320.53 154.93 315.65 161.25 309.02 159.21M309.02 159.21C302.40 157.17 280.38 152.19 277.58 145.93M277.58 145.93C274.78 139.67 291.53 123.06 292.22 121.66M292.22 121.66C292.91 120.27 280.76 132.72 281.72 137.55M281.72 137.55C282.68 142.38 295.26 148.46 297.97 150.64"/>
+      <g class="fold-current">{% for i in (0..33) %}<g class="fold-segment"><path class="fold-outline"/><path class="fold-backbone"/></g>{% endfor %}</g>
+      <path class="fold-proposal"/>
+      <g class="fold-clash" opacity="0"><circle r="12"/><path d="m-3-3 6 6m0-6-6 6"/><path class="fold-clash-leader" d="m-9-9-14-14h-18"/><text x="-46" y="-20" text-anchor="end">Clash</text></g>
+    </g>
+    <text class="fold-scene-title" x="750" y="24" text-anchor="middle">Start the next fold from the edited state</text>
+    <g class="memory-state" transform="translate(28 135)">
+      <text class="memory-state-lane-title">Controller state</text>
+      <text class="memory-state-lane-subtitle" y="23">Runtime memory. Network weights stay fixed.</text>
+      <g class="memory-observation" transform="translate(4 61)"><rect width="22" height="22" rx="3"/><path d="m5 15 4-5 4 2 4-7"/></g>
+      <path class="memory-state-input" d="M36 72H82m-5-4 5 4-5 4"/>
+      <g class="memory-state-capsule" transform="translate(90 49)"><rect class="memory-state-frame" width="168" height="56" rx="5"/><g class="memory-state-cells">{% for i in (0..5) %}<rect x="{{ i | times: 22 | plus: 17 }}" y="14" width="12" height="22" rx="2"/>{% endfor %}</g><path class="memory-state-edit" d="M17 46H151"/></g>
+      <text class="memory-observation-label" x="15" y="105" text-anchor="middle">Input</text>
+      <text class="memory-state-lane-status" x="0" y="146">Reuse the edited state</text>
+    </g>
+  </svg>
+  <p class="memory-demo-key"><span><i class="fold-key-current" aria-hidden="true"></i>Current chain</span><span><i class="fold-key-proposal" aria-hidden="true"></i>Proposed fold</span></p>
+  <figcaption class="memory-demo-caption">Backbone: <a href="https://www.rcsb.org/structure/1YRF" target="_blank" rel="noopener">villin headpiece, PDB 1YRF</a>.</figcaption>
+  <div class="memory-demo-controls"><a class="figure-source" href="../assets/figures/memory-intervention.svg" target="_blank" rel="noopener">Paper's intervention diagram</a><button class="memory-motion-toggle" type="button" aria-pressed="false" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg><span>Pause motion</span></button></div>
+</figure>

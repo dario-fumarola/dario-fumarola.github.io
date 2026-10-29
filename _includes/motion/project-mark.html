@@ -1,0 +1,23 @@
+<svg class="project-mark" data-project-mark="{{ include.kind }}" viewBox="0 0 120 96" fill="none" aria-hidden="true">
+{% if include.kind == 'mood' %}
+  <rect class="mark-maze" x="4" y="6" width="112" height="84" rx="3"/>
+  <rect class="mark-wall" x="33" y="31" width="30" height="32" rx="2"/>
+  <path class="mark-guide mark-short-route" d="M14 78H106V18"/>
+  <path class="mark-route" d="M106 62V78H74V18H106"/>
+  <path class="mark-goal" d="m106 13 5 5-5 5-5-5z"/>
+  <g class="mark-ghost" transform="translate(106 44)"><path d="M-6 7V0a6 6 0 0 1 12 0v7L3 5 0 7-3 5Z"/><path d="M-2-1v2m4-2v2"/></g>
+  <circle class="mark-traveller" cx="106" cy="18" r="3.7"/>
+{% elsif include.kind == 'memory' %}
+  <path class="mark-protein-base"/>
+  <path class="mark-protein-target"/>
+  <g class="mark-protein">{% for n in (0..33) %}<g class="mark-protein-segment" data-segment="{{ n }}"><path class="mark-protein-backbone"/></g>{% endfor %}</g>
+  <g class="mark-protein-anchors"><circle r="1.9"/><circle r="1.9"/></g>
+{% elsif include.kind == 'broadcast' %}
+  <path class="mark-guide" d="M12 42h96M12 54h96M54 10v76M66 10v76"/>
+  <rect class="mark-crossing" x="38" y="28" width="44" height="40" rx="2"/>
+  <circle class="mark-controller" cx="60" cy="48" r="7"/>
+  <circle class="mark-agent mark-agent-a" cx="12" cy="42" r="4"/><circle class="mark-agent mark-agent-b" cx="108" cy="54" r="4"/>
+  <circle class="mark-agent mark-agent-c" cx="54" cy="10" r="4"/><circle class="mark-agent mark-agent-d" cx="66" cy="86" r="4"/>
+  <circle class="mark-packet mark-packet-a" cx="54" cy="24" r="2.3"/><circle class="mark-packet mark-packet-b" cx="66" cy="72" r="2.3"/>
+{% endif %}
+</svg>

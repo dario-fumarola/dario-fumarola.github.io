@@ -1,0 +1,62 @@
+# Site identity. jekyll-seo-tag turns these into <title>, meta description,
+# Open Graph tags, and JSON-LD on every page.
+title: Dario Fumarola
+tagline: AI Researcher & Engineer
+description: >-
+  Dario Fumarola is an AI researcher and Forward Deployed Engineer at AWS in New York,
+  working on reinforcement learning, LLM agents and adaptive inference.
+url: "https://dariofumarola.com"
+baseurl: ""
+lang: en
+logo: /assets/img/dario-fumarola-logo.svg
+
+# Google Search Console ownership (emitted by jekyll-seo-tag as a meta tag)
+webmaster_verifications:
+  google: gYf0JwqnopAyyvVCwSaC1xrJ6i4hk3MUqVJySe15_8o
+
+author:
+  name: Dario Fumarola
+  email: hello@dariofumarola.com
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      image:
+        path: /assets/social/research.png
+        width: 1200
+        height: 630
+        alt: "Dario Fumarola, AI research and engineering. A junction diagram compares a shortcut past a ghost with a longer detour."
+  # Keep verification and superseded files accessible, but omit them from the sitemap.
+  - scope:
+      path: "googled50c889beab6e79c.html"
+    values:
+      sitemap: false
+  - scope:
+      path: "assets/dario_fumarola_cv.pdf"
+    values:
+      sitemap: false
+  - scope:
+      path: "assets/nyrl-poster.pdf"
+    values:
+      sitemap: false
+
+show_downloads: true
+booking_url: "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3PNvFOv0xRf1-V-bKO_ehUtRiCQglS4WPseHFpyrXI8Clh4KNQHOAflKFRSL1NezU7S_utICXw?gv=true"
+theme: jekyll-theme-minimal
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+exclude:
+  - README.md
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  math_engine: mathjax
+  syntax_highlighter: rouge
+
+include:
+  - '*.pdf'

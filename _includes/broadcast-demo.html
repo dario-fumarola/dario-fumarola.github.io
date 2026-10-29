@@ -1,0 +1,158 @@
+<figure class="bg-demo" id="junction-demo" data-rule="deadline" data-gate="horizontal" data-playback="static">
+  <div class="bg-demo-heading"><h2>Four agents. One crossing.</h2></div>
+  <p class="bg-demo-lede">Agents report demand. One controller schedules the crossing, with a deadline that reports cannot postpone.</p>
+  <svg class="bg-crossing-scene" viewBox="0 0 1040 440" role="img" aria-labelledby="bg-scene-title bg-scene-desc">
+  <title id="bg-scene-title">Four agents coordinate access to one crossing</title>
+  <desc id="bg-scene-desc">A and B cross while C and D wait on the other axis. The waiting agents send separate reports to one junction controller, which allocates green to one axis at a time. Repeated reports update each sender’s record. Two senders cannot pass the evidence threshold, so the 24-step deadline closes both axes for two steps. Green returns to C and D at step 26, and they cross in turn. Robot motion and report delivery are schematic.</desc>
+  <defs>
+    <pattern id="bg-clearance-hatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+      <line x1="0" y1="0" x2="0" y2="5" />
+    </pattern>
+    <marker id="bg-message-arrow" viewBox="0 0 7 6" markerWidth="7" markerHeight="6" refX="5" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="m1 1 4 2-4 2" />
+    </marker>
+  </defs>
+  <g class="bg-message-flow" aria-hidden="true" data-agent="C">
+    <path class="bg-message-path" />
+    <g class="bg-message">
+      <rect x="-5" y="-3" width="10" height="6" rx="1" />
+      <path d="M0-2v4" />
+    </g>
+  </g>
+  <g class="bg-message-flow" aria-hidden="true" data-agent="D">
+    <path class="bg-message-path" />
+    <g class="bg-message">
+      <rect x="-5" y="-3" width="10" height="6" rx="1" />
+      <path d="M0-2v4" />
+    </g>
+  </g>
+  <g class="bg-world" transform="translate(336 26) scale(1.2)">
+    <polygon class="bg-platform-side" points="135.84,58.68 270.00,125.76 404.16,58.68 462.64,87.92 328.48,155.00 462.64,222.08 404.16,251.32 270.00,184.24 135.84,251.32 77.36,222.08 211.52,155.00 77.36,87.92" transform="translate(0 6)" />
+    <polygon class="bg-platform" points="135.84,58.68 270.00,125.76 404.16,58.68 462.64,87.92 328.48,155.00 462.64,222.08 404.16,251.32 270.00,184.24 135.84,251.32 77.36,222.08 211.52,155.00 77.36,87.92" />
+    <path class="bg-lanes" d="M106.60 73.30L235.60 137.80M304.40 172.20L433.40 236.70M433.40 73.30L304.40 137.80M235.60 172.20L106.60 236.70" />
+    <path class="bg-route-x" d="M132.40 70.72L438.56 223.80M407.60 239.28L101.44 86.20" />
+    <path class="bg-route-y" d="M132.40 239.28L438.56 86.20M407.60 70.72L101.44 223.80" />
+    <g class="bg-gates-back">
+      <g class="bg-barrier" data-axis="x" data-position="-52">
+        <path class="bg-barrier-post" d="M196.04 147.26L196.04 142.26" />
+        <path class="bg-barrier-arm" d="M196.04 142.26L196.04 74.26" />
+        <circle class="bg-barrier-hinge" r="2.5" cx="196.04000000000002" cy="142.26" />
+      </g>
+      <g class="bg-barrier" data-axis="y" data-position="-52">
+        <path class="bg-barrier-post" d="M343.96 147.26L343.96 142.26" />
+        <path class="bg-barrier-arm" d="M343.96 142.26L285.48 113.02" />
+        <circle class="bg-barrier-hinge" r="2.5" cx="343.96" cy="142.26" />
+      </g>
+    </g>
+    <g class="bg-carts">
+      <g class="bg-cart" data-agent="D" data-axis="y">
+        <ellipse class="bg-cart-shadow" rx="22" ry="9" cx="349.12" cy="103.96000000000001" />
+        <g class="bg-cart-wheels">
+          <circle r="3.6" cx="369.76" cy="97.82" />
+          <circle r="3.6" cx="350.84000000000003" cy="107.28" />
+          <circle r="3.6" cx="347.4" cy="86.64" />
+          <circle r="3.6" cx="328.48" cy="96.1" />
+        </g>
+        <polygon class="bg-cart-side bg-cart-side-east" points="375.78,93.81 344.82,109.29 344.82,97.29 375.78,81.81" />
+        <polygon class="bg-cart-side bg-cart-side-south" points="322.46,98.11 344.82,109.29 344.82,97.29 322.46,86.11" />
+        <polygon class="bg-cart-top" points="353.42,70.63 375.78,81.81 344.82,97.29 322.46,86.11" />
+        <polygon class="bg-cart-load" points="349.12,73.08 362.88,79.96 349.12,86.84 335.36,79.96" />
+        <path class="bg-cart-nose" d="M344.82 92.49L331.06 85.61" />
+        <text class="bg-cart-id" x="349.12" y="78.96000000000001" text-anchor="middle">D</text>
+      </g>
+      <g class="bg-cart" data-agent="A" data-axis="x">
+        <ellipse class="bg-cart-shadow" rx="22" ry="9" cx="185.72" cy="101.38" />
+        <g class="bg-cart-wheels">
+          <circle r="3.6" cx="187.44" cy="84.06" />
+          <circle r="3.6" cx="206.36" cy="93.52000000000001" />
+          <circle r="3.6" cx="165.07999999999998" cy="95.24000000000001" />
+          <circle r="3.6" cx="184.0" cy="104.7" />
+        </g>
+        <polygon class="bg-cart-side bg-cart-side-east" points="212.38,95.53 190.02,106.71 190.02,94.71 212.38,83.53" />
+        <polygon class="bg-cart-side bg-cart-side-south" points="159.06,91.23 190.02,106.71 190.02,94.71 159.06,79.23" />
+        <polygon class="bg-cart-top" points="181.42,68.05 212.38,83.53 190.02,94.71 159.06,79.23" />
+        <polygon class="bg-cart-load" points="185.72,70.50 199.48,77.38 185.72,84.26 171.96,77.38" />
+        <path class="bg-cart-nose" d="M203.78 83.03L190.02 89.91" />
+        <text class="bg-cart-id" x="185.72" y="76.38" text-anchor="middle">A</text>
+      </g>
+      <g class="bg-cart" data-agent="B" data-axis="x">
+        <ellipse class="bg-cart-shadow" rx="22" ry="9" cx="368.03999999999996" cy="223.5" />
+        <g class="bg-cart-wheels">
+          <circle r="3.6" cx="366.32" cy="226.82" />
+          <circle r="3.6" cx="347.4" cy="217.36" />
+          <circle r="3.6" cx="388.68" cy="215.64" />
+          <circle r="3.6" cx="369.76" cy="206.18" />
+        </g>
+        <polygon class="bg-cart-side bg-cart-side-east" points="394.70,217.65 372.34,228.83 372.34,216.83 394.70,205.65" />
+        <polygon class="bg-cart-side bg-cart-side-south" points="341.38,213.35 372.34,228.83 372.34,216.83 341.38,201.35" />
+        <polygon class="bg-cart-top" points="363.74,190.17 394.70,205.65 372.34,216.83 341.38,201.35" />
+        <polygon class="bg-cart-load" points="368.04,192.62 381.80,199.50 368.04,206.38 354.28,199.50" />
+        <path class="bg-cart-nose" d="M349.98 200.85L363.74 193.97" />
+        <text class="bg-cart-id" x="368.03999999999996" y="198.5" text-anchor="middle">B</text>
+      </g>
+      <g class="bg-cart" data-agent="C" data-axis="y">
+        <ellipse class="bg-cart-shadow" rx="22" ry="9" cx="190.88" cy="214.04" />
+        <g class="bg-cart-wheels">
+          <circle r="3.6" cx="170.24" cy="206.18" />
+          <circle r="3.6" cx="189.16" cy="196.72" />
+          <circle r="3.6" cx="192.6" cy="217.36" />
+          <circle r="3.6" cx="211.52" cy="207.9" />
+        </g>
+        <polygon class="bg-cart-side bg-cart-side-east" points="217.54,203.89 186.58,219.37 186.58,207.37 217.54,191.89" />
+        <polygon class="bg-cart-side bg-cart-side-south" points="164.22,208.19 186.58,219.37 186.58,207.37 164.22,196.19" />
+        <polygon class="bg-cart-top" points="195.18,180.71 217.54,191.89 186.58,207.37 164.22,196.19" />
+        <polygon class="bg-cart-load" points="190.88,183.16 204.64,190.04 190.88,196.92 177.12,190.04" />
+        <path class="bg-cart-nose" d="M195.18 184.51L208.94 191.39" />
+        <text class="bg-cart-id" x="190.88" y="189.04" text-anchor="middle">C</text>
+      </g>
+    </g>
+    <g class="bg-gates-front">
+      <g class="bg-barrier" data-axis="x" data-position="52">
+        <path class="bg-barrier-post" d="M343.96 162.74L343.96 157.74" />
+        <path class="bg-barrier-arm" d="M343.96 157.74L343.96 89.74" />
+        <circle class="bg-barrier-hinge" r="2.5" cx="343.96" cy="157.74" />
+      </g>
+      <g class="bg-barrier" data-axis="y" data-position="52">
+        <path class="bg-barrier-post" d="M196.04 162.74L196.04 157.74" />
+        <path class="bg-barrier-arm" d="M196.04 157.74L254.52 186.98" />
+        <circle class="bg-barrier-hinge" r="2.5" cx="196.04000000000002" cy="157.74" />
+      </g>
+    </g>
+  </g>
+  <text class="bg-rule-title" x="660" y="22" text-anchor="middle">East–west · green</text>
+  <g class="bg-receiver" transform="translate(16 72)">
+    <text class="bg-receiver-title">Junction controller</text>
+    <text class="bg-receiver-subtitle" y="22">Agents report. One controller allocates.</text>
+    <g class="bg-report" data-agent="C" transform="translate(0 39)">
+      <rect class="bg-report-card" x="0" y="0" width="230" height="42" rx="4" />
+      <text class="bg-report-owner" x="12" y="14">C · Northbound</text>
+      <text class="bg-report-value" x="12" y="32">No report yet</text>
+      <circle class="bg-receipt" cx="212" cy="23" r="3" opacity="0" />
+    </g>
+    <g class="bg-report" data-agent="D" transform="translate(0 88)">
+      <rect class="bg-report-card" x="0" y="0" width="230" height="42" rx="4" />
+      <text class="bg-report-owner" x="12" y="14">D · Southbound</text>
+      <text class="bg-report-value" x="12" y="32">No report yet</text>
+      <circle class="bg-receipt" cx="212" cy="23" r="3" opacity="0" />
+    </g>
+    <text class="bg-receiver-status" y="160">A and B have the crossing</text>
+    <text class="bg-receiver-reason" y="179">C and D wait for their turn</text>
+  </g>
+  <g class="bg-traces" transform="translate(0 372)">
+    <text class="bg-traces-title" x="16" y="0">Phase time · steps</text>
+    <g class="bg-trace bg-trace-deadline" transform="translate(0 37)">
+      <text class="bg-trace-label" x="16" y="4">BG-D</text>
+      <path class="bg-trace-base" d="M142.0 0H978.0" />
+      <path class="bg-trace-progress" d="M142 0H142" />
+      <rect class="bg-trace-clearance" height="8" y="-4" x="913.6923076923077" width="64.30769230769226" opacity=".2" />
+      <path class="bg-deadline-marker" d="M0-10V10m-3-20h6m-6 20h6" transform="translate(913.6923076923077 0)" />
+      <text class="bg-deadline-label" y="-14" text-anchor="middle" x="913.6923076923077">Deadline 24</text>
+      <circle class="bg-trace-end" r="3.5" cx="978.0" />
+      <text class="bg-trace-number" y="7" x="988.0">26</text>
+      <path class="bg-trace-cursor" d="M0-6V6" opacity="0" />
+    </g>
+  </g>
+</svg>
+  <figcaption class="bg-demo-caption">The deadline restores green to a direction; agents still cross in turn. Movement and report delivery are illustrative.</figcaption>
+  <div class="bg-demo-controls"><span>Reports every 6 steps · Clearance takes 2 steps</span><button class="bg-motion-toggle" type="button" aria-pressed="false" hidden><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg><span>Pause motion</span></button></div>
+</figure>
